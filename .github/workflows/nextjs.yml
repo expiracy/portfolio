@@ -2,6 +2,15 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
+  pull_request:
+    branches:
+      - main  # Change this to your default branch
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
 jobs:
   # Build job
   build:
