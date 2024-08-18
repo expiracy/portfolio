@@ -21,7 +21,7 @@ export const SkillCard: React.FC<SkillCardProps> = (props: SkillCardProps) => {
     >
       <CardHeader>
         <CardTitle className={`break-all text-black mb-2 mx-auto font-mono`}>{props.title}</CardTitle>
-          <img className={`h-auto w-auto max-w-[60px] mx-auto`} src={props.iconSrc} alt={props.title}/>
+          <img className={`h-auto w-auto max-h-[60px] mx-auto`} src={props.iconSrc} alt={props.title}/>
           {props.children}
       </CardHeader>
     </Card>

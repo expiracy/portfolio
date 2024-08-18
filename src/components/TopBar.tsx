@@ -26,7 +26,7 @@ export function TopBar() {
               <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">
                 Connect with me
               </ListItem>
-              <ListItem href="https://github.com/expiracy" title="Github">
+              <ListItem href="https://github.com/expiracy" title="GitHub">
                 View my projects
               </ListItem>
             </ul>

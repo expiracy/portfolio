@@ -16,12 +16,14 @@ export default function Home() {
             {"Hi, I'm James!"}
           </h1>
           <Badge>Software Engineer</Badge>
-          <p className="leading-7 [&:not(:first-child)]:mt-6 text-justify">
+          <p className="leading-7 [&:not(:first-child)]:mt-6">
             I am a <TextLink href={"https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/"} text={"Computer Systems Engineering"}/> student at
             the <TextLink href={"https://warwick.ac.uk/"} text={"University of Warwick"}/>, currently on a sandwich year
             working as a quantitative technology intern at <TextLink href={"https://www.qube-rt.com/"} text={"Qube Research and Technologies"}/>.
-            I have gained experience with a variety of programming languages and paradigms and have worked with computer systems
-            at both a high and hardware level.
+            Through work, personal and university projects, I have gained experience with many programming languages and libraries, some of which are
+            available to view on GitHub.
+            I have also worked with computer systems at a low level, with experience optimising code in a computer architecture
+            dependent manner, network programming and programming FPGA circuits.
           </p>
         </div>
 
@@ -29,7 +31,7 @@ export default function Home() {
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
             My skills include...
           </h1>
-          <SkillGrid cols={2} colsLg={4} colsXl={6}/>
+          <SkillGrid/>
         </div>
 
         {/*<div id="projects" className="flex flex-col p-4">*/}

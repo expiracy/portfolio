@@ -15,14 +15,11 @@ import verilogIcon from "@/components/icons/languages/verilog.png";
 import React from "react";
 
 export interface SkillGridProps {
-  cols: number,
-  colsLg: number,
-  colsXl: number
 }
 
 export const SkillGrid: React.FC<SkillGridProps> = (props: SkillGridProps) => {
   return (
-    <div className={`grid grid-cols-${props.cols.toString()} lg:grid-cols-${props.colsLg.toString()} xl:grid-cols-${props.colsXl.toString()} gap-4`}>
+    <div className={`grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4`}>
       <SkillCard title={"Python"} iconSrc={pythonIcon.src} bg={"!bg-amber-200"}/>
       <SkillCard title={"C#"} iconSrc={csIcon.src} bg={"!bg-purple-300"}/>
       <SkillCard title={"C++"} iconSrc={cppIcon.src} bg={"!bg-blue-300"}/>
