@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { ReactNode } from "react"; // Import ReactNode for defining children type
+import React, { ReactNode } from "react";
+import {Header} from "@/components/header"; // Import ReactNode for defining children type
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "James Gray",
-  description: "Portfolio website",
+  description: "Portfolio",
 };
 
 // Define RootLayoutProps type
@@ -19,18 +20,19 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
-      <head />
-      <body>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-      </ThemeProvider>
-      </body>
+      <html lang="en" suppressHydrationWarning={true}>
+        <head/>
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+              <Header/>
+              {children}
+          </ThemeProvider>
+        </body>
       </html>
     </>
   )

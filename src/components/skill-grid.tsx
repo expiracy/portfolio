@@ -1,4 +1,4 @@
-import {SkillCard} from "@/components/SkillCard";
+import {SkillCard} from "@/components/skill-card";
 import pythonIcon from "@/components/icons/languages/python.webp";
 import csIcon from "@/components/icons/languages/csharp.png";
 import cppIcon from "@/components/icons/languages/Cpp.png";
@@ -20,18 +20,18 @@ export interface SkillGridProps {
 export const SkillGrid: React.FC<SkillGridProps> = (props: SkillGridProps) => {
   return (
     <div className={`grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4`}>
-      <SkillCard title={"Python"} iconSrc={pythonIcon.src} bg={"!bg-amber-200"}/>
-      <SkillCard title={"C#"} iconSrc={csIcon.src} bg={"!bg-purple-300"}/>
-      <SkillCard title={"C++"} iconSrc={cppIcon.src} bg={"!bg-blue-300"}/>
-      <SkillCard title={"C"} iconSrc={cIcon.src} bg={"!bg-blue-300"}/>
-      <SkillCard title={"Java"} iconSrc={javaIcon.src} bg={"!bg-indigo-200"}/>
-      <SkillCard title={"Verilog"} iconSrc={verilogIcon.src} bg={"!bg-gray-200"}/>
-      <SkillCard title={"Typescript"} iconSrc={tsIcon.src} bg={"!bg-indigo-300"}/>
-      <SkillCard title={"React"} iconSrc={reactIcon.src} bg={"!bg-blue-200"}/>
-      <SkillCard title={"Vaadin"} iconSrc={vaadinIcon.src} bg={"!bg-blue-200"}/>
-      <SkillCard title={"Haskell"} iconSrc={haskellIcon.src} bg={"!bg-purple-300"}/>
-      <SkillCard title={"PostgreSQL"} iconSrc={pgIcon.src} bg={"!bg-blue-200"}/>
-      <SkillCard title={"OpenAI API"} iconSrc={openaiIcon.src} bg={"!bg-neutral-200"}/>
+      <SkillCard title={"Python"} iconSrc={pythonIcon.src} bg={"bg-amber-200"}/>
+      <SkillCard title={"C#"} iconSrc={csIcon.src} bg={"bg-purple-300"}/>
+      <SkillCard title={"C++"} iconSrc={cppIcon.src} bg={"bg-blue-300"}/>
+      <SkillCard title={"C"} iconSrc={cIcon.src} bg={"bg-blue-300"}/>
+      <SkillCard title={"Java"} iconSrc={javaIcon.src} bg={"bg-indigo-200"}/>
+      <SkillCard title={"Verilog"} iconSrc={verilogIcon.src} bg={"bg-gray-200"}/>
+      <SkillCard title={"Typescript"} iconSrc={tsIcon.src} bg={"bg-indigo-300"}/>
+      <SkillCard title={"React"} iconSrc={reactIcon.src} bg={"bg-blue-200"}/>
+      <SkillCard title={"Vaadin"} iconSrc={vaadinIcon.src} bg={"bg-blue-200"}/>
+      <SkillCard title={"Haskell"} iconSrc={haskellIcon.src} bg={"bg-purple-300"}/>
+      <SkillCard title={"PostgreSQL"} iconSrc={pgIcon.src} bg={"bg-blue-200"}/>
+      <SkillCard title={"OpenAI API"} iconSrc={openaiIcon.src} bg={"bg-neutral-200"}/>
     </div>
   )
 }

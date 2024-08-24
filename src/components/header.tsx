@@ -13,34 +13,36 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import {ThemeToggle} from "@/components/ThemeToggle";
+import {ThemeToggle} from "@/components/theme-toggle";
 
-export function TopBar() {
+export function Header() {
+
   return (
-    <NavigationMenu className="flex max-w-full justify-between">
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>james gray</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="p-4 flex flex-col w-max">
-              <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">
-                Connect with me
-              </ListItem>
-              <ListItem href="https://github.com/expiracy" title="GitHub">
-                View my projects
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-      <NavigationMenuList>
-         <NavigationMenuItem>
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg">
+      <NavigationMenu className={"w-full max-w-full justify-between bg-transparent"}>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className={"bg-transparent"}>james gray</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="p-4 flex flex-col w-max">
+                <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">
+                  Connect with me
+                </ListItem>
+                <ListItem href="https://github.com/expiracy" title="GitHub">
+                  View my projects
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+
+        <NavigationMenuList>
           <NavigationMenuItem>
             <ThemeToggle />
           </NavigationMenuItem>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </header>
   )
 }
 
