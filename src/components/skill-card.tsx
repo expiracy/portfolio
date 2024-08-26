@@ -19,7 +19,7 @@ export const SkillCard: React.FC<SkillCardProps> = (props: SkillCardProps) => {
     <Card
       className={`${props.className} ${props.bg} transform transition-transform duration-300 hover:-translate-y-2`}
     >
-      <CardHeader>
+      <CardHeader className={"p-4"}>
         <CardTitle className={`break-all text-black mb-2 mx-auto md:text-lg text-sm font-semibold`}>{props.title}</CardTitle>
           <img className={`h-auto w-auto max-h-[50px] md:max-h-[75px] mx-auto`} src={props.iconSrc} alt={props.title}/>
           {props.children}
