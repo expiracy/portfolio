@@ -68,7 +68,11 @@ export const Projects = () => {
             <CardTitle className={"text-3xl"}>{project.title}</CardTitle>
             <Badges className={"items-center"} badges={project.badges ?? []} />
             {project.url ? (
-              <Link href={project.url} className="text-blue-600 hover:underline font-semibold break-all">
+              <Link
+                href={project.url}
+                className={"text-blue-600 hover:underline font-semibold break-all"}
+                target={"_blank"}
+              >
                 Source
               </Link>
             ) : (

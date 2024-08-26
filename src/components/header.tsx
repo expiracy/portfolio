@@ -11,9 +11,10 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
+  NavigationMenuTrigger, navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import {ThemeToggle} from "@/components/theme-toggle";
+import {FaGithub, FaLinkedin} from "react-icons/fa";
 
 export function Header() {
 
@@ -21,19 +22,33 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg">
       <NavigationMenu className={"w-full max-w-full justify-between bg-transparent"}>
         <NavigationMenuList>
+          {/*<NavigationMenuItem>*/}
+          {/*  <NavigationMenuTrigger className={"bg-transparent"}>james gray</NavigationMenuTrigger>*/}
+          {/*  <NavigationMenuContent>*/}
+          {/*    <ul className="p-4 flex flex-row w-max items-center">*/}
+          {/*      <FaLinkedin href="https://www.linkedin.com/in/jameslaigray/" className={"w-auto"}/>*/}
+          {/*      <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">*/}
+          {/*        Connect with me!*/}
+          {/*      </ListItem>*/}
+          {/*      <ListItem href="https://github.com/expiracy" title="GitHub">*/}
+          {/*        View my projects!*/}
+          {/*      </ListItem>*/}
+          {/*    </ul>*/}
+          {/*  </NavigationMenuContent>*/}
+          {/*</NavigationMenuItem>*/}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className={"bg-transparent"}>james gray</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="p-4 flex flex-col w-max">
-                <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">
-                  Connect with me
-                </ListItem>
-                <ListItem href="https://github.com/expiracy" title="GitHub">
-                  View my projects
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
+            <Link href="https://www.linkedin.com/in/jameslaigray/" target={"_blank"} passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <FaLinkedin size={"2em"}/>
+              </NavigationMenuLink>
+            </Link>
+            <Link href="https://github.com/expiracy" target={"_blank"} passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <FaGithub size={"2em"}/>
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
+
         </NavigationMenuList>
 
         <NavigationMenuList>

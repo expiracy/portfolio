@@ -9,7 +9,7 @@ import {Projects} from "@/components/projects";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-[95%] max-w-[3000px] items-center justify-center mx-auto px-8">
+    <div className="flex flex-col w-[95%] items-center justify-center mx-auto px-8">
       <div className="flex flex-grow min-h-dvh flex-col items-start justify-center w-full">
         <Title1>
           {"Hi, I'm"}<br/>{"James Gray!"}
@@ -18,20 +18,26 @@ export default function Home() {
           <Text>
             {"I am a "}
             <Link
-              className={"font-bold text-blue-600"}
-              href={"https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/"}>
+              className={"font-bold text-blue-600 hover:underline"}
+              href={"https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/"}
+              target={"_blank"}
+            >
               Computer Systems Engineering
             </Link>
             {" student at the "}
             <Link
-              className={"font-bold text-blue-600"}
-              href={"https://warwick.ac.uk/"}>
+              className={"font-bold text-blue-600 hover:underline"}
+              href={"https://warwick.ac.uk/"}
+              target={"_blank"}
+            >
               University of Warwick
             </Link>
             {", currently on a sandwich year working as a quantitative technology intern at "}
             <Link
-              className={"font-bold text-blue-600"}
-              href={"https://www.qube-rt.com/"}>
+              className={"font-bold text-blue-600 hover:underline"}
+              href={"https://www.qube-rt.com/"}
+              target={"_blank"}
+            >
               Qube Research and Technologies
             </Link>
             . Through work, personal, and university projects, I have gained experience with
@@ -45,7 +51,7 @@ export default function Home() {
         </Title2>
         <SkillGrid/>
       </div>
-      <div id="projects" className="min-h-dvh w-full space-y-6 pb-12">
+      <div id="projects" className="min-h-dvh w-full space-y-6 mb-12">
         <Title2>
           Projects
         </Title2>
@@ -53,7 +59,6 @@ export default function Home() {
           Below are some short descriptions of some of my favourite projects!
         </Text>
         <Projects />
-
       </div>
     </div>
   );
