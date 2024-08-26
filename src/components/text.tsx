@@ -18,7 +18,7 @@ export const Title2: React.FC<React.PropsWithChildren> = (props) => {
 
 export const Text: React.FC<React.PropsWithChildren> = (props) => {
   return (
-    <p className="text-sm sm:text-lg md:text-xl mt-6 [&:not(:first-child)]:mt-6 break-words">
+    <p className="sm:text-lg md:text-xl [&:not(:first-child)]:mt-6 break-words">
       {props.children}
     </p>
   );

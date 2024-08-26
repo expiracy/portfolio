@@ -4,6 +4,7 @@ import {Badge} from "@/components/ui/badge";
 import {SkillGrid} from "@/components/skill-grid";
 import Link from "next/link";
 import {Title1, Text, Title2} from "@/components/text";
+import {Projects} from "@/components/projects";
 
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
         <Title1>
           {"Hi, I'm"}<br/>{"James Gray!"}
         </Title1>
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center items-center mt-6">
           <Text>
             {"I am a "}
             <Link
@@ -44,18 +45,16 @@ export default function Home() {
         </Title2>
         <SkillGrid/>
       </div>
-      {/*<div id="projects" className="min-h-dvh">*/}
-      {/*  <Title2>*/}
-      {/*    Projects*/}
-      {/*  </Title2>*/}
-      {/*  <p className="leading-7 [&:not(:first-child)]:mt-6 break-all">*/}
-      {/*    pipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipopipo*/}
-      {/*  </p>*/}
-      {/*</div>*/}
+      <div id="projects" className="min-h-dvh w-full space-y-6 pb-12">
+        <Title2>
+          Projects
+        </Title2>
+        <Text>
+          Below are some short descriptions of some of my favourite projects!
+        </Text>
+        <Projects />
+
+      </div>
     </div>
   );
-
-
-
-  {/*</div>*/}
 }
