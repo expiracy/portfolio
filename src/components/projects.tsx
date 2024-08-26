@@ -37,6 +37,13 @@ const projectData: ProjectInformation[] = [
     badges: ["C", "AVX Instructions", "Cache and Memory"],
   },
   {
+    title: "Simple Circuit Solver",
+    description:
+      "Developed algorithms that solved simple circuits consisting of only Ohmic components.",
+    url: "https://github.com/expiracy/circuit-calculator",
+    badges: ["Python", "Graphs"],
+  },
+  {
     title: "Discord Drive",
     description:
       "A web application that utilises the discord.py bot API to use discord as a cloud file storage application",
