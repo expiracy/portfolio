@@ -1,10 +1,7 @@
 "use client"
 
-import {useEffect, useState} from "react";
-import {motion, AnimatePresence} from "framer-motion";
-import {AboutMePage} from "@/components/pages/about-me-page";
-import {SkillsPage} from "@/components/pages/skills-page";
-import {ProjectsPage} from "@/components/pages/projects-page";
+import React, {useEffect, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
 
 export interface FullPageScrollProps {
     pages: React.FC[]
@@ -13,17 +10,17 @@ export interface FullPageScrollProps {
 export default function FullPageScroll(props: FullPageScrollProps) {
     const [index, setIndex] = useState(0);
 
-    useEffect(() => {
-        const handleScroll = (event: any) => {
-            if (event.deltaY > 0 && index < props.pages.length - 1) {
-                setIndex((prev) => prev + 1);
-            } else if (event.deltaY < 0 && index > 0) {
-                setIndex((prev) => prev - 1);
-            }
-        };
-        window.addEventListener("wheel", handleScroll);
-        return () => window.removeEventListener("wheel", handleScroll);
-    }, [index, props.pages.length]);
+    // useEffect(() => {
+    //     const handleScroll = (event: any) => {
+    //         if (event.deltaY > 0 && index < props.pages.length - 1) {
+    //             setIndex((prev) => prev + 1);
+    //         } else if (event.deltaY < 0 && index > 0) {
+    //             setIndex((prev) => prev - 1);
+    //         }
+    //     };
+    //     window.addEventListener("wheel", handleScroll);
+    //     return () => window.removeEventListener("wheel", handleScroll);
+    // }, [index, props.pages.length]);
 
     const PageComponent = props.pages[index];
 
@@ -40,17 +37,16 @@ export default function FullPageScroll(props: FullPageScrollProps) {
     };
 
     return (
-        <div className="flex flex-col h-dvh overflow-scroll">
-
+        <div className="flex flex-col h-dvh overflow-y-scroll">
             <div className="flex flex-col h-dvh">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={index}
-                        className=" w-[95%] h-full mx-auto px-8 py-8 items-center my-auto justify-center"
+                        className="w-[95%] mx-auto my-auto"
                         initial={{opacity: 0, y: 50}}
                         animate={{opacity: 1, y: 0}}
                         exit={{opacity: 0, y: -50}}
-                        transition={{duration: 0.5}}
+                        transition={{duration: 0.3}}
                     >
                         <PageComponent/>
                     </motion.div>
