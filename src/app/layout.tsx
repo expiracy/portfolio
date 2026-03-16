@@ -23,7 +23,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={firaCode.className}>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t&&["green","amber","blue","light"].includes(t)){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","green")}}catch(e){document.documentElement.setAttribute("data-theme","green")}})()`,
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t&&["green","pink","blue","light"].includes(t)){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","green")}}catch(e){document.documentElement.setAttribute("data-theme","green")}})()`,
           }}
         />
         <ThemeProvider>
