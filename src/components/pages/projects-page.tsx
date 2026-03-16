@@ -1,106 +1,58 @@
 "use client"
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { TerminalWindow } from "@/components/terminal-window";
-import { TerminalCursor } from "@/components/terminal-cursor";
-
-interface Project {
-  hash: string;
-  title: string;
-  description: string;
-  badges: string[];
-  url: string;
-}
-
-const projects: Project[] = [
-  {
-    hash: "f1c3e5a",
-    title: "Simple Circuit Solver",
-    description: "Algorithms that solve simple circuits consisting of only Ohmic components.",
-    url: "https://github.com/expiracy/circuit-calculator",
-    badges: ["Python", "Graphs"],
-  },
-  {
-    hash: "a9b2d7e",
-    title: "Discord Drive",
-    description: "Web app using discord.py bot API to use Discord as cloud file storage.",
-    url: "https://github.com/expiracy/discord-drive",
-    badges: ["Python", "Flask", "SQLite", "Discord API"],
-  },
-  {
-    hash: "b4e8f2c",
-    title: "Resistor Value Scanner",
-    description: "Image processing system using OpenCV to identify resistor bands and calculate values.",
-    url: "https://github.com/expiracy/resistor",
-    badges: ["Python", "OpenCV", "Flask"],
-  },
-];
+import React, { useState } from "react";
+import { projects } from "@/data/content";
+import { ReadmeModal } from "@/components/readme-modal";
 
 export const ProjectsPage: React.FC = () => {
-  const [visibleProjects, setVisibleProjects] = useState(0);
-
-  useEffect(() => {
-    const timers = projects.map((_, i) =>
-      setTimeout(() => setVisibleProjects(i + 1), 200 + i * 150)
-    );
-    return () => timers.forEach(clearTimeout);
-  }, []);
+  const [selected, setSelected] = useState<number | null>(null);
 
   return (
     <div className="w-full flex justify-center">
-      <TerminalWindow title="projects — git log">
-        <div className="text-terminal-green mb-4 text-sm md:text-base">
-          $ git log --oneline --all --graph
+      <div className="max-w-3xl w-full text-xs md:text-sm overflow-y-auto max-h-[85vh] pr-2">
+        <div className="text-terminal-green mb-4">
+          $ ls -la ~/projects/
         </div>
 
-        <div className="space-y-3 text-xs md:text-sm overflow-y-auto max-h-[60vh] pr-2">
-          {projects.slice(0, visibleProjects).map((project, index) => (
-            <div
+        <div className="space-y-2">
+          {projects.map((project, index) => (
+            <button
               key={index}
-              className="border border-terminal-border bg-terminal-bg p-3 md:p-4 hover:border-terminal-green/50 transition-colors"
+              onClick={() => setSelected(index)}
+              className="block w-full text-left p-3 rounded-sm transition-colors hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/40 bg-terminal-bg"
             >
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-terminal-amber font-bold">*</span>
-                <span className="text-terminal-cyan">{project.hash}</span>
-                <span className="text-terminal-green font-bold text-sm md:text-base">{project.title}</span>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-terminal-amber" aria-hidden="true">📁</span>
+                <span className="text-terminal-cyan group-hover:text-terminal-green transition-colors font-bold text-sm md:text-base">
+                  {project.dir}/
+                </span>
+                <span className={`ml-auto shrink-0 text-[10px] md:text-xs px-1.5 py-0.5 rounded-sm border ${project.url ? "text-terminal-green border-terminal-green/30 bg-terminal-green/5" : "text-terminal-red/50 border-terminal-red/20 bg-terminal-red/5"}`}>
+                  {project.url ? "public" : "private"}
+                </span>
               </div>
-
-              <div className="text-terminal-dim mb-2 ml-5 leading-relaxed">
-                {project.description}
+              <div className="flex flex-wrap gap-1.5 ml-1">
+                {project.badges.map((badge, i) => (
+                  <span
+                    key={i}
+                    className="text-[10px] md:text-xs border border-terminal-amber/20 bg-terminal-amber/5 text-terminal-amber/80 px-1.5 py-0.5 rounded-sm"
+                  >
+                    {badge}
+                  </span>
+                ))}
               </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-2 ml-5">
-                <div className="flex flex-wrap gap-1.5">
-                  {project.badges.map((badge, i) => (
-                    <span
-                      key={i}
-                      className="text-[10px] md:text-xs border border-terminal-amber/30 bg-terminal-amber/5 text-terminal-amber px-2 py-0.5 rounded-sm"
-                    >
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  href={project.url}
-                  target="_blank"
-                  className="text-terminal-cyan hover:underline text-xs whitespace-nowrap"
-                >
-                  [{">>"} source]
-                </Link>
-              </div>
-            </div>
+            </button>
           ))}
         </div>
 
-        {visibleProjects >= projects.length && (
-          <div className="mt-4 pt-2 border-t border-terminal-border text-terminal-dim text-xs md:text-sm">
-            <div>-- {projects.length} commits shown --</div>
-            <TerminalCursor />
-          </div>
-        )}
-      </TerminalWindow>
+        <div className="mt-4 pt-2 border-t border-terminal-border text-terminal-dim">
+          {projects.length} items, {projects.filter(p => p.url).length} public
+        </div>
+      </div>
+
+      <ReadmeModal
+        project={selected !== null ? projects[selected] : null}
+        onClose={() => setSelected(null)}
+      />
     </div>
   );
 };

@@ -2,17 +2,25 @@
 
 import React, {useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
+import {AboutMePage} from "@/components/pages/about-me-page";
+import {ExperiencePage} from "@/components/pages/experience-page";
+import {ProjectsPage} from "@/components/pages/projects-page";
 
-export interface FullPageScrollProps {
-    pages: React.FC[]
+interface PageDefinition {
+    label: string;
+    component: React.FC;
 }
 
-const PAGE_LABELS = ["~/about", "~/experience", "~/projects"];
+const PAGES: PageDefinition[] = [
+    { label: "about", component: AboutMePage },
+    { label: "experience", component: ExperiencePage },
+    { label: "projects", component: ProjectsPage },
+];
 
-function FileTree({ index, onSelect }: { index: number; onSelect: (i: number) => void }) {
+function FileTree({ pages, index, onSelect }: { pages: PageDefinition[]; index: number; onSelect: (i: number) => void }) {
     return (
         <div className="text-sm select-none space-y-1">
-            {PAGE_LABELS.map((label, i) => (
+            {pages.map((page, i) => (
                 <button
                     key={i}
                     onClick={() => onSelect(i)}
@@ -22,24 +30,24 @@ function FileTree({ index, onSelect }: { index: number; onSelect: (i: number) =>
                             : "text-terminal-dim hover:text-terminal-green"
                     }`}
                 >
-                    {label}
+                    {page.label}
                 </button>
             ))}
         </div>
     );
 }
 
-export default function FullPageScroll(props: FullPageScrollProps) {
+export default function PageLayout() {
     const [index, setIndex] = useState(0);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const PageComponent = props.pages[index];
+    const PageComponent = PAGES[index].component;
 
     return (
         <div className="flex h-dvh overflow-hidden">
-            {/* Desktop sidebar — always visible on md+ */}
+            {/* Desktop sidebar */}
             <aside className="hidden md:flex flex-col w-56 shrink-0 border-r border-terminal-border bg-terminal-bg-light pt-14 px-4 py-4">
-                <FileTree index={index} onSelect={(i) => setIndex(i)} />
+                <FileTree pages={PAGES} index={index} onSelect={(i) => setIndex(i)} />
             </aside>
 
             {/* Mobile hamburger button */}
@@ -70,7 +78,7 @@ export default function FullPageScroll(props: FullPageScrollProps) {
                         </button>
 
                         <div className="text-lg select-none space-y-2">
-                            {PAGE_LABELS.map((label, i) => (
+                            {PAGES.map((page, i) => (
                                 <button
                                     key={i}
                                     onClick={() => { setIndex(i); setSidebarOpen(false); }}
@@ -80,7 +88,7 @@ export default function FullPageScroll(props: FullPageScrollProps) {
                                             : "text-terminal-dim hover:text-terminal-green"
                                     }`}
                                 >
-                                    {label}
+                                    {page.label}
                                 </button>
                             ))}
                         </div>

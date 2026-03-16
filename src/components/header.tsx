@@ -1,6 +1,3 @@
-"use client"
-
-import * as React from "react"
 import Link from "next/link"
 import {FaGithub, FaLinkedin} from "react-icons/fa";
 
@@ -15,6 +12,7 @@ export function Header() {
             <Link
               href="https://www.linkedin.com/in/jameslaigray/"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-terminal-dim hover:text-terminal-cyan transition-colors flex items-center gap-1"
             >
               <FaLinkedin size="1.1em"/>
@@ -23,6 +21,7 @@ export function Header() {
             <Link
               href="https://github.com/expiracy"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-terminal-dim hover:text-terminal-cyan transition-colors flex items-center gap-1"
             >
               <FaGithub size="1.1em"/>
