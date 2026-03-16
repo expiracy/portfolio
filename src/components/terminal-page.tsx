@@ -42,11 +42,21 @@ interface TerminalPageProps {
   command: string;
   footer?: React.ReactNode | ((search: string) => React.ReactNode);
   showSearch?: boolean;
+  onCommandDone?: () => void;
   children: (search: string) => React.ReactNode;
 }
 
-function TypewriterCommand({ command }: { command: string }) {
-  const { displayed, showCursor } = useTypewriter(command);
+function TypewriterCommand({ command, onDone }: { command: string; onDone?: () => void }) {
+  const { displayed, showCursor, done } = useTypewriter(command);
+  const firedRef = useRef(false);
+
+  useEffect(() => {
+    if (done && onDone && !firedRef.current) {
+      firedRef.current = true;
+      onDone();
+    }
+  }, [done, onDone]);
+
   return (
     <>
       {displayed}
@@ -55,7 +65,7 @@ function TypewriterCommand({ command }: { command: string }) {
   );
 }
 
-export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, showSearch = true, children }) => {
+export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, showSearch = true, onCommandDone, children }) => {
   const [search, setSearch] = useState("");
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -67,7 +77,7 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
     <div className="flex flex-col h-full">
       <div className="shrink-0 flex items-center justify-between gap-2 mb-4">
         <div className="text-terminal-green text-xs md:text-sm min-w-0 truncate">
-          $ <TypewriterCommand command={command} />
+          $ <TypewriterCommand command={command} onDone={onCommandDone} />
         </div>
         {showSearch && (
           <div
