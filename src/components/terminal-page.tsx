@@ -1,13 +1,58 @@
 "use client"
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
+
+function useTypewriter(text: string, speed = 30) {
+  const [length, setLength] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+  const prefersReduced = useRef(false);
+
+  useEffect(() => {
+    prefersReduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  useEffect(() => {
+    if (prefersReduced.current) {
+      setLength(text.length);
+      setShowCursor(false);
+      return;
+    }
+
+    setLength(0);
+    setShowCursor(true);
+
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setLength(i);
+      if (i >= text.length) {
+        clearInterval(interval);
+        setTimeout(() => setShowCursor(false), 1500);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return { displayed: text.slice(0, length), showCursor, done: length >= text.length };
+}
 
 interface TerminalPageProps {
   command: string;
   footer?: React.ReactNode | ((search: string) => React.ReactNode);
   showSearch?: boolean;
   children: (search: string) => React.ReactNode;
+}
+
+function TypewriterCommand({ command }: { command: string }) {
+  const { displayed, showCursor } = useTypewriter(command);
+  return (
+    <>
+      {displayed}
+      {showCursor && <span className="animate-blink">_</span>}
+    </>
+  );
 }
 
 export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, showSearch = true, children }) => {
@@ -22,7 +67,7 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
     <div className="flex flex-col h-full">
       <div className="shrink-0 flex items-center justify-between gap-2 mb-4">
         <div className="text-terminal-green text-xs md:text-sm min-w-0 truncate">
-          $ {command}
+          $ <TypewriterCommand command={command} />
         </div>
         {showSearch && (
           <div

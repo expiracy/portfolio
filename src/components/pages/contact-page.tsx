@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
 import { CONTACT_FIELDS, ProfileField, filterContact } from "@/data/content";
 import { TerminalPage } from "@/components/terminal-page";
@@ -40,6 +41,7 @@ function ContactCard({ field }: { field: ProfileField }) {
 }
 
 export const ContactPage: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   return (
     <TerminalPage
       command="cat ~/contacts"
@@ -56,11 +58,21 @@ export const ContactPage: React.FC = () => {
         const filtered = CONTACT_FIELDS.filter((f) => !q || filterContact(f, q));
 
         return (
-          <div className="grid gap-3 w-full">
+          <motion.div
+            className="grid gap-3 w-full"
+            initial={reduceMotion ? false : "hidden"}
+            animate="visible"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}
+          >
             {filtered.map((field, i) => (
-              <ContactCard key={i} field={field} />
+              <motion.div
+                key={i}
+                variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: 0.2 } } }}
+              >
+                <ContactCard field={field} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         );
       }}
     </TerminalPage>

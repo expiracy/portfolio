@@ -101,6 +101,11 @@
   animation: glow 2s ease-in-out infinite;
 }
 
+.text-glow-bright {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--t-glow) 90%, transparent), 0 0 24px color-mix(in srgb, var(--t-glow) 50%, transparent);
+  transition: text-shadow 0.3s ease-out;
+}
+
 /* CRT flicker */
 @keyframes flicker {
   0% { opacity: 0.97; }
@@ -146,5 +151,9 @@ body::before {
 
   .text-glow {
     animation: none;
+  }
+
+  .text-glow-bright {
+    text-shadow: none;
   }
 }
