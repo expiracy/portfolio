@@ -12,12 +12,12 @@ export const AboutMePage: React.FC = () => {
           $ neofetch
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="shrink-0 overflow-x-auto">
-            <pre className="text-terminal-green text-glow text-[0.35rem] sm:text-[0.5rem] md:text-xs leading-tight whitespace-pre">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="shrink-0 overflow-x-auto max-w-[50%] lg:max-w-none">
+            <pre className="text-terminal-green text-glow text-[0.35rem] sm:text-[0.5rem] lg:text-xs leading-tight whitespace-pre">
               {ASCII_JAMES}
             </pre>
-            <pre className="text-terminal-cyan text-glow text-[0.35rem] sm:text-[0.5rem] md:text-xs leading-tight whitespace-pre mt-1">
+            <pre className="text-terminal-cyan text-glow text-[0.35rem] sm:text-[0.5rem] lg:text-xs leading-tight whitespace-pre mt-1">
               {ASCII_GRAY}
             </pre>
           </div>

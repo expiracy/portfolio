@@ -2,6 +2,7 @@ export interface ProfileField {
   key: string;
   value: string;
   url?: string;
+  hidden?: boolean;
 }
 
 export interface Experience {
@@ -25,6 +26,12 @@ export const PROFILE_FIELDS: ProfileField[] = [
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
   { key: "POSITION", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
+];
+
+export const CONTACT_FIELDS: ProfileField[] = [
+  { key: "EMAIL", value: "jameslaigray@gmail.com", url: "mailto:jameslaigray@gmail.com", hidden: true },
+  { key: "LINKEDIN", value: "jameslaigray", url: "https://www.linkedin.com/in/jameslaigray/" },
+  { key: "GITHUB", value: "expiracy", url: "https://github.com/expiracy" },
 ];
 
 export const BIO_TEXT = "Through work, personal, and university projects, I have gained experience with many programming languages and libraries.";

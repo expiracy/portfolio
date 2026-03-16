@@ -5,6 +5,7 @@ import {AnimatePresence, motion} from "framer-motion";
 import {AboutMePage} from "@/components/pages/about-me-page";
 import {ExperiencePage} from "@/components/pages/experience-page";
 import {ProjectsPage} from "@/components/pages/projects-page";
+import {ContactPage} from "@/components/pages/contact-page";
 
 interface PageDefinition {
     label: string;
@@ -15,6 +16,7 @@ const PAGES: PageDefinition[] = [
     { label: "about", component: AboutMePage },
     { label: "experience", component: ExperiencePage },
     { label: "projects", component: ProjectsPage },
+    { label: "contact", component: ContactPage },
 ];
 
 function FileTree({ pages, index, onSelect }: { pages: PageDefinition[]; index: number; onSelect: (i: number) => void }) {
