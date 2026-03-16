@@ -10,40 +10,10 @@ interface Project {
   title: string;
   description: string;
   badges: string[];
-  url?: string;
+  url: string;
 }
 
 const projects: Project[] = [
-  {
-    hash: "a3f7c2e",
-    title: "FPGA Pacman",
-    description: "Recreation of Pacman in Verilog on FPGA hardware. Scored the highest mark in the year.",
-    badges: ["Verilog", "Signal Analysis", "FPGA"],
-  },
-  {
-    hash: "b8d1f4a",
-    title: "Electron Magnetic Field Trap Simulator",
-    description: "Simulation and graphical analysis of electron trajectories in magnetic field traps. 100% mark.",
-    badges: ["Python", "numpy", "scipy", "matplotlib"],
-  },
-  {
-    hash: "c5e9a1b",
-    title: "Stock Browser & News Analysis",
-    description: "App for viewing stock info, discovering stocks, tracking portfolios and news sentiment analysis.",
-    badges: ["Java", "Vaadin", "JPA", "PostgreSQL"],
-  },
-  {
-    hash: "d2f6b3c",
-    title: "Multithreaded Packet Sniffer",
-    description: "Analysed incoming packets to detect SYN attacks and ARP cache poisoning.",
-    badges: ["C", "Networking", "Multithreading"],
-  },
-  {
-    hash: "e7a4d8f",
-    title: "Simulation Code Optimisation",
-    description: "8x speedup via cache optimisation, code refactoring and AVX vector instructions.",
-    badges: ["C", "AVX", "Cache Optimisation"],
-  },
   {
     hash: "f1c3e5a",
     title: "Simple Circuit Solver",
@@ -72,7 +42,7 @@ export const ProjectsPage: React.FC = () => {
 
   useEffect(() => {
     const timers = projects.map((_, i) =>
-      setTimeout(() => setVisibleProjects(i + 1), 200 + i * 120)
+      setTimeout(() => setVisibleProjects(i + 1), 200 + i * 150)
     );
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -112,17 +82,13 @@ export const ProjectsPage: React.FC = () => {
                   ))}
                 </div>
 
-                {project.url ? (
-                  <Link
-                    href={project.url}
-                    target="_blank"
-                    className="text-terminal-cyan hover:underline text-xs whitespace-nowrap"
-                  >
-                    [{">>"} source]
-                  </Link>
-                ) : (
-                  <span className="text-terminal-red/50 text-xs">[closed source]</span>
-                )}
+                <Link
+                  href={project.url}
+                  target="_blank"
+                  className="text-terminal-cyan hover:underline text-xs whitespace-nowrap"
+                >
+                  [{">>"} source]
+                </Link>
               </div>
             </div>
           ))}
