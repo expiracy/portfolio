@@ -52,7 +52,7 @@ export const ExperiencePage: React.FC = () => {
               content: <BulletList items={exp.details} />,
             }] : []),
             ...(exp.tags.length > 0 ? [{
-              heading: "Technologies",
+              heading: "Tags",
               content: <BadgeList items={exp.tags} />,
             }] : []),
           ] : []}

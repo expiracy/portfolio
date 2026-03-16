@@ -18,8 +18,11 @@ export const ProjectsPage: React.FC = () => {
       renderItem={(p, onClick) => (
         <button
           onClick={onClick}
-          className="block w-full text-left px-4 py-3 rounded-sm transition-colors hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/40 bg-terminal-bg"
+          className="relative block w-full text-left pl-7 pr-4 py-3 rounded-sm transition-all hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/60 hover:shadow-[inset_2px_0_0_var(--t-green)] bg-terminal-bg"
         >
+          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-terminal-green font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150 motion-reduce:transition-none">
+            &gt;
+          </span>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
               {p.dir}/
@@ -49,7 +52,7 @@ export const ProjectsPage: React.FC = () => {
               content: <BulletList items={project.details} />,
             }] : []),
             {
-              heading: "Technologies",
+              heading: "Tags",
               content: <BadgeList items={project.tags} />,
             },
             ...(project.url ? [{
