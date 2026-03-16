@@ -1,39 +1,36 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fira_Code } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider"
 import React, { ReactNode } from "react";
-import {Header} from "@/components/header";
+import { Header } from "@/components/header";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const firaCode = Fira_Code({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], display: "block" });
 
 export const metadata: Metadata = {
-  title: "James Gray",
-  description: "Portfolio",
+  title: "james@portfolio:~$",
+  description: "James Gray — Portfolio",
 };
 
-// Define RootLayoutProps type
 interface RootLayoutProps {
   children: ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <>
-      <html lang="en" suppressHydrationWarning={true}>
-        <head/>
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-              <Header/>
-              {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head/>
+      <body className={firaCode.className}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t&&["green","amber","blue","light"].includes(t)){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","green")}}catch(e){document.documentElement.setAttribute("data-theme","green")}})()`,
+          }}
+        />
+        <ThemeProvider>
+          <Header/>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }
