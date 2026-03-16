@@ -30,12 +30,12 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, chi
           </div>
         )}
         <div className="flex items-center gap-1 mt-1">
-          <span className="text-terminal-green shrink-0">$</span>
+          <span className="text-terminal-green shrink-0">$ grep</span>
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="filter this page..."
+            placeholder={`"query" ${command}`}
             aria-label="Filter results"
             className="flex-1 bg-transparent text-terminal-green text-sm outline-none placeholder:text-terminal-dim/50 caret-terminal-green"
           />

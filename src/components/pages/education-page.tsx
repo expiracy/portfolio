@@ -9,7 +9,7 @@ import { DetailModal, BulletList } from "@/components/detail-modal";
 export const EducationPage: React.FC = () => {
   return (
     <TimelineList
-      command="git log --graph --all --oneline ~/education"
+      command="git log ~/education"
       items={education}
       getKey={(e) => e.hash}
       filterFn={(e, q) =>

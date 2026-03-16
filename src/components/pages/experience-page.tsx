@@ -9,7 +9,7 @@ import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
 export const ExperiencePage: React.FC = () => {
   return (
     <TimelineList
-      command="git log --graph --all --oneline ~/experience"
+      command="git log ~/experience"
       items={experiences}
       getKey={(e) => e.hash}
       filterFn={(e, q) =>
