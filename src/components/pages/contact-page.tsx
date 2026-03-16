@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
-import { CONTACT_FIELDS, ProfileField } from "@/data/content";
+import { CONTACT_FIELDS, ProfileField, filterContact } from "@/data/content";
 import { TerminalPage } from "@/components/terminal-page";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -45,9 +45,7 @@ export const ContactPage: React.FC = () => {
       command="cat ~/contacts"
       footer={(search) => {
         const q = search.toLowerCase();
-        const filtered = CONTACT_FIELDS.filter(
-          (f) => !q || f.key.toLowerCase().includes(q) || f.value.toLowerCase().includes(q)
-        );
+        const filtered = CONTACT_FIELDS.filter((f) => !q || filterContact(f, q));
         return filtered.length === CONTACT_FIELDS.length
           ? `${CONTACT_FIELDS.length} entries`
           : `${filtered.length} of ${CONTACT_FIELDS.length} entries`;
@@ -55,12 +53,7 @@ export const ContactPage: React.FC = () => {
     >
       {(search) => {
         const q = search.toLowerCase();
-        const filtered = CONTACT_FIELDS.filter(
-          (f) =>
-            !q ||
-            f.key.toLowerCase().includes(q) ||
-            f.value.toLowerCase().includes(q)
-        );
+        const filtered = CONTACT_FIELDS.filter((f) => !q || filterContact(f, q));
 
         return (
           <div className="grid gap-3 w-full">
