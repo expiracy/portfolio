@@ -1,28 +1,16 @@
 "use client"
 
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 
 export interface FullPageScrollProps {
     pages: React.FC[]
 }
 
+const PAGE_LABELS = ["~/about", "~/skills", "~/projects"];
+
 export default function FullPageScroll(props: FullPageScrollProps) {
     const [index, setIndex] = useState(0);
-
-    // useEffect(() => {
-    //     const handleScroll = (event: any) => {
-    //         if (event.deltaY > 0 && index < props.pages.length - 1) {
-    //             setIndex((prev) => prev + 1);
-    //         } else if (event.deltaY < 0 && index > 0) {
-    //             setIndex((prev) => prev - 1);
-    //         }
-    //     };
-    //     window.addEventListener("wheel", handleScroll);
-    //     return () => window.removeEventListener("wheel", handleScroll);
-    // }, [index, props.pages.length]);
-
-    const PageComponent = props.pages[index];
 
     const goNext = () => {
         if (index < props.pages.length - 1) {
@@ -36,74 +24,69 @@ export default function FullPageScroll(props: FullPageScrollProps) {
         }
     };
 
+    const PageComponent = props.pages[index];
+
     return (
         <div className="flex flex-col h-dvh overflow-y-scroll">
             <div className="flex flex-col h-dvh">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={index}
-                        className="w-[95%] mx-auto my-auto"
-                        initial={{opacity: 0, y: 50}}
+                        className="w-[95%] max-w-5xl mx-auto my-auto pt-12"
+                        initial={{opacity: 0, y: 30}}
                         animate={{opacity: 1, y: 0}}
-                        exit={{opacity: 0, y: -50}}
-                        transition={{duration: 0.3}}
+                        exit={{opacity: 0, y: -30}}
+                        transition={{duration: 0.25}}
                     >
                         <PageComponent/>
                     </motion.div>
                 </AnimatePresence>
             </div>
 
-            {/* Down/Up Arrows */}
-            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 items-center flex flex-row space-x-2">
-                {/* Up Arrow */}
-                {index > 0 && (
-                    <motion.div
-                        className="cursor-pointer p-2 bg-secondary-foreground rounded-full"
-                        onClick={goPrev}
-                        whileHover={{scale: 1.1}}
-                        whileTap={{scale: 0.9}}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            className="text-primary-foreground"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M12 4l-6 6h4v6h4v-6h4l-6-6z"
-                            />
-                        </svg>
-                    </motion.div>
-                )}
+            {/* Terminal-style navigation */}
+            <div className="fixed bottom-0 left-0 right-0 border-t border-terminal-border bg-terminal-bg/90 backdrop-blur-sm">
+                <div className="flex items-center justify-between px-4 py-2 max-w-5xl mx-auto text-xs md:text-sm font-mono">
+                    {/* Page indicator */}
+                    <div className="flex items-center gap-2">
+                        {PAGE_LABELS.map((label, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setIndex(i)}
+                                className={`px-2 py-0.5 transition-colors ${
+                                    i === index
+                                        ? "text-terminal-green border border-terminal-green/40 bg-terminal-green/10"
+                                        : "text-terminal-dim hover:text-terminal-green"
+                                }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
 
-                {/* Down Arrow */}
-                {index < props.pages.length - 1 && (
-                    <motion.div
-                        className="cursor-pointer p-2 bg-secondary-foreground rounded-full"
-                        onClick={goNext}
-                        whileHover={{scale: 1.1}}
-                        whileTap={{scale: 0.9}}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            className="text-primary-foreground"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M12 20l6-6h-4v-6h-4v6h-4l6 6z"
-                            />
-                        </svg>
-                    </motion.div>
-                )}
+                    {/* Navigation arrows */}
+                    <div className="flex items-center gap-2">
+                        {index > 0 && (
+                            <button
+                                onClick={goPrev}
+                                className="text-terminal-dim hover:text-terminal-green transition-colors px-2"
+                            >
+                                [prev]
+                            </button>
+                        )}
+                        {index < props.pages.length - 1 && (
+                            <button
+                                onClick={goNext}
+                                className="text-terminal-dim hover:text-terminal-green transition-colors px-2"
+                            >
+                                [next]
+                            </button>
+                        )}
+                        <span className="text-terminal-dim ml-2">
+                            {index + 1}/{props.pages.length}
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-
     );
 }

@@ -18,12 +18,25 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        mono: ['Fira Code', 'Courier New', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        terminal: {
+          green: '#00ff41',
+          dim: '#00aa2a',
+          cyan: '#00d4ff',
+          amber: '#ffb000',
+          red: '#ff3333',
+          bg: '#0a0a0a',
+          'bg-light': '#111111',
+          border: '#00ff4130',
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -67,10 +80,15 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        blink: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "blink": "blink 1s step-end infinite",
       },
     },
   },

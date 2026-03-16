@@ -2,87 +2,39 @@
 
 import * as React from "react"
 import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger, navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import {ThemeToggle} from "@/components/theme-toggle";
 import {FaGithub, FaLinkedin} from "react-icons/fa";
 
 export function Header() {
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg">
-      <NavigationMenu className={"w-full max-w-full justify-between bg-transparent"}>
-        <NavigationMenuList>
-          {/*<NavigationMenuItem>*/}
-          {/*  <NavigationMenuTrigger className={"bg-transparent"}>james gray</NavigationMenuTrigger>*/}
-          {/*  <NavigationMenuContent>*/}
-          {/*    <ul className="p-4 flex flex-row w-max items-center">*/}
-          {/*      <FaLinkedin href="https://www.linkedin.com/in/jameslaigray/" className={"w-auto"}/>*/}
-          {/*      <ListItem href="https://www.linkedin.com/in/jameslaigray/" title="LinkedIn">*/}
-          {/*        Connect with me!*/}
-          {/*      </ListItem>*/}
-          {/*      <ListItem href="https://github.com/expiracy" title="GitHub">*/}
-          {/*        View my projects!*/}
-          {/*      </ListItem>*/}
-          {/*    </ul>*/}
-          {/*  </NavigationMenuContent>*/}
-          {/*</NavigationMenuItem>*/}
-          <NavigationMenuItem>
-            <Link href="https://www.linkedin.com/in/jameslaigray/" target={"_blank"} passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <FaLinkedin size={"2em"}/>
-              </NavigationMenuLink>
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-terminal-border bg-terminal-bg/90 backdrop-blur-sm">
+      <div className="flex items-center justify-between px-4 py-2 text-sm">
+        <div className="flex items-center gap-4">
+          <span className="text-terminal-dim">james@portfolio</span>
+          <span className="text-terminal-green">~</span>
+          <div className="flex items-center gap-3 ml-4">
+            <Link
+              href="https://www.linkedin.com/in/jameslaigray/"
+              target="_blank"
+              className="text-terminal-dim hover:text-terminal-cyan transition-colors flex items-center gap-1"
+            >
+              <FaLinkedin size="1.1em"/>
+              <span className="hidden sm:inline">linkedin</span>
             </Link>
-            <Link href="https://github.com/expiracy" target={"_blank"} passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <FaGithub size={"2em"}/>
-              </NavigationMenuLink>
+            <Link
+              href="https://github.com/expiracy"
+              target="_blank"
+              className="text-terminal-dim hover:text-terminal-cyan transition-colors flex items-center gap-1"
+            >
+              <FaGithub size="1.1em"/>
+              <span className="hidden sm:inline">github</span>
             </Link>
-          </NavigationMenuItem>
-
-        </NavigationMenuList>
-
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <ThemeToggle />
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 text-terminal-dim">
+          <span className="hidden sm:inline text-terminal-amber">[PID 1337]</span>
+          <span className="w-2 h-4 bg-terminal-green animate-blink"></span>
+        </div>
+      </div>
     </header>
   )
 }
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"
