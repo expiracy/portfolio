@@ -2,9 +2,9 @@
 
 import React from "react";
 import { FiChevronRight } from "react-icons/fi";
-import { education } from "@/data/content";
+import { education, filterEducation } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
-import { DetailModal, BulletList } from "@/components/detail-modal";
+import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
 
 export const EducationPage: React.FC = () => {
   return (
@@ -12,13 +12,7 @@ export const EducationPage: React.FC = () => {
       command="git log ~/education"
       items={education}
       getKey={(e) => e.hash}
-      filterFn={(e, q) =>
-        e.institution.toLowerCase().includes(q) ||
-        e.qualification.toLowerCase().includes(q) ||
-        e.period.toLowerCase().includes(q) ||
-        (e.grade?.toLowerCase().includes(q) ?? false) ||
-        e.details.some((d) => d.toLowerCase().includes(q))
-      }
+      filterFn={filterEducation}
       renderEntry={(e) => (
         <>
           <div className="flex flex-wrap items-center gap-2 mb-1">
@@ -35,10 +29,11 @@ export const EducationPage: React.FC = () => {
             {e.qualification}
           </div>
           {e.grade && (
-            <div className="text-terminal-amber text-xs md:text-sm">
+            <div className="text-terminal-amber text-xs md:text-sm mb-2">
               {e.grade}
             </div>
           )}
+          <BadgeList items={e.tags} />
         </>
       )}
       renderModal={(edu, onClose) => (
@@ -53,6 +48,10 @@ export const EducationPage: React.FC = () => {
             ...(edu.details.length > 0 ? [{
               heading: "Description",
               content: <BulletList items={edu.details} />,
+            }] : []),
+            ...(edu.tags.length > 0 ? [{
+              heading: "Topics",
+              content: <BadgeList items={edu.tags} />,
             }] : []),
           ] : []}
         />

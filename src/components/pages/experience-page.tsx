@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FiChevronRight } from "react-icons/fi";
-import { experiences } from "@/data/content";
+import { experiences, filterExperience } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
 import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
 
@@ -12,13 +12,7 @@ export const ExperiencePage: React.FC = () => {
       command="git log ~/experience"
       items={experiences}
       getKey={(e) => e.hash}
-      filterFn={(e, q) =>
-        e.role.toLowerCase().includes(q) ||
-        e.company.toLowerCase().includes(q) ||
-        e.period.toLowerCase().includes(q) ||
-        e.description.toLowerCase().includes(q) ||
-        e.badges.some((b) => b.toLowerCase().includes(q))
-      }
+      filterFn={filterExperience}
       renderEntry={(e) => (
         <>
           <div className="flex flex-wrap items-center gap-2 mb-1">
@@ -37,7 +31,7 @@ export const ExperiencePage: React.FC = () => {
           <div className="text-terminal-dim text-xs md:text-sm mb-2 leading-relaxed">
             {e.description}
           </div>
-          <BadgeList items={e.badges} />
+          <BadgeList items={e.tags} />
         </>
       )}
       renderModal={(exp, onClose) => (
@@ -57,9 +51,9 @@ export const ExperiencePage: React.FC = () => {
               heading: "Description",
               content: <BulletList items={exp.details} />,
             }] : []),
-            ...(exp.badges.length > 0 ? [{
+            ...(exp.tags.length > 0 ? [{
               heading: "Technologies",
-              content: <BadgeList items={exp.badges} />,
+              content: <BadgeList items={exp.tags} />,
             }] : []),
           ] : []}
         />
