@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import { ErrorBoundary } from "@/components/error-boundary";
 import { AboutMePage } from "@/components/pages/about-me-page";
 import { ExperiencePage } from "@/components/pages/experience-page";
 import { ProjectsPage } from "@/components/pages/projects-page";
@@ -32,7 +33,7 @@ export const PageLayout: React.FC = () => {
       <div className="shrink-0 bg-terminal-bg-light flex">
         {PAGES.map((page, i) => (
           <button
-            key={i}
+            key={page.label}
             onClick={() => setIndex(i)}
             className={`flex-1 min-w-0 px-1 md:px-4 py-2 text-[11px] md:text-sm font-mono font-bold truncate transition-colors border-r border-terminal-border ${
               i === index
@@ -48,10 +49,12 @@ export const PageLayout: React.FC = () => {
 
       {/* Main content */}
       <div className="flex-1 overflow-hidden">
-        <div key={index} className="w-[95%] max-w-5xl mx-auto pt-6 pb-4 h-full flex flex-col">
-          <div className="w-full flex-1 min-h-0">
-            <PageComponent />
-          </div>
+        <div key={PAGES[index].label} className="w-[95%] max-w-5xl mx-auto pt-6 pb-4 h-full flex flex-col">
+          <ErrorBoundary>
+            <div className="w-full flex-1 min-h-0">
+              <PageComponent />
+            </div>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

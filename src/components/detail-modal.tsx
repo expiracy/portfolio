@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { Tag } from "@/data/content";
 
 export interface DetailSection {
   heading: string;
@@ -20,6 +21,7 @@ interface DetailModalProps {
 }
 
 export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command, title, subtitle, meta, sections }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -28,6 +30,21 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
     document.body.style.overflow = "hidden";
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -48,6 +65,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
             onClick={onClose}
           />
           <motion.div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-label={title}
@@ -76,8 +94,8 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
                 {meta && <div className="text-terminal-amber text-xs md:text-sm mt-1">{meta}</div>}
               </div>
 
-              {sections.map((section, i) => (
-                <div key={i}>
+              {sections.map((section) => (
+                <div key={section.heading}>
                   <h3 className="text-terminal-green font-bold text-xs md:text-sm mb-2">{section.heading}</h3>
                   {section.content}
                 </div>
@@ -104,16 +122,17 @@ export function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function BadgeList({ items }: { items: string[] }) {
-  if (items.length === 0) return null;
+export function BadgeList({ items }: { items: Tag[] }) {
+  const visible = items.filter((t) => t.visible !== false);
+  if (visible.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-1.5">
-      {items.map((badge, i) => (
+      {visible.map((tag, i) => (
         <span
           key={i}
           className="text-[10px] md:text-xs border border-terminal-border text-terminal-amber px-1.5 py-0.5 rounded-sm"
         >
-          {badge}
+          {tag.label}
         </span>
       ))}
     </div>

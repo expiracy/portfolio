@@ -138,3 +138,13 @@ body::before {
   background: var(--t-selection-bg);
   color: var(--t-green);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+
+  .text-glow {
+    animation: none;
+  }
+}
