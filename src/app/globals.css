@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Themes ── */
+[data-theme="green"] {
+  --t-green: #00ff41;
+  --t-dim: #00aa2a;
+  --t-cyan: #00d4ff;
+  --t-amber: #ffb000;
+  --t-red: #ff3333;
+  --t-bg: #0a0a0a;
+  --t-bg-light: #111111;
+  --t-border: #00ff4130;
+  --t-glow: #00ff41;
+  --t-scanline: #00ff4103;
+  --t-selection-bg: #00ff4140;
+}
+
+[data-theme="amber"] {
+  --t-green: #ffb000;
+  --t-dim: #cc8800;
+  --t-cyan: #ffd866;
+  --t-amber: #ff8800;
+  --t-red: #ff3333;
+  --t-bg: #0a0800;
+  --t-bg-light: #111008;
+  --t-border: #ffb00030;
+  --t-glow: #ffb000;
+  --t-scanline: #ffb00003;
+  --t-selection-bg: #ffb00040;
+}
+
+[data-theme="blue"] {
+  --t-green: #00aaff;
+  --t-dim: #0077cc;
+  --t-cyan: #66ddff;
+  --t-amber: #ff8800;
+  --t-red: #ff3333;
+  --t-bg: #060a10;
+  --t-bg-light: #0a1018;
+  --t-border: #00aaff30;
+  --t-glow: #00aaff;
+  --t-scanline: #00aaff03;
+  --t-selection-bg: #00aaff40;
+}
+
+[data-theme="light"] {
+  --t-green: #1a7a35;
+  --t-dim: #4a8a5a;
+  --t-cyan: #0055aa;
+  --t-amber: #8a5500;
+  --t-red: #bb2222;
+  --t-bg: #f5f5f0;
+  --t-bg-light: #eaeae5;
+  --t-border: #1a7a3540;
+  --t-glow: #1a7a35;
+  --t-scanline: transparent;
+  --t-selection-bg: #1a7a3530;
+}
+
 @layer base {
   * {
     margin: 0;
@@ -10,8 +67,8 @@
   }
 
   body {
-    background-color: #0a0a0a;
-    color: #00ff41;
+    background-color: var(--t-bg);
+    color: var(--t-green);
     line-height: 1.75;
   }
 }
@@ -22,22 +79,22 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--t-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ff4140;
+  background: var(--t-border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00ff4180;
+  background: var(--t-green);
 }
 
 /* ASCII art glow */
 @keyframes glow {
-  0%, 100% { text-shadow: 0 0 4px #00ff4180, 0 0 8px #00ff4140; }
-  50% { text-shadow: 0 0 8px #00ff41b0, 0 0 16px #00ff4160; }
+  0%, 100% { text-shadow: 0 0 4px color-mix(in srgb, var(--t-glow) 50%, transparent), 0 0 8px color-mix(in srgb, var(--t-glow) 25%, transparent); }
+  50% { text-shadow: 0 0 8px color-mix(in srgb, var(--t-glow) 70%, transparent), 0 0 16px color-mix(in srgb, var(--t-glow) 38%, transparent); }
 }
 
 .text-glow {
@@ -70,14 +127,14 @@ body::before {
     0deg,
     transparent,
     transparent 2px,
-    #00ff4103 2px,
-    #00ff4103 4px
+    var(--t-scanline) 2px,
+    var(--t-scanline) 4px
   );
   pointer-events: none;
   z-index: 9999;
 }
 
 ::selection {
-  background: #00ff4140;
-  color: #00ff41;
+  background: var(--t-selection-bg);
+  color: var(--t-green);
 }

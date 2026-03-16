@@ -1,58 +1,95 @@
 "use client"
 
 import React, { useState } from "react";
+import { FiChevronRight } from "react-icons/fi";
 import { projects } from "@/data/content";
-import { ReadmeModal } from "@/components/readme-modal";
+import { TerminalPage } from "@/components/terminal-page";
+import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
 
 export const ProjectsPage: React.FC = () => {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selectedDir, setSelectedDir] = useState<string | null>(null);
+  const project = selectedDir !== null ? projects.find((p) => p.dir === selectedDir) ?? null : null;
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="max-w-3xl w-full text-xs md:text-sm overflow-y-auto max-h-[85vh] pr-2">
-        <div className="text-terminal-green mb-4">
-          $ ls -la ~/projects/
-        </div>
+    <TerminalPage
+      command="ls -la ~/projects/"
+      footer={(search) => {
+        const q = search.toLowerCase();
+        const filtered = projects.filter(
+          (p) =>
+            !q ||
+            p.title.toLowerCase().includes(q) ||
+            p.dir.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q) ||
+            p.badges.some((b) => b.toLowerCase().includes(q))
+        );
+        const publicCount = projects.filter(p => p.url).length;
+        return filtered.length === projects.length
+          ? `${projects.length} items, ${publicCount} public`
+          : `${filtered.length} of ${projects.length} items, ${publicCount} public`;
+      }}
+    >
+      {(search) => {
+        const q = search.toLowerCase();
+        const filtered = projects.filter(
+          (p) =>
+            !q ||
+            p.title.toLowerCase().includes(q) ||
+            p.dir.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q) ||
+            p.badges.some((b) => b.toLowerCase().includes(q))
+        );
 
-        <div className="space-y-2">
-          {projects.map((project, index) => (
-            <button
-              key={index}
-              onClick={() => setSelected(index)}
-              className="block w-full text-left p-3 rounded-sm transition-colors hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/40 bg-terminal-bg"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-terminal-amber" aria-hidden="true">📁</span>
-                <span className="text-terminal-cyan group-hover:text-terminal-green transition-colors font-bold text-sm md:text-base">
-                  {project.dir}/
-                </span>
-                <span className={`ml-auto shrink-0 text-[10px] md:text-xs px-1.5 py-0.5 rounded-sm border ${project.url ? "text-terminal-green border-terminal-green/30 bg-terminal-green/5" : "text-terminal-red/50 border-terminal-red/20 bg-terminal-red/5"}`}>
-                  {project.url ? "public" : "private"}
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 ml-1">
-                {project.badges.map((badge, i) => (
-                  <span
-                    key={i}
-                    className="text-[10px] md:text-xs border border-terminal-amber/20 bg-terminal-amber/5 text-terminal-amber/80 px-1.5 py-0.5 rounded-sm"
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
-            </button>
-          ))}
-        </div>
+        return (
+          <>
+            <div className="w-full text-xs md:text-sm space-y-2">
+              {filtered.map((p) => (
+                <button
+                  key={p.dir}
+                  onClick={() => setSelectedDir(p.dir)}
+                  className="block w-full text-left px-4 py-3 rounded-sm transition-colors hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/40 bg-terminal-bg"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
+                      {p.dir}/
+                      <FiChevronRight className="w-4 h-4 text-terminal-dim group-hover:text-terminal-green transition-colors" />
+                    </span>
+                    <span className={`ml-auto shrink-0 text-[10px] md:text-xs px-1.5 py-0.5 rounded-sm border border-terminal-border ${p.url ? "text-terminal-green" : "text-terminal-red"}`}>
+                      {p.url ? "public" : "private"}
+                    </span>
+                  </div>
+                  <div className="text-terminal-dim text-xs md:text-sm mb-2">
+                    {p.description}
+                  </div>
+                  <BadgeList items={p.badges} />
+                </button>
+              ))}
+            </div>
 
-        <div className="mt-4 pt-2 border-t border-terminal-border text-terminal-dim">
-          {projects.length} items, {projects.filter(p => p.url).length} public
-        </div>
-      </div>
-
-      <ReadmeModal
-        project={selected !== null ? projects[selected] : null}
-        onClose={() => setSelected(null)}
-      />
-    </div>
+            <DetailModal
+              open={project !== null}
+              onClose={() => setSelectedDir(null)}
+              command={project ? `cat ~/${project.dir}/README.md` : ""}
+              title={project?.title ?? ""}
+              subtitle={project?.description}
+              sections={project ? [
+                ...(project.details.length > 0 ? [{
+                  heading: "Description",
+                  content: <BulletList items={project.details} />,
+                }] : []),
+                {
+                  heading: "Technologies",
+                  content: <BadgeList items={project.badges} />,
+                },
+                ...(project.url ? [{
+                  heading: "Source",
+                  content: <SourceLink url={project.url} />,
+                }] : []),
+              ] : []}
+            />
+          </>
+        );
+      }}
+    </TerminalPage>
   );
 };

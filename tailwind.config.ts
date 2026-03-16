@@ -12,14 +12,14 @@ const config = {
       },
       colors: {
         terminal: {
-          green: '#00ff41',
-          dim: '#00aa2a',
-          cyan: '#00d4ff',
-          amber: '#ffb000',
-          red: '#ff3333',
-          bg: '#0a0a0a',
-          'bg-light': '#111111',
-          border: '#00ff4130',
+          green: 'var(--t-green)',
+          dim: 'var(--t-dim)',
+          cyan: 'var(--t-cyan)',
+          amber: 'var(--t-amber)',
+          red: 'var(--t-red)',
+          bg: 'var(--t-bg)',
+          'bg-light': 'var(--t-bg-light)',
+          border: 'var(--t-border)',
         },
       },
       keyframes: {

@@ -1,29 +1,28 @@
 "use client"
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
 import { CONTACT_FIELDS, ProfileField } from "@/data/content";
+import { TerminalPage } from "@/components/terminal-page";
 
-const ICONS: Record<string, React.ReactNode> = {
-  EMAIL: <FaEnvelope size="1.2em" />,
-  LINKEDIN: <FaLinkedin size="1.2em" />,
-  GITHUB: <FaGithub size="1.2em" />,
+const ICON_MAP: Record<string, React.ReactNode> = {
+  EMAIL: <FiMail className="w-5 h-5 md:w-6 md:h-6" />,
+  LINKEDIN: <FiLinkedin className="w-5 h-5 md:w-6 md:h-6" />,
+  GITHUB: <FiGithub className="w-5 h-5 md:w-6 md:h-6" />,
 };
 
-function ContactValue({ field }: { field: ProfileField }) {
-  const [revealed, setRevealed] = useState(false);
-
-  if (field.hidden && !revealed) {
-    return (
-      <button
-        onClick={() => setRevealed(true)}
-        className="text-terminal-dim hover:text-terminal-cyan transition-colors"
-      >
-        [click to reveal]
-      </button>
-    );
-  }
+function ContactCard({ field }: { field: ProfileField }) {
+  const icon = ICON_MAP[field.key];
+  const content = (
+    <div className="flex items-center gap-4 border border-terminal-border rounded-sm px-4 py-3 transition-colors hover:border-terminal-green/40 hover:bg-terminal-green/5 bg-terminal-bg">
+      <span className="text-terminal-green shrink-0">{icon}</span>
+      <div className="min-w-0">
+        <div className="text-terminal-green font-bold text-sm md:text-base">{field.key}</div>
+        <div className="text-terminal-dim text-xs md:text-sm truncate">{field.value}</div>
+      </div>
+    </div>
+  );
 
   if (field.url) {
     return (
@@ -31,55 +30,46 @@ function ContactValue({ field }: { field: ProfileField }) {
         href={field.url}
         target={field.url.startsWith("mailto:") ? undefined : "_blank"}
         rel="noopener noreferrer"
-        className="text-terminal-cyan hover:underline"
       >
-        {field.value}
+        {content}
       </Link>
     );
   }
 
-  return <span className="text-terminal-dim">{field.value}</span>;
+  return content;
 }
 
 export const ContactPage: React.FC = () => {
   return (
-    <div className="w-full flex justify-center">
-      <div className="max-w-3xl w-full text-xs md:text-sm">
-        <div className="text-terminal-green mb-6">
-          $ systemctl status contact-*
-        </div>
+    <TerminalPage
+      command="cat ~/contacts"
+      footer={(search) => {
+        const q = search.toLowerCase();
+        const filtered = CONTACT_FIELDS.filter(
+          (f) => !q || f.key.toLowerCase().includes(q) || f.value.toLowerCase().includes(q)
+        );
+        return filtered.length === CONTACT_FIELDS.length
+          ? `${CONTACT_FIELDS.length} entries`
+          : `${filtered.length} of ${CONTACT_FIELDS.length} entries`;
+      }}
+    >
+      {(search) => {
+        const q = search.toLowerCase();
+        const filtered = CONTACT_FIELDS.filter(
+          (f) =>
+            !q ||
+            f.key.toLowerCase().includes(q) ||
+            f.value.toLowerCase().includes(q)
+        );
 
-        <div className="space-y-4">
-          {CONTACT_FIELDS.map((field, i) => (
-            <div key={i} className="border border-terminal-border bg-terminal-bg p-4 rounded-sm">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-terminal-green">●</span>
-                <span className="text-terminal-cyan">{ICONS[field.key]}</span>
-                <span className="text-terminal-green font-bold text-sm md:text-base">
-                  {field.key.toLowerCase()}.service
-                </span>
-                <span className="text-terminal-dim">—</span>
-                <span className="text-terminal-dim">{field.key} Profile</span>
-              </div>
-
-              <div className="ml-7 space-y-1 text-terminal-dim">
-                <div className="flex gap-3">
-                  <span className="text-terminal-amber w-16 shrink-0">Active:</span>
-                  <span className="text-terminal-green">active (running)</span>
-                </div>
-                <div className="flex gap-3">
-                  <span className="text-terminal-amber w-16 shrink-0">Link:</span>
-                  <ContactValue field={field} />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 text-terminal-dim">
-          {CONTACT_FIELDS.length} services listed. {CONTACT_FIELDS.length} active.
-        </div>
-      </div>
-    </div>
+        return (
+          <div className="grid gap-3 w-full">
+            {filtered.map((field, i) => (
+              <ContactCard key={i} field={field} />
+            ))}
+          </div>
+        );
+      }}
+    </TerminalPage>
   );
 };
