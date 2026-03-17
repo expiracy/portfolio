@@ -58,7 +58,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
       {open && (
         <>
           <motion.div
-            className="fixed inset-0 z-40 bg-black/70"
+            className="fixed inset-0 z-50 bg-black/70"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -69,14 +69,14 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            className="fixed z-50 bg-terminal-bg border border-terminal-border rounded-sm overflow-y-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-2xl max-h-[80vh]"
+            className="fixed z-[60] bg-terminal-bg border border-terminal-border rounded-sm overflow-y-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-2xl max-h-[80vh]"
             initial={{ opacity: 0, scale: 0.9, y: "-50%", x: "-50%" }}
             animate={{ opacity: 1, scale: 1, y: "-50%", x: "-50%" }}
             exit={{ opacity: 0, scale: 0.9, y: "-50%", x: "-50%" }}
             transition={{ duration: 0.15 }}
           >
             <div className="flex items-center justify-between px-4 py-2 border-b border-terminal-border bg-terminal-bg-light sticky top-0 z-10">
-              <span className="text-terminal-dim text-xs">{command}</span>
+              <span className="text-terminal-dim text-xs md:text-sm">{command}</span>
               <button
                 ref={closeRef}
                 onClick={onClose}

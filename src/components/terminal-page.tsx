@@ -104,7 +104,7 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 pr-2">
         {children(search)}
       </div>
 
