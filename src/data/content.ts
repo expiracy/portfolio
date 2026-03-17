@@ -14,7 +14,7 @@ export interface Experience {
   role: string;
   company: string;
   period: string;
-  description: string;
+  summary: string[];
   tags: Tag[];
   details: string[];
 }
@@ -58,7 +58,7 @@ export function filterExperience(e: Experience, q: string): boolean {
     e.role.toLowerCase().includes(q) ||
     e.company.toLowerCase().includes(q) ||
     e.period.toLowerCase().includes(q) ||
-    e.description.toLowerCase().includes(q) ||
+    e.summary.some((d) => d.toLowerCase().includes(q)) ||
     matchesTags(e.tags, q)
   );
 }
@@ -80,10 +80,10 @@ export function filterContact(f: ProfileField, q: string): boolean {
 }
 
 export const PROFILE_FIELDS: ProfileField[] = [
-  { key: "ROLE", value: "Computer Systems Engineering Student" },
-  { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "POSITION", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
+  { key: "JOB", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
+  { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)" },
 ];
 
 export const CONTACT_FIELDS: ProfileField[] = [
@@ -114,7 +114,7 @@ export const experiences: Experience[] = [
     role: "Quantitative Technology Intern",
     company: "Qube Research & Technologies",
     period: "Jun 2024 — Present",
-    description: "Developing deployment tooling, process management services, and LLM-based support systems.",
+    summary: ["Developing deployment tooling, process management services, and LLM-based support systems."],
     tags: [
       { label: "C++" },
       { label: "C#" },
@@ -139,7 +139,7 @@ export const experiences: Experience[] = [
     role: "Tutor",
     company: "MyTutor",
     period: "Jan 2023 — Present",
-    description: "Communicating complex concepts in a simple way to help A-Level and GCSE students master subject material.",
+    summary: ["Communicating complex concepts in a simple way to help A-Level and GCSE students master subject material."],
     tags: [
       { label: "Teaching" },
       { label: "Maths" },
@@ -157,7 +157,7 @@ export const experiences: Experience[] = [
     role: "Spring Insight",
     company: "Expedia",
     period: "Apr 2022",
-    description: "Gained practical insights into agile methodologies in software engineering and mobile app development.",
+    summary: ["Gained practical insights into agile methodologies in software engineering and mobile app development."],
     tags: [
       { label: "Agile" },
       { label: "Mobile Dev" },
@@ -172,7 +172,7 @@ export const experiences: Experience[] = [
     role: "Software Engineering Course",
     company: "Cisco",
     period: "Jun 2019",
-    description: "Built and iterated on Python programs, familiarised with Git for collaboration.",
+    summary: ["Built and iterated on Python programs, familiarised with Git for collaboration."],
     tags: [
       { label: "Python" },
       { label: "Git" },
@@ -187,7 +187,7 @@ export const experiences: Experience[] = [
     role: "Work Experience",
     company: "Oracle",
     period: "May 2019",
-    description: "Developed a web-based chatbot with a Java Spring backend and HTML/CSS/JS frontend.",
+    summary: ["Developed a web-based chatbot with a Java Spring backend and HTML/CSS/JS frontend."],
     tags: [
       { label: "Java" },
       { label: "Spring" },
@@ -408,7 +408,6 @@ export const education: Education[] = [
     ],
     details: [
       "Award for Exceptional Performance (2nd Year)",
-      "Key Concepts: Artificial Intelligence, Machine Learning, Neural Computing, Compiler Design, Data Structures, Operating Systems, Networking, Data Analytics, Computer Architecture, FPGAs, Software Engineering",
     ],
   },
   {
@@ -424,7 +423,7 @@ export const education: Education[] = [
     ],
     details: [
       "100% achieved in Computer Science Coursework",
-      "Computer Science Award",
+      "Received Computer Science Award",
     ],
   },
   {
@@ -435,10 +434,6 @@ export const education: Education[] = [
     tags: [
       { label: "GCSE", visible: false },
     ],
-    details: [
-      "Computer Science (9), Music (9), Geography (9)",
-      "Maths (8), Physics (8), Chemistry (8)",
-      "Biology (7), Religious Studies (7), English Literature (7), English Language (7)",
-    ],
+    details: [],
   },
 ];

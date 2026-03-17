@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 
-export const THEMES = ["green", "amber", "blue", "light"] as const;
+export const THEMES = ["green", "pink", "blue", "light"] as const;
 export type Theme = typeof THEMES[number];
 
 const ThemeContext = createContext<{ theme: Theme; setTheme: (t: Theme) => void }>({

@@ -28,11 +28,9 @@ export const EducationPage: React.FC = () => {
           <div className="text-terminal-cyan text-xs md:text-sm mb-1">
             {e.qualification}
           </div>
-          {e.grade && (
-            <div className="text-terminal-amber text-xs md:text-sm mb-2">
-              {e.grade}
-            </div>
-          )}
+          <div className="text-terminal-dim text-xs md:text-sm mb-2 leading-relaxed">
+            {e.details.join(" · ")}
+          </div>
           <BadgeList items={e.tags} />
         </>
       )}
@@ -46,11 +44,11 @@ export const EducationPage: React.FC = () => {
           meta={edu?.grade ? `${edu.period} — ${edu.grade}` : edu?.period}
           sections={edu ? [
             ...(edu.details.length > 0 ? [{
-              heading: "Description",
+              heading: "Details",
               content: <BulletList items={edu.details} />,
             }] : []),
             ...(edu.tags.length > 0 ? [{
-              heading: "Topics",
+              heading: "Tags",
               content: <BadgeList items={edu.tags} />,
             }] : []),
           ] : []}

@@ -53,7 +53,7 @@ export const AboutMePage: React.FC = () => {
       {() => (
         <div className="flex flex-col lg:flex-row gap-6 w-full h-full items-center justify-center">
           <div className="shrink-0 overflow-x-auto max-w-[50%] lg:max-w-none">
-            <pre className="text-terminal-green text-glow text-[0.35rem] sm:text-[0.5rem] lg:text-xs leading-tight whitespace-pre">
+            <pre className="text-terminal-green text-glow text-[0.5rem] sm:text-[0.6rem] lg:text-xs leading-tight whitespace-pre">
               {jamesLines.map((line, i) => (
                 <div
                   key={i}
@@ -65,7 +65,7 @@ export const AboutMePage: React.FC = () => {
                 </div>
               ))}
             </pre>
-            <pre className="text-terminal-cyan text-glow text-[0.35rem] sm:text-[0.5rem] lg:text-xs leading-tight whitespace-pre mt-1">
+            <pre className="text-terminal-cyan text-glow text-[0.5rem] sm:text-[0.6rem] lg:text-xs leading-tight whitespace-pre mt-1">
               {grayLines.map((line, i) => {
                 const globalIndex = jamesLines.length + i;
                 return (

@@ -17,18 +17,18 @@
   --t-selection-bg: #00ff4140;
 }
 
-[data-theme="amber"] {
-  --t-green: #ffb000;
-  --t-dim: #cc8800;
-  --t-cyan: #ffd866;
-  --t-amber: #ff8800;
-  --t-red: #ff3333;
-  --t-bg: #0a0800;
-  --t-bg-light: #111008;
-  --t-border: #ffb00030;
-  --t-glow: #ffb000;
-  --t-scanline: #ffb00003;
-  --t-selection-bg: #ffb00040;
+[data-theme="pink"] {
+  --t-green: #ff66b2;
+  --t-dim: #cc44aa;
+  --t-cyan: #d580ff;
+  --t-amber: #ff44aa;
+  --t-red: #ff3366;
+  --t-bg: #0a0008;
+  --t-bg-light: #110010;
+  --t-border: #ff66b230;
+  --t-glow: #ff66b2;
+  --t-scanline: #ff66b203;
+  --t-selection-bg: #ff66b240;
 }
 
 [data-theme="blue"] {
