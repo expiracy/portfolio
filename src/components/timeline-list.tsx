@@ -92,7 +92,7 @@ export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry,
         return (
           <>
             <motion.div
-              className={`w-full text-xs md:text-sm ${renderItem ? "space-y-2" : "pl-1"}`}
+              className={`w-full text-xs md:text-sm ${renderItem ? "space-y-2" : "pl-3 pt-3"}`}
               ref={containerRef}
               onMouseMove={!renderItem ? handleMouseMove : undefined}
               onMouseLeave={!renderItem ? handleMouseLeave : undefined}

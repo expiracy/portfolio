@@ -51,7 +51,7 @@ export const PageLayout: React.FC = () => {
 
       {/* Main content */}
       <div className="flex-1 overflow-hidden">
-        <div key={PAGES[index].label} className="w-[95%] max-w-5xl mx-auto pt-6 pb-4 h-full flex flex-col">
+        <div key={PAGES[index].label} className="w-[90%] max-w-5xl mx-auto pt-6 pb-4 h-full flex flex-col">
           <ErrorBoundary>
             <div className="w-full flex-1 min-h-0">
               <PageComponent />

@@ -29,7 +29,7 @@ export const ExperiencePage: React.FC = () => {
             {e.company}
           </div>
           <div className="text-terminal-dim text-xs md:text-sm mb-2 leading-relaxed">
-            {e.description}
+            {e.summary.join(" · ")}
           </div>
           <BadgeList items={e.tags} />
         </>
@@ -45,10 +45,10 @@ export const ExperiencePage: React.FC = () => {
           sections={exp ? [
             {
               heading: "Summary",
-              content: <p className="text-terminal-dim text-xs md:text-sm leading-relaxed">{exp.description}</p>,
+              content: <p className="text-terminal-dim text-xs md:text-sm leading-relaxed">{exp.summary.join(" · ")}</p>,
             },
             ...(exp.details.length > 0 ? [{
-              heading: "Description",
+              heading: "Details",
               content: <BulletList items={exp.details} />,
             }] : []),
             ...(exp.tags.length > 0 ? [{
