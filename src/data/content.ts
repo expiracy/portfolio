@@ -83,7 +83,7 @@ export const PROFILE_FIELDS: ProfileField[] = [
   { key: "JOB", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "DEGREE", value: "BEng Computer Systems Engineering (With Industrial Placement)" },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)" },
 ];
 
 export const CONTACT_FIELDS: ProfileField[] = [
