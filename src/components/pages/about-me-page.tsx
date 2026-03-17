@@ -52,7 +52,7 @@ export const AboutMePage: React.FC = () => {
     <TerminalPage command="neofetch" showSearch={false}>
       {() => (
         <div className="flex flex-col lg:flex-row gap-6 w-full h-full items-center justify-center">
-          <div className="shrink-0 overflow-x-auto max-w-[50%] lg:max-w-none">
+          <div className="shrink-0 overflow-x-auto">
             <pre className="text-terminal-green text-glow text-[0.5rem] sm:text-[0.6rem] lg:text-xs leading-tight whitespace-pre">
               {jamesLines.map((line, i) => (
                 <div
@@ -83,7 +83,7 @@ export const AboutMePage: React.FC = () => {
           </div>
 
           <motion.div
-            className="text-xs md:text-sm space-y-1 min-w-0"
+            className="text-[0.65rem] sm:text-xs md:text-sm space-y-1 min-w-0"
             variants={profileVariants}
             initial={reduceMotion ? false : "hidden"}
             animate={done ? "visible" : "hidden"}
@@ -96,7 +96,7 @@ export const AboutMePage: React.FC = () => {
             <motion.div className="border-b border-terminal-border mb-2 w-full" variants={profileItemVariants} />
 
             {PROFILE_FIELDS.map((field, i) => (
-              <motion.div key={i} className="flex flex-wrap gap-1" variants={profileItemVariants}>
+              <motion.div key={i} className="flex gap-1" variants={profileItemVariants}>
                 <span className="text-terminal-amber font-bold">{field.key}:</span>
                 {field.url ? (
                   <Link
