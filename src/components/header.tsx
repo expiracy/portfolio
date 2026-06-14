@@ -3,7 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
-import { useTheme, THEMES } from "@/components/theme-provider";
+import { useTheme } from "@/components/theme-provider";
+import { THEMES } from "@/lib/themes";
+import { ExternalLink } from "@/components/external-link";
+import { cn } from "@/lib/utils";
 
 export const Header: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -30,12 +33,12 @@ export const Header: React.FC = () => {
           <Link href="mailto:jameslaigray@gmail.com" className="hover:text-terminal-green transition-colors" aria-label="Email">
             <FiMail className="w-4 h-4" />
           </Link>
-          <Link href="https://www.linkedin.com/in/jameslaigray/" target="_blank" rel="noopener noreferrer" className="hover:text-terminal-green transition-colors" aria-label="LinkedIn">
+          <ExternalLink href="https://www.linkedin.com/in/jameslaigray/" className="hover:text-terminal-green transition-colors" aria-label="LinkedIn">
             <FiLinkedin className="w-4 h-4" />
-          </Link>
-          <Link href="https://github.com/expiracy" target="_blank" rel="noopener noreferrer" className="hover:text-terminal-green transition-colors" aria-label="GitHub">
+          </ExternalLink>
+          <ExternalLink href="https://github.com/expiracy" className="hover:text-terminal-green transition-colors" aria-label="GitHub">
             <FiGithub className="w-4 h-4" />
-          </Link>
+          </ExternalLink>
 
           <div className="w-px h-4 bg-terminal-border mx-1" />
 
@@ -54,11 +57,12 @@ export const Header: React.FC = () => {
                   <button
                     key={t}
                     onClick={() => { setTheme(t); setOpen(false); }}
-                    className={`block w-full text-left px-3 py-1.5 text-xs font-mono transition-colors ${
+                    className={cn(
+                      "block w-full text-left px-3 py-1.5 text-xs font-mono transition-colors",
                       t === theme
                         ? "text-terminal-green bg-terminal-bg-light"
-                        : "text-terminal-dim hover:text-terminal-green hover:bg-terminal-bg-light"
-                    }`}
+                        : "text-terminal-dim hover:text-terminal-green hover:bg-terminal-bg-light",
+                    )}
                   >
                     {t}
                   </button>

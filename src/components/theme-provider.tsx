@@ -1,28 +1,22 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-
-export const THEMES = ["green", "pink", "blue", "light"] as const;
-export type Theme = typeof THEMES[number];
+import { DEFAULT_THEME, isTheme, type Theme } from "@/lib/themes";
 
 const ThemeContext = createContext<{ theme: Theme; setTheme: (t: Theme) => void }>({
-  theme: "green",
+  theme: DEFAULT_THEME,
   setTheme: () => {},
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("green");
+  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved && THEMES.includes(saved)) {
-      setThemeState(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    } else {
-      document.documentElement.setAttribute("data-theme", "green");
-    }
+    const saved = localStorage.getItem("theme");
+    if (isTheme(saved)) setThemeState(saved);
+    document.documentElement.setAttribute("data-theme", isTheme(saved) ? saved : DEFAULT_THEME);
   }, []);
 
   const setTheme = useCallback((t: Theme) => {

@@ -1,10 +1,11 @@
 "use client"
 
 import React from "react";
-import { FiChevronRight } from "react-icons/fi";
 import { projects, filterProject } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
+import { RowChevron } from "@/components/timeline-entry";
 import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
+import { cn, pluralCount } from "@/lib/utils";
 
 export const ProjectsPage: React.FC = () => {
   const publicCount = projects.filter(p => p.url).length;
@@ -18,7 +19,7 @@ export const ProjectsPage: React.FC = () => {
       renderItem={(p, onClick) => (
         <button
           onClick={onClick}
-          className="relative block w-full text-left pl-7 pr-4 py-3 rounded-sm transition-all hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/60 hover:shadow-[inset_2px_0_0_var(--t-green)] bg-terminal-bg"
+          className="relative block w-full text-left pl-7 pr-4 py-3 rounded-sm transition-all hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/60 hover:shadow-marker bg-terminal-bg"
         >
           <span className="absolute left-2 top-1/2 -translate-y-1/2 text-terminal-green font-bold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150 motion-reduce:transition-none">
             &gt;
@@ -26,13 +27,13 @@ export const ProjectsPage: React.FC = () => {
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
               {p.dir}/
-              <FiChevronRight className="w-4 h-4 text-terminal-dim group-hover:text-terminal-green transition-colors" />
+              <RowChevron />
             </span>
-            <span className={`ml-auto shrink-0 text-[10px] md:text-xs px-1.5 py-0.5 rounded-sm border border-terminal-border ${p.url ? "text-terminal-green" : "text-terminal-red"}`}>
+            <span className={cn("ml-auto shrink-0 t-micro px-1.5 py-0.5 rounded-sm border border-terminal-border", p.url ? "text-terminal-green" : "text-terminal-red")}>
               {p.url ? "public" : "private"}
             </span>
           </div>
-          <div className="text-terminal-dim text-xs md:text-sm mb-2">
+          <div className="text-terminal-dim t-body mb-2">
             {p.description}
           </div>
           <BadgeList items={p.tags} />
@@ -62,11 +63,7 @@ export const ProjectsPage: React.FC = () => {
           ] : []}
         />
       )}
-      renderFooter={(filtered, total) =>
-        filtered === total
-          ? `${total} items, ${publicCount} public`
-          : `${filtered} of ${total} items, ${publicCount} public`
-      }
+      renderFooter={(filtered, total) => `${pluralCount(filtered, total, "items")}, ${publicCount} public`}
     />
   );
 };

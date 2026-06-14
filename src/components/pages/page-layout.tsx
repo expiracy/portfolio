@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { FiUser, FiBookOpen, FiBriefcase, FiFolder, FiMail } from "react-icons/fi";
+import { cn } from "@/lib/utils";
 
 import { ErrorBoundary } from "@/components/error-boundary";
 import { AboutMePage } from "@/components/pages/about-me-page";
@@ -37,11 +38,12 @@ export const PageLayout: React.FC = () => {
           <button
             key={page.label}
             onClick={() => setIndex(i)}
-            className={`flex-1 min-w-0 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-2 text-sm font-mono font-bold transition-colors border-r border-terminal-border ${
+            className={cn(
+              "flex-1 min-w-0 flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-2 text-sm font-mono font-bold transition-colors border-r border-terminal-border",
               i === index
                 ? "text-terminal-green bg-terminal-bg border-b-2 border-b-terminal-green"
-                : "text-terminal-dim hover:text-terminal-green border-b border-b-terminal-border"
-            }`}
+                : "text-terminal-dim hover:text-terminal-green border-b border-b-terminal-border",
+            )}
           >
             <page.icon className="w-4 h-4 shrink-0" />
             <span className="hidden md:inline">{page.label}</span>

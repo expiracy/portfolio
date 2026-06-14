@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio
 
-## Getting Started
+A terminal-themed personal portfolio for James Gray, built with Next.js and
+exported as a static site to GitHub Pages.
 
-First, run the development server:
+The UI is styled as a retro CRT terminal — typewriter commands, a scanline ASCII
+`neofetch`, a `git log` timeline for education and experience, an `ls`-style
+project listing, and a `netstat` contact graph — with four switchable colour
+themes (green, pink, blue, light) persisted to `localStorage`.
+
+## Tech stack
+
+- **Next.js 14** (App Router, `output: "export"` static export)
+- **TypeScript** + **Tailwind CSS** (design tokens as CSS variables in `globals.css`)
+- **framer-motion** for animation, **react-icons** for icons
+- **Bun** for install/build
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run build    # static export to ./out
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project structure
 
-## Learn More
+- `src/app` — root layout, global styles, and the single route
+- `src/components` — UI primitives (terminal shell, timeline, detail modal, contact graph)
+- `src/components/pages` — the five tab pages (about, education, experience, projects, contact)
+- `src/lib` — design tokens, theme constants, the `cn` helper, motion presets, shared hooks
+- `src/data/content.ts` — all portfolio content (profile, experience, projects, education)
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Pushing to `master` triggers [`.github/workflows/nextjs.yml`](.github/workflows/nextjs.yml),
+which builds with Bun and deploys the static export to GitHub Pages.

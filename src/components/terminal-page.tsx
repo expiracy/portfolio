@@ -2,40 +2,30 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
+import { useReducedMotion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { useRevealCount } from "@/lib/use-reveal-count";
 
 function useTypewriter(text: string, speed = 30) {
-  const [length, setLength] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const { count, done } = useRevealCount(text.length, speed);
   const [showCursor, setShowCursor] = useState(true);
-  const prefersReduced = useRef(false);
 
   useEffect(() => {
-    prefersReduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
-
-  useEffect(() => {
-    if (prefersReduced.current) {
-      setLength(text.length);
+    if (reduceMotion) {
       setShowCursor(false);
       return;
     }
+    if (!done) {
+      setShowCursor(true);
+      return;
+    }
+    // Linger for a beat after the command finishes, then drop the cursor.
+    const timeout = setTimeout(() => setShowCursor(false), 1500);
+    return () => clearTimeout(timeout);
+  }, [done, reduceMotion]);
 
-    setLength(0);
-    setShowCursor(true);
-
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setLength(i);
-      if (i >= text.length) {
-        clearInterval(interval);
-        setTimeout(() => setShowCursor(false), 1500);
-      }
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [text, speed]);
-
-  return { displayed: text.slice(0, length), showCursor, done: length >= text.length };
+  return { displayed: text.slice(0, count), showCursor, done };
 }
 
 interface TerminalPageProps {
@@ -76,15 +66,16 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
   return (
     <div className="flex flex-col h-full">
       <div className="shrink-0 flex items-center justify-between gap-2 mb-4">
-        <div className="text-terminal-green text-xs md:text-sm min-w-0 truncate">
+        <div className="text-terminal-green t-body min-w-0 truncate">
           $ <TypewriterCommand command={command} onDone={onCommandDone} />
         </div>
         {showSearch && (
           <div
             onClick={() => inputRef.current?.focus()}
-            className={`flex items-center gap-1.5 border border-terminal-border rounded-sm px-2 py-1 bg-terminal-bg shrink-0 cursor-text transition-all ${
-              expanded ? "w-48 md:w-56" : "w-8 md:w-48"
-            }`}
+            className={cn(
+              "flex items-center gap-1.5 border border-terminal-border rounded-sm px-2 py-1 bg-terminal-bg shrink-0 cursor-text transition-all",
+              expanded ? "w-48 md:w-56" : "w-8 md:w-48",
+            )}
           >
             <FiSearch className="w-3 h-3 text-terminal-dim shrink-0" />
             <input
@@ -96,9 +87,10 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
               onBlur={() => setFocused(false)}
               placeholder="search..."
               aria-label="Filter results"
-              className={`bg-transparent text-terminal-green text-xs md:text-sm outline-none placeholder:text-terminal-dim/50 caret-terminal-green min-w-0 w-full ${
-                expanded ? "opacity-100" : "opacity-0 w-0 md:opacity-100 md:w-full"
-              }`}
+              className={cn(
+                "bg-transparent text-terminal-green t-body outline-none placeholder:text-terminal-dim/50 caret-terminal-green min-w-0 w-full",
+                expanded ? "opacity-100" : "opacity-0 w-0 md:opacity-100 md:w-full",
+              )}
             />
           </div>
         )}
@@ -110,7 +102,7 @@ export const TerminalPage: React.FC<TerminalPageProps> = ({ command, footer, sho
 
       {footerContent && (
         <div className="shrink-0 border-t border-terminal-border mt-2 pt-2">
-          <div className="text-terminal-dim text-xs md:text-sm">
+          <div className="text-terminal-dim t-body">
             {footerContent}
           </div>
         </div>
