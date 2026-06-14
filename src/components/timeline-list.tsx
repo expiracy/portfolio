@@ -3,6 +3,8 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
+import { staggerContainer, fadeIn } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface TimelineListProps<T> {
   command: string;
@@ -15,15 +17,8 @@ interface TimelineListProps<T> {
   renderFooter: (filtered: number, total: number) => React.ReactNode;
 }
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.05 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-};
+const containerVariants = staggerContainer();
+const itemVariants = fadeIn({ y: 8 });
 
 export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry, renderItem, renderModal, renderFooter }: TimelineListProps<T>) {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
@@ -92,7 +87,7 @@ export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry,
         return (
           <>
             <motion.div
-              className={`w-full text-xs md:text-sm ${renderItem ? "space-y-2" : "pl-3 pt-3"}`}
+              className={cn("w-full t-body", renderItem ? "space-y-2" : "pl-3 pt-3")}
               ref={containerRef}
               onMouseMove={!renderItem ? handleMouseMove : undefined}
               onMouseLeave={!renderItem ? handleMouseLeave : undefined}
@@ -123,22 +118,25 @@ export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry,
                     <div className="flex flex-col items-center mr-4 shrink-0 overflow-visible">
                       <div
                         ref={(el) => setDotRef(index, el)}
-                        className={`w-3 h-3 rounded-full bg-terminal-green border-2 mt-1 transition-all duration-200 ${
+                        className={cn(
+                          "w-3 h-3 rounded-full bg-terminal-green border-2 mt-1 transition-all duration-200",
                           isActive
                             ? "border-terminal-green scale-[1.3] shadow-glow"
-                            : "border-terminal-dim group-hover:border-terminal-green"
-                        }`}
+                            : "border-terminal-dim group-hover:border-terminal-green",
+                        )}
                       />
                       {!isLast && (
-                        <div className={`w-0.5 flex-1 transition-colors duration-200 ${
-                          isActive ? "bg-terminal-green" : "bg-terminal-dim"
-                        }`} />
+                        <div className={cn(
+                          "w-0.5 flex-1 transition-colors duration-200",
+                          isActive ? "bg-terminal-green" : "bg-terminal-dim",
+                        )} />
                       )}
                     </div>
 
-                    <div className={`pb-6 flex-1 min-w-0 transition-opacity duration-200 ${
-                      isActive ? "opacity-100" : activeIndex !== null ? "opacity-60" : ""
-                    }`}>
+                    <div className={cn(
+                      "pb-6 flex-1 min-w-0 transition-opacity duration-200",
+                      isActive ? "opacity-100" : activeIndex !== null ? "opacity-60" : "",
+                    )}>
                       {renderEntry(item)}
                     </div>
                   </motion.button>

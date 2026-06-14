@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import Link from "next/link";
+import { ExternalLink } from "@/components/external-link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Tag } from "@/data/content";
 
@@ -76,7 +76,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
             transition={{ duration: 0.15 }}
           >
             <div className="flex items-center justify-between px-4 py-2 border-b border-terminal-border bg-terminal-bg-light sticky top-0 z-10">
-              <span className="text-terminal-dim text-xs md:text-sm">{command}</span>
+              <span className="text-terminal-dim t-body">{command}</span>
               <button
                 ref={closeRef}
                 onClick={onClose}
@@ -90,13 +90,13 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
             <div className="p-4 md:p-6 space-y-4">
               <div>
                 <h2 className="text-terminal-green font-bold text-sm md:text-base">{title}</h2>
-                {subtitle && <div className="text-terminal-cyan text-xs md:text-sm mt-1">{subtitle}</div>}
-                {meta && <div className="text-terminal-amber text-xs md:text-sm mt-1">{meta}</div>}
+                {subtitle && <div className="text-terminal-cyan t-body mt-1">{subtitle}</div>}
+                {meta && <div className="text-terminal-amber t-body mt-1">{meta}</div>}
               </div>
 
               {sections.map((section) => (
                 <div key={section.heading}>
-                  <h3 className="text-terminal-green font-bold text-xs md:text-sm mb-2">{section.heading}</h3>
+                  <h3 className="text-terminal-green font-bold t-body mb-2">{section.heading}</h3>
                   {section.content}
                 </div>
               ))}
@@ -111,7 +111,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
 export function BulletList({ items }: { items: string[] }) {
   if (items.length === 0) return null;
   return (
-    <ul className="space-y-1.5 text-terminal-dim text-xs md:text-sm">
+    <ul className="space-y-1.5 text-terminal-dim t-body">
       {items.map((item, i) => (
         <li key={i} className="flex gap-2">
           <span className="text-terminal-green shrink-0 mt-0.5">-</span>
@@ -130,7 +130,7 @@ export function BadgeList({ items }: { items: Tag[] }) {
       {visible.map((tag, i) => (
         <span
           key={i}
-          className="text-[10px] md:text-xs border border-terminal-border text-terminal-amber px-1.5 py-0.5 rounded-sm"
+          className="t-micro border border-terminal-border text-terminal-amber px-1.5 py-0.5 rounded-sm"
         >
           {tag.label}
         </span>
@@ -141,13 +141,11 @@ export function BadgeList({ items }: { items: Tag[] }) {
 
 export function SourceLink({ url }: { url: string }) {
   return (
-    <Link
+    <ExternalLink
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-terminal-cyan hover:underline text-xs md:text-sm"
+      className="text-terminal-cyan hover:underline t-body"
     >
       {url.replace("https://", "")}
-    </Link>
+    </ExternalLink>
   );
 }

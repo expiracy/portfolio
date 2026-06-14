@@ -73,6 +73,17 @@
   }
 }
 
+/* ── Typography scale ── */
+@layer components {
+  .t-body {
+    @apply text-xs md:text-sm;
+  }
+
+  .t-micro {
+    @apply text-[10px] md:text-xs;
+  }
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

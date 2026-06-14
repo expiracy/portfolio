@@ -25,10 +25,10 @@ export const EducationPage: React.FC = () => {
             </span>
             <FiChevronRight className="w-4 h-4 text-terminal-dim group-hover:text-terminal-green transition-colors shrink-0" />
           </div>
-          <div className="text-terminal-cyan text-xs md:text-sm mb-1">
+          <div className="text-terminal-cyan t-body mb-1">
             {e.qualification}
           </div>
-          <div className="text-terminal-dim text-xs md:text-sm mb-2 leading-relaxed">
+          <div className="text-terminal-dim t-body mb-2 leading-relaxed">
             {e.details.join(" · ")}
           </div>
           <BadgeList items={e.tags} />

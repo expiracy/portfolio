@@ -5,6 +5,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { projects, filterProject } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
 import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
+import { cn } from "@/lib/utils";
 
 export const ProjectsPage: React.FC = () => {
   const publicCount = projects.filter(p => p.url).length;
@@ -28,11 +29,11 @@ export const ProjectsPage: React.FC = () => {
               {p.dir}/
               <FiChevronRight className="w-4 h-4 text-terminal-dim group-hover:text-terminal-green transition-colors" />
             </span>
-            <span className={`ml-auto shrink-0 text-[10px] md:text-xs px-1.5 py-0.5 rounded-sm border border-terminal-border ${p.url ? "text-terminal-green" : "text-terminal-red"}`}>
+            <span className={cn("ml-auto shrink-0 t-micro px-1.5 py-0.5 rounded-sm border border-terminal-border", p.url ? "text-terminal-green" : "text-terminal-red")}>
               {p.url ? "public" : "private"}
             </span>
           </div>
-          <div className="text-terminal-dim text-xs md:text-sm mb-2">
+          <div className="text-terminal-dim t-body mb-2">
             {p.description}
           </div>
           <BadgeList items={p.tags} />

@@ -1,7 +1,9 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import { ExternalLink } from "@/components/external-link";
+import { cn } from "@/lib/utils";
+import { staggerContainer, fadeIn } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";
@@ -31,15 +33,8 @@ function useScanlineReveal(lines: string[], speed = 80) {
   return { revealed, done: revealed >= lines.length };
 }
 
-const profileVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
-};
-
-const profileItemVariants = {
-  hidden: { opacity: 0, x: -8 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.25 } },
-};
+const profileVariants = staggerContainer(0.06);
+const profileItemVariants = fadeIn({ x: -8, duration: 0.25 });
 
 export const AboutMePage: React.FC = () => {
   const jamesLines = ASCII_JAMES.split("\n");
@@ -57,9 +52,11 @@ export const AboutMePage: React.FC = () => {
               {jamesLines.map((line, i) => (
                 <div
                   key={i}
-                  className={`transition-opacity duration-300 ${
-                    i < revealed ? "opacity-100" : "opacity-0"
-                  } ${i === revealed - 1 && !done ? "text-glow-bright" : ""}`}
+                  className={cn(
+                    "transition-opacity duration-300",
+                    i < revealed ? "opacity-100" : "opacity-0",
+                    i === revealed - 1 && !done && "text-glow-bright",
+                  )}
                 >
                   {line}
                 </div>
@@ -71,9 +68,11 @@ export const AboutMePage: React.FC = () => {
                 return (
                   <div
                     key={i}
-                    className={`transition-opacity duration-300 ${
-                      globalIndex < revealed ? "opacity-100" : "opacity-0"
-                    } ${globalIndex === revealed - 1 && !done ? "text-glow-bright" : ""}`}
+                    className={cn(
+                      "transition-opacity duration-300",
+                      globalIndex < revealed ? "opacity-100" : "opacity-0",
+                      globalIndex === revealed - 1 && !done && "text-glow-bright",
+                    )}
                   >
                     {line}
                   </div>
@@ -99,14 +98,12 @@ export const AboutMePage: React.FC = () => {
               <motion.div key={i} className="flex gap-1" variants={profileItemVariants}>
                 <span className="text-terminal-amber font-bold">{field.key}:</span>
                 {field.url ? (
-                  <Link
+                  <ExternalLink
                     href={field.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-terminal-cyan hover:underline"
                   >
                     {field.value}
-                  </Link>
+                  </ExternalLink>
                 ) : (
                   <span className="text-terminal-dim">{field.value}</span>
                 )}
