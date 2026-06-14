@@ -125,7 +125,7 @@ export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry,
                         ref={(el) => setDotRef(index, el)}
                         className={`w-3 h-3 rounded-full bg-terminal-green border-2 mt-1 transition-all duration-200 ${
                           isActive
-                            ? "border-terminal-green scale-[1.3] shadow-[0_0_8px_var(--t-glow)]"
+                            ? "border-terminal-green scale-[1.3] shadow-glow"
                             : "border-terminal-dim group-hover:border-terminal-green"
                         }`}
                       />

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+import { terminalColors } from "./src/lib/tokens"
 
 const config = {
   darkMode: ["class"],
@@ -11,16 +12,11 @@ const config = {
         mono: ['Fira Code', 'Courier New', 'monospace'],
       },
       colors: {
-        terminal: {
-          green: 'var(--t-green)',
-          dim: 'var(--t-dim)',
-          cyan: 'var(--t-cyan)',
-          amber: 'var(--t-amber)',
-          red: 'var(--t-red)',
-          bg: 'var(--t-bg)',
-          'bg-light': 'var(--t-bg-light)',
-          border: 'var(--t-border)',
-        },
+        terminal: terminalColors,
+      },
+      boxShadow: {
+        glow: '0 0 8px var(--t-glow)',
+        marker: 'inset 2px 0 0 var(--t-green)',
       },
       keyframes: {
         blink: {

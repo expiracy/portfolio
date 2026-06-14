@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { FiMail, FiGithub, FiLinkedin, FiMessageCircle, FiGlobe } from "react-icons/fi";
 import { CONTACT_FIELDS, ProfileField, filterContact } from "@/data/content";
 import { TerminalPage } from "@/components/terminal-page";
+import { terminalColors as T } from "@/lib/tokens";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
   EMAIL: FiMail,
@@ -110,7 +111,7 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
                   y1={cy}
                   x2={pos.x}
                   y2={pos.y}
-                  stroke="var(--t-green)"
+                  stroke={T.green}
                   strokeDasharray={dashArray}
                   animate={
                     reduceMotion
@@ -137,7 +138,7 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
                 {!reduceMotion && (
                   <motion.circle
                     r={active ? packetR * 1.6 : packetR}
-                    fill="var(--t-green)"
+                    fill={T.green}
                     animate={{
                       cx: [cx, pos.x],
                       cy: [cy, pos.y],
@@ -167,8 +168,8 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
               cx={cx}
               cy={cy}
               r={hubR}
-              fill="var(--t-bg)"
-              stroke="var(--t-green)"
+              fill={T.bg}
+              stroke={T.green}
               strokeWidth={strokeBase * 2}
             />
             <foreignObject
@@ -188,9 +189,9 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
               textAnchor="middle"
               fontSize={labelSize}
               fontFamily="'Fira Code', 'Courier New', monospace"
-              fill="var(--t-green)"
+              fill={T.green}
               fontWeight="bold"
-              stroke="var(--t-bg)"
+              stroke={T.bg}
               strokeWidth={labelSize * 0.35}
               paintOrder="stroke"
             >
@@ -213,7 +214,7 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
                   cy={pos.y}
                   r={nodeR * 1.15}
                   fill="none"
-                  stroke="var(--t-green)"
+                  stroke={T.green}
                   strokeWidth={strokeBase * 0.7}
                   opacity={active ? 0.4 : 0}
                   style={{ transition: "opacity 0.2s" }}
@@ -224,8 +225,8 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
                   cx={pos.x}
                   cy={pos.y}
                   r={nodeR}
-                  fill="var(--t-bg)"
-                  stroke={active ? "var(--t-green)" : "var(--t-border)"}
+                  fill={T.bg}
+                  stroke={active ? T.green : T.border}
                   strokeWidth={active ? strokeBase * 2 : strokeBase}
                   style={{ transition: "stroke 0.2s, stroke-width 0.2s" }}
                 />
@@ -256,8 +257,8 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
                   fontSize={valueSize}
                   fontFamily="'Fira Code', 'Courier New', monospace"
                   fontWeight="bold"
-                  fill={active ? "var(--t-green)" : "var(--t-dim)"}
-                  stroke="var(--t-bg)"
+                  fill={active ? T.green : T.dim}
+                  stroke={T.bg}
                   strokeWidth={valueSize * 0.35}
                   paintOrder="stroke"
                   style={{ transition: "fill 0.2s" }}
