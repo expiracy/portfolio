@@ -1,36 +1,17 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { ExternalLink } from "@/components/external-link";
 import { cn } from "@/lib/utils";
 import { staggerContainer, fadeIn } from "@/lib/motion";
+import { useRevealCount } from "@/lib/use-reveal-count";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";
 
 function useScanlineReveal(lines: string[], speed = 80) {
-  const [revealed, setRevealed] = useState(0);
-  const prefersReduced = useRef(false);
-
-  useEffect(() => {
-    prefersReduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced.current) {
-      setRevealed(lines.length);
-      return;
-    }
-
-    setRevealed(0);
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setRevealed(i);
-      if (i >= lines.length) clearInterval(interval);
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [lines.length, speed]);
-
-  return { revealed, done: revealed >= lines.length };
+  const { count, done } = useRevealCount(lines.length, speed);
+  return { revealed: count, done };
 }
 
 const profileVariants = staggerContainer(0.06);

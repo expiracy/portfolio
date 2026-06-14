@@ -2,41 +2,30 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useRevealCount } from "@/lib/use-reveal-count";
 
 function useTypewriter(text: string, speed = 30) {
-  const [length, setLength] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const { count, done } = useRevealCount(text.length, speed);
   const [showCursor, setShowCursor] = useState(true);
-  const prefersReduced = useRef(false);
 
   useEffect(() => {
-    prefersReduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
-
-  useEffect(() => {
-    if (prefersReduced.current) {
-      setLength(text.length);
+    if (reduceMotion) {
       setShowCursor(false);
       return;
     }
+    if (!done) {
+      setShowCursor(true);
+      return;
+    }
+    // Linger for a beat after the command finishes, then drop the cursor.
+    const timeout = setTimeout(() => setShowCursor(false), 1500);
+    return () => clearTimeout(timeout);
+  }, [done, reduceMotion]);
 
-    setLength(0);
-    setShowCursor(true);
-
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setLength(i);
-      if (i >= text.length) {
-        clearInterval(interval);
-        setTimeout(() => setShowCursor(false), 1500);
-      }
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [text, speed]);
-
-  return { displayed: text.slice(0, length), showCursor, done: length >= text.length };
+  return { displayed: text.slice(0, count), showCursor, done };
 }
 
 interface TerminalPageProps {
