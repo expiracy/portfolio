@@ -79,6 +79,8 @@ function ContactGraph({ fields }: { fields: ProfileField[] }) {
     navigator.clipboard.writeText(value).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // Clipboard unavailable (insecure context or permission denied) — skip feedback.
     });
   }, []);
 

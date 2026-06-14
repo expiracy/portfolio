@@ -26,6 +26,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
 
   useEffect(() => {
     if (!open) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     document.body.style.overflow = "hidden";
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -50,6 +51,8 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
     return () => {
       document.body.style.overflow = "";
       document.removeEventListener("keydown", handleKeyDown);
+      // Return focus to whatever opened the modal (WAI-ARIA dialog pattern).
+      previouslyFocused?.focus();
     };
   }, [open, onClose]);
 
