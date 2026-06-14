@@ -8,3 +8,8 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+/** Footer counter: "3 entries" when unfiltered, "2 of 3 entries" when filtered. */
+export function pluralCount(filtered: number, total: number, noun: string) {
+  return filtered === total ? `${total} ${noun}` : `${filtered} of ${total} ${noun}`;
+}

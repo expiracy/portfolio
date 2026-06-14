@@ -1,11 +1,11 @@
 "use client"
 
 import React from "react";
-import { FiChevronRight } from "react-icons/fi";
 import { projects, filterProject } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
+import { RowChevron } from "@/components/timeline-entry";
 import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
-import { cn } from "@/lib/utils";
+import { cn, pluralCount } from "@/lib/utils";
 
 export const ProjectsPage: React.FC = () => {
   const publicCount = projects.filter(p => p.url).length;
@@ -27,7 +27,7 @@ export const ProjectsPage: React.FC = () => {
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
               {p.dir}/
-              <FiChevronRight className="w-4 h-4 text-terminal-dim group-hover:text-terminal-green transition-colors" />
+              <RowChevron />
             </span>
             <span className={cn("ml-auto shrink-0 t-micro px-1.5 py-0.5 rounded-sm border border-terminal-border", p.url ? "text-terminal-green" : "text-terminal-red")}>
               {p.url ? "public" : "private"}
@@ -63,11 +63,7 @@ export const ProjectsPage: React.FC = () => {
           ] : []}
         />
       )}
-      renderFooter={(filtered, total) =>
-        filtered === total
-          ? `${total} items, ${publicCount} public`
-          : `${filtered} of ${total} items, ${publicCount} public`
-      }
+      renderFooter={(filtered, total) => `${pluralCount(filtered, total, "items")}, ${publicCount} public`}
     />
   );
 };
