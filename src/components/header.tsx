@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
-import { useTheme, THEMES } from "@/components/theme-provider";
+import { useTheme } from "@/components/theme-provider";
+import { THEMES } from "@/lib/themes";
 import { ExternalLink } from "@/components/external-link";
 import { cn } from "@/lib/utils";
 

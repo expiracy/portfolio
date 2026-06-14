@@ -5,6 +5,7 @@ import { ExternalLink } from "@/components/external-link";
 import { cn } from "@/lib/utils";
 import { staggerContainer, fadeIn } from "@/lib/motion";
 import { useRevealCount } from "@/lib/use-reveal-count";
+import { terminalColors as T } from "@/lib/tokens";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";
@@ -16,6 +17,9 @@ function useScanlineReveal(lines: string[], speed = 80) {
 
 const profileVariants = staggerContainer(0.06);
 const profileItemVariants = fadeIn({ x: -8, duration: 0.25 });
+
+// Neofetch-style palette strip, derived from the terminal tokens.
+const SWATCH_TOKENS = ["red", "green", "amber", "cyan", "dim", "border", "bg-light", "bg"] as const;
 
 export const AboutMePage: React.FC = () => {
   const jamesLines = ASCII_JAMES.split("\n");
@@ -97,8 +101,12 @@ export const AboutMePage: React.FC = () => {
             </motion.div>
 
             <motion.div className="flex gap-0.5 mt-3" aria-hidden="true" variants={profileItemVariants}>
-              {["bg-terminal-red", "bg-terminal-green", "bg-terminal-amber", "bg-terminal-cyan", "bg-terminal-dim", "bg-terminal-border", "bg-terminal-bg-light", "bg-terminal-bg"].map((color, i) => (
-                <div key={i} className={`w-4 h-4 md:w-5 md:h-5 ${color}`}></div>
+              {SWATCH_TOKENS.map((token) => (
+                <div
+                  key={token}
+                  className="w-4 h-4 md:w-5 md:h-5"
+                  style={{ backgroundColor: T[token] }}
+                />
               ))}
             </motion.div>
           </motion.div>
