@@ -1,0 +1,7 @@
+# The driver's own deps + downloaded browsers are setup-time, never committed.
+node_modules/
+bun.lock
+bun.lockb
+package-lock.json
+# Screenshots the driver writes default to /tmp, but ignore any that land here.
+*.png

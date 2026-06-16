@@ -1,0 +1,13 @@
+{
+  "name": "run-portfolio-driver",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-contained Playwright smoke driver for the portfolio. Kept out of the app's package.json on purpose.",
+  "scripts": {
+    "smoke": "node driver.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.61.0"
+  }
+}
