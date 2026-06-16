@@ -14,8 +14,9 @@ export const EducationPage: React.FC = () => {
       items={education}
       getKey={(e) => e.hash}
       filterFn={filterEducation}
-      renderEntry={(e) => (
+      renderEntry={(e, index) => (
         <TimelineEntry
+          index={index}
           hash={e.hash}
           period={e.period}
           title={e.institution}

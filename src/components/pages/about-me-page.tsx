@@ -10,13 +10,13 @@ import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";
 
-function useScanlineReveal(lines: string[], speed = 80) {
+function useScanlineReveal(lines: string[], speed = 90) {
   const { count, done } = useRevealCount(lines.length, speed);
   return { revealed: count, done };
 }
 
 const profileVariants = staggerContainer(0.06);
-const profileItemVariants = fadeIn({ x: -8, duration: 0.25 });
+const profileItemVariants = fadeIn({ x: -8 });
 
 // Neofetch-style palette strip, derived from the terminal tokens.
 const SWATCH_TOKENS = ["red", "green", "amber", "cyan", "dim", "border", "bg-light", "bg"] as const;

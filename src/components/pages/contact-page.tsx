@@ -1,341 +1,260 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { FiMail, FiGithub, FiLinkedin, FiMessageCircle, FiGlobe } from "react-icons/fi";
-import { CONTACT_FIELDS, ProfileField, filterContact } from "@/data/content";
+import { FiMail, FiGithub, FiLinkedin, FiCopy, FiCheck, FiExternalLink, FiSend } from "react-icons/fi";
+import { CONTACT_FIELDS, ProfileField } from "@/data/content";
 import { TerminalPage } from "@/components/terminal-page";
-import { terminalColors as T } from "@/lib/tokens";
+import { ExternalLink } from "@/components/external-link";
+import { staggerContainer, fadeIn } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   EMAIL: FiMail,
   LINKEDIN: FiLinkedin,
   GITHUB: FiGithub,
 };
 
-const FALLBACK_ICON = FiGlobe;
+const EMAIL = CONTACT_FIELDS.find((f) => f.key === "EMAIL")?.value ?? "";
+const DEFAULT_SUBJECT = "Hello from your portfolio";
 
-function useContainerSize(ref: React.RefObject<HTMLDivElement | null>) {
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new ResizeObserver(([entry]) => {
-      setSize({
-        width: entry.contentRect.width,
-        height: entry.contentRect.height,
-      });
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [ref]);
-  return size;
-}
+const colVariants = staggerContainer();
+// Opacity-only fade: a vertical translate would briefly push the full-height
+// grid past the scroll area on mount, flashing a scrollbar before it settles.
+const itemVariants = fadeIn();
 
-function useGraphLayout(width: number, height: number) {
-  return useMemo(() => {
-    const minDim = Math.min(width, height);
-    const cx = width / 2;
-    const cy = height / 2;
-    const radius = minDim * 0.3;
-    const nodeR = minDim * 0.065;
-    const hubR = minDim * 0.085;
-    const labelSize = Math.min(16, Math.max(14, minDim * 0.035));
-    const valueSize = Math.min(14, Math.max(12, minDim * 0.03));
-    const hubLabelSize = Math.min(16, Math.max(14, minDim * 0.035));
-    const iconSize = nodeR * 0.75;
-    const hubIconSize = hubR * 0.7;
-    const strokeBase = Math.max(0.5, minDim * 0.002);
-    const dashArray = `${minDim * 0.01} ${minDim * 0.0075}`;
-    const packetR = minDim * 0.005;
-
-    return {
-      cx, cy, radius, nodeR, hubR,
-      labelSize, valueSize, hubLabelSize,
-      iconSize, hubIconSize,
-      strokeBase, dashArray, packetR,
-    };
-  }, [width, height]);
-}
-
-function getNodePositions(count: number, cx: number, cy: number, radius: number) {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = (i * 2 * Math.PI) / count - Math.PI / 2;
-    return {
-      x: cx + radius * Math.cos(angle),
-      y: cy + radius * Math.sin(angle),
-    };
-  });
-}
-
-function ContactGraph({ fields }: { fields: ProfileField[] }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { width, height } = useContainerSize(containerRef);
-  const [hovered, setHovered] = useState<number | null>(null);
+function useCopy(value: string) {
   const [copied, setCopied] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const copy = useCallback(() => {
+    navigator.clipboard
+      ?.writeText(value)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(() => {
+        /* clipboard unavailable — no-op */
+      });
+  }, [value]);
+  return { copied, copy };
+}
 
-  const handleCopyEmail = useCallback((value: string) => {
-    navigator.clipboard.writeText(value).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }).catch(() => {
-      // Clipboard unavailable (insecure context or permission denied) — skip feedback.
-    });
+/** Live "available for work" status with the owner's local time. */
+function StatusLine() {
+  const reduce = useReducedMotion();
+  const [time, setTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fmt = () =>
+      new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/London",
+        timeZoneName: "short",
+      }).format(new Date());
+    setTime(fmt());
+    const id = setInterval(() => setTime(fmt()), 20_000);
+    return () => clearInterval(id);
   }, []);
 
-  const layout = useGraphLayout(width, height);
-  const {
-    cx, cy, radius, nodeR, hubR,
-    labelSize, valueSize, hubLabelSize,
-    iconSize, hubIconSize,
-    strokeBase, dashArray, packetR,
-  } = layout;
-
-  const positions = getNodePositions(fields.length, cx, cy, radius);
-  const ready = width > 0 && height > 0;
-
   return (
-    <div ref={containerRef} className="w-full h-full min-h-[250px]">
-      {ready && (
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-full"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          {/* Connection lines */}
-          {positions.map((pos, i) => {
-            const active = hovered === i;
-            return (
-              <g key={`line-${i}`}>
-                <motion.line
-                  x1={cx}
-                  y1={cy}
-                  x2={pos.x}
-                  y2={pos.y}
-                  stroke={T.green}
-                  strokeDasharray={dashArray}
-                  animate={
-                    reduceMotion
-                      ? {
-                          strokeWidth: active ? strokeBase * 2 : strokeBase,
-                          strokeOpacity: active ? 0.6 : 0.2,
-                        }
-                      : {
-                          strokeDashoffset: [0, -(width * 0.035)],
-                          strokeWidth: active ? strokeBase * 2 : strokeBase,
-                          strokeOpacity: active ? 0.6 : 0.2,
-                        }
-                  }
-                  transition={{
-                    strokeDashoffset: {
-                      duration: active ? 0.5 : 1.5,
-                      repeat: Infinity,
-                      ease: "linear",
-                    },
-                    strokeWidth: { duration: 0.2 },
-                    strokeOpacity: { duration: 0.2 },
-                  }}
-                />
-                {!reduceMotion && (
-                  <motion.circle
-                    r={active ? packetR * 1.6 : packetR}
-                    fill={T.green}
-                    animate={{
-                      cx: [cx, pos.x],
-                      cy: [cy, pos.y],
-                      opacity: [0, 0.8, 0.8, 0],
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      delay: i * 0.8 + 1,
-                      repeat: Infinity,
-                      repeatDelay: active ? 0.2 : 2.5,
-                      ease: "linear",
-                    }}
-                  />
-                )}
-              </g>
-            );
-          })}
-
-          {/* Central hub */}
-          <motion.g
-            initial={reduceMotion ? false : { opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 180, damping: 14 }}
-            style={{ transformOrigin: `${cx}px ${cy}px` }}
-          >
-            <circle
-              cx={cx}
-              cy={cy}
-              r={hubR}
-              fill={T.bg}
-              stroke={T.green}
-              strokeWidth={strokeBase * 2}
-            />
-            <foreignObject
-              x={cx - hubIconSize / 2}
-              y={cy - hubIconSize / 2}
-              width={hubIconSize}
-              height={hubIconSize}
-            >
-              <FiMessageCircle
-                className="text-terminal-green"
-                style={{ width: "100%", height: "100%", margin: "0 auto" }}
-              />
-            </foreignObject>
-            <text
-              x={cx}
-              y={cy + hubR + labelSize * 2}
-              textAnchor="middle"
-              fontSize={labelSize}
-              fontFamily="'Fira Code', 'Courier New', monospace"
-              fill={T.green}
-              fontWeight="bold"
-              stroke={T.bg}
-              strokeWidth={labelSize * 0.35}
-              paintOrder="stroke"
-            >
-              CONTACT ME
-            </text>
-          </motion.g>
-
-          {/* Satellite nodes */}
-          {positions.map((pos, i) => {
-            const field = fields[i];
-            const isEmail = field.key === "EMAIL";
-            const Icon = ICON_MAP[field.key] || FALLBACK_ICON;
-            const active = hovered === i;
-
-            const nodeContent = (
-              <>
-                {/* Hover glow ring */}
-                <circle
-                  cx={pos.x}
-                  cy={pos.y}
-                  r={nodeR * 1.15}
-                  fill="none"
-                  stroke={T.green}
-                  strokeWidth={strokeBase * 0.7}
-                  opacity={active ? 0.4 : 0}
-                  style={{ transition: "opacity 0.2s" }}
-                />
-
-                {/* Node circle */}
-                <circle
-                  cx={pos.x}
-                  cy={pos.y}
-                  r={nodeR}
-                  fill={T.bg}
-                  stroke={active ? T.green : T.border}
-                  strokeWidth={active ? strokeBase * 2 : strokeBase}
-                  style={{ transition: "stroke 0.2s, stroke-width 0.2s" }}
-                />
-
-                {/* Icon */}
-                <foreignObject
-                  x={pos.x - iconSize / 2}
-                  y={pos.y - iconSize / 2}
-                  width={iconSize}
-                  height={iconSize}
-                >
-                  <Icon
-                    className={active ? "text-terminal-green" : "text-terminal-dim"}
-                    style={{
-                      width: iconSize * 0.875,
-                      height: iconSize * 0.875,
-                      margin: "0 auto",
-                      transition: "color 0.2s",
-                    }}
-                  />
-                </foreignObject>
-
-                {/* Value */}
-                <text
-                  x={pos.x}
-                  y={pos.y + nodeR + valueSize * 2}
-                  textAnchor="middle"
-                  fontSize={valueSize}
-                  fontFamily="'Fira Code', 'Courier New', monospace"
-                  fontWeight="bold"
-                  fill={active ? T.green : T.dim}
-                  stroke={T.bg}
-                  strokeWidth={valueSize * 0.35}
-                  paintOrder="stroke"
-                  style={{ transition: "fill 0.2s" }}
-                >
-                  {isEmail && copied ? "COPIED!" : field.value}
-                </text>
-              </>
-            );
-
-            return (
-              <motion.g
-                key={field.key}
-                initial={reduceMotion ? false : { opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  delay: i * 0.15 + 0.2,
-                  type: "spring",
-                  stiffness: 180,
-                  damping: 14,
-                }}
-                style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                onTouchStart={() => setHovered(i)}
-                onTouchEnd={() => setHovered(null)}
-                className="cursor-pointer"
-              >
-                {isEmail ? (
-                  <g
-                    onClick={() => handleCopyEmail(field.value)}
-                    role="button"
-                    aria-label={`Copy email: ${field.value}`}
-                  >
-                    {nodeContent}
-                  </g>
-                ) : (
-                  <a
-                    href={field.url || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${field.key}: ${field.value}`}
-                  >
-                    {nodeContent}
-                  </a>
-                )}
-              </motion.g>
-            );
-          })}
-        </svg>
-      )}
+    <div className="flex items-center gap-2 t-body">
+      <span className="relative flex h-2.5 w-2.5 shrink-0">
+        {!reduce && (
+          <span className="absolute inline-flex h-full w-full rounded-full bg-terminal-green opacity-60 animate-ping" />
+        )}
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-terminal-green" />
+      </span>
+      <span className="text-terminal-green font-bold">available for work</span>
+      <span className="text-terminal-dim">· {time ?? "--:--"} local</span>
     </div>
   );
 }
 
+function ConnectionRow({ field }: { field: ProfileField }) {
+  const Icon = ICON_MAP[field.key] ?? FiMail;
+  const isEmail = field.key === "EMAIL";
+  const { copied, copy } = useCopy(isEmail ? field.value : field.url ?? field.value);
+
+  return (
+    <div className="group flex items-center gap-3 px-3 py-2 border border-terminal-border rounded-sm bg-terminal-bg transition-colors hover:border-terminal-green/50">
+      <Icon className="w-4 h-4 shrink-0 text-terminal-dim transition-colors group-hover:text-terminal-green" />
+      <div className="min-w-0 flex-1">
+        <div className="t-body text-terminal-green truncate">{field.value}</div>
+      </div>
+      <div className="flex items-center gap-0.5 shrink-0">
+        <button
+          type="button"
+          onClick={copy}
+          aria-label={`Copy ${field.key.toLowerCase()}`}
+          className="p-1.5 text-terminal-dim transition-colors hover:text-terminal-green"
+        >
+          {copied ? (
+            <FiCheck className="w-3.5 h-3.5 text-terminal-green" />
+          ) : (
+            <FiCopy className="w-3.5 h-3.5" />
+          )}
+        </button>
+        {field.url &&
+          (isEmail ? (
+            <a
+              href={field.url}
+              aria-label="Email James"
+              className="p-1.5 text-terminal-dim transition-colors hover:text-terminal-green"
+            >
+              <FiExternalLink className="w-3.5 h-3.5" />
+            </a>
+          ) : (
+            <ExternalLink
+              href={field.url}
+              aria-label={`Open ${field.key.toLowerCase()}`}
+              className="p-1.5 text-terminal-dim transition-colors hover:text-terminal-green"
+            >
+              <FiExternalLink className="w-3.5 h-3.5" />
+            </ExternalLink>
+          ))}
+      </div>
+    </div>
+  );
+}
+
+function Composer() {
+  const reduce = useReducedMotion();
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [sent, setSent] = useState(false);
+  const { copied, copy } = useCopy(EMAIL);
+
+  // ── Single integration point ──
+  // Static export has no backend, so we hand off to the visitor's mail client.
+  // To deliver straight to an inbox instead, replace this body with a
+  // `fetch("https://formspree.io/f/<id>", { method: "POST", … })`.
+  const deliver = useCallback((subj: string, body: string) => {
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  }, []);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+    const subj = subject.trim() || DEFAULT_SUBJECT;
+    setSent(true);
+    deliver(subj, message);
+  };
+
+  const canSend = message.trim().length > 0;
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col overflow-hidden rounded-sm border border-terminal-border bg-terminal-bg-light/40 lg:flex-1 lg:min-h-0"
+    >
+      <div className="flex items-center gap-2 border-b border-terminal-border bg-terminal-bg-light/60 px-3 py-2 t-micro text-terminal-dim">
+        <FiSend className="w-3 h-3" /> compose — mail james
+      </div>
+
+      <div className="flex flex-col gap-3 p-3 lg:flex-1 lg:min-h-0">
+        <div className="flex items-center gap-2 t-body">
+          <span className="font-bold text-terminal-amber">To:</span>
+          <span className="truncate text-terminal-green">{EMAIL}</span>
+          <FiCheck className="w-3.5 h-3.5 shrink-0 text-terminal-green" />
+        </div>
+
+        <label className="flex flex-col gap-1">
+          <span className="t-micro font-bold text-terminal-amber">Subject:</span>
+          <input
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder={DEFAULT_SUBJECT}
+            className="rounded-sm border border-terminal-border bg-terminal-bg px-2 py-1.5 t-body text-terminal-green caret-terminal-green outline-none transition-colors placeholder:text-terminal-dim/40 focus:border-terminal-green/60"
+          />
+        </label>
+
+        <label className="flex flex-col gap-1 lg:flex-1 lg:min-h-0">
+          <span className="t-micro font-bold text-terminal-amber">Message:</span>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="type your message…"
+            className="min-h-[140px] resize-none rounded-sm border border-terminal-border bg-terminal-bg px-2 py-1.5 t-body text-terminal-green caret-terminal-green outline-none transition-colors placeholder:text-terminal-dim/40 focus:border-terminal-green/60 lg:flex-1"
+          />
+        </label>
+
+        {sent && (
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="t-micro space-y-0.5 border-l-2 border-terminal-green/50 pl-2"
+          >
+            <div className="text-terminal-dim break-all">
+              $ mail -s &quot;{subject.trim() || DEFAULT_SUBJECT}&quot; james
+            </div>
+            <div className="text-terminal-green">✓ message composed — opening your mail client…</div>
+          </motion.div>
+        )}
+
+        <div className="flex items-center justify-between gap-2 pt-1">
+          <button
+            type="button"
+            onClick={copy}
+            className="t-micro text-terminal-dim transition-colors hover:text-terminal-green"
+          >
+            {copied ? "copied!" : "or copy address"}
+          </button>
+          <button
+            type="submit"
+            disabled={!canSend}
+            className={cn(
+              "flex items-center gap-2 rounded-sm border px-4 py-1.5 t-body font-bold transition-colors",
+              canSend
+                ? "border-terminal-green text-terminal-green hover:bg-terminal-green/10"
+                : "cursor-not-allowed border-terminal-border text-terminal-dim",
+            )}
+          >
+            <FiSend className="w-3.5 h-3.5" /> send
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+}
+
 export const ContactPage: React.FC = () => {
+  const reduce = useReducedMotion();
+
   return (
     <TerminalPage
-      command="netstat ~/contacts"
-      footer={(search) => {
-        const q = search.toLowerCase();
-        const filtered = CONTACT_FIELDS.filter(
-          (f) => !q || filterContact(f, q),
-        );
-        return filtered.length === CONTACT_FIELDS.length
-          ? `${CONTACT_FIELDS.length} nodes · all connections active`
-          : `${filtered.length} of ${CONTACT_FIELDS.length} nodes`;
-      }}
+      command="./contact.sh"
+      showSearch={false}
+      footer="I read every message"
     >
-      {(search) => {
-        const q = search.toLowerCase();
-        const filtered = CONTACT_FIELDS.filter(
-          (f) => !q || filterContact(f, q),
-        );
-        return <ContactGraph fields={filtered} />;
-      }}
+      {() => (
+        <motion.div
+          className="grid gap-4 lg:h-full lg:grid-cols-2 lg:gap-6"
+          variants={colVariants}
+          initial={reduce ? false : "hidden"}
+          animate="visible"
+        >
+          {/* Left — identity, status & connections */}
+          <motion.div className="flex flex-col gap-4 lg:min-h-0" variants={itemVariants}>
+            <p className="t-body text-terminal-dim leading-relaxed">
+              Let&apos;s build something. Reach me on any channel — or send a message right here.
+            </p>
+
+            <StatusLine />
+
+            <div className="flex flex-col gap-2">
+              {CONTACT_FIELDS.map((field) => (
+                <ConnectionRow key={field.key} field={field} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right — message composer */}
+          <motion.div className="flex flex-col lg:min-h-0" variants={itemVariants}>
+            <Composer />
+          </motion.div>
+        </motion.div>
+      )}
     </TerminalPage>
   );
 };
