@@ -6,7 +6,7 @@ import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useRevealCount } from "@/lib/use-reveal-count";
 
-function useTypewriter(text: string, speed = 30) {
+function useTypewriter(text: string, speed = 48) {
   const reduceMotion = useReducedMotion();
   const { count, done } = useRevealCount(text.length, speed);
   const [showCursor, setShowCursor] = useState(true);

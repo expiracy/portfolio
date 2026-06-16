@@ -14,8 +14,9 @@ export const ExperiencePage: React.FC = () => {
       items={experiences}
       getKey={(e) => e.hash}
       filterFn={filterExperience}
-      renderEntry={(e) => (
+      renderEntry={(e, index) => (
         <TimelineEntry
+          index={index}
           hash={e.hash}
           period={e.period}
           title={e.role}

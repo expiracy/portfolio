@@ -31,7 +31,7 @@ export const PageLayout: React.FC = () => {
   const PageComponent = PAGES[index].component;
 
   return (
-    <div className="flex flex-col h-dvh overflow-hidden pt-[41px]">
+    <div className="flex flex-col h-dvh overflow-hidden pt-[38px]">
       {/* Terminal tabs */}
       <div className="shrink-0 bg-terminal-bg-light flex">
         {PAGES.map((page, i) => (
