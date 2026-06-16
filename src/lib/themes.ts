@@ -1,7 +1,7 @@
 // Plain (non-"use client") module so the theme list is real on both the server
 // (layout's pre-hydration script) and the client (provider + header menu).
 
-export const THEMES = ["green", "pink", "blue", "light"] as const;
+export const THEMES = ["green", "pink", "blue", "light", "synthwave", "cyberpunk", "vaporwave"] as const;
 export type Theme = (typeof THEMES)[number];
 export const DEFAULT_THEME: Theme = THEMES[0];
 

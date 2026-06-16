@@ -3,7 +3,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
-import { staggerContainer, fadeIn, REVEAL_STAGGER, TIMELINE_CADENCE } from "@/lib/motion";
+import { staggerContainer, fadeIn, TIMELINE_CADENCE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface TimelineListProps<T> {
@@ -12,18 +12,16 @@ interface TimelineListProps<T> {
   getKey: (item: T) => string;
   filterFn: (item: T, query: string) => boolean;
   renderEntry: (item: T, index: number) => React.ReactNode;
-  renderItem?: (item: T, onClick: () => void) => React.ReactNode;
+  renderItem?: (item: T, onClick: () => void, index: number) => React.ReactNode;
   renderModal: (item: T | null, onClose: () => void) => React.ReactNode;
   renderFooter: (filtered: number, total: number) => React.ReactNode;
 }
 
-// Timeline rows fire on the cadence beat; the denser project-card list keeps a
-// tighter fade-stagger (it has no branch line to draw).
+// Timeline rows fire on the cadence beat (the git-log branch line draws between
+// them). Project cards instead fade up on a per-row CSS delay while their names
+// decode (see MatrixText) — a "matrix rain" reveal that needs no framer stagger.
 const timelineContainer = staggerContainer(TIMELINE_CADENCE);
-const cardContainer = staggerContainer(REVEAL_STAGGER / 2);
-
-// Projects (card list) keep their rise-fade (duration inherited from REVEAL_DURATION).
-const itemVariants = fadeIn({ y: 8 });
+const CARD_STEP_MS = 70; // delay between successive project rows revealing
 
 // Git-log timeline — the graph draws itself as one continuous line. The row's
 // elements all fire on the same beat (the container stagger spaces beats by
@@ -126,18 +124,22 @@ export function TimelineList<T>({ command, items, getKey, filterFn, renderEntry,
               ref={containerRef}
               onMouseMove={!renderItem ? handleMouseMove : undefined}
               onMouseLeave={!renderItem ? handleMouseLeave : undefined}
-              variants={renderItem ? cardContainer : timelineContainer}
-              initial={reduceMotion ? false : "hidden"}
-              animate="visible"
+              variants={renderItem ? undefined : timelineContainer}
+              initial={renderItem ? undefined : reduceMotion ? false : "hidden"}
+              animate={renderItem ? undefined : "visible"}
             >
               {filtered.map((item, index) => {
                 const key = getKey(item);
 
                 if (renderItem) {
                   return (
-                    <motion.div key={key} variants={itemVariants}>
-                      {renderItem(item, () => setSelectedKey(key))}
-                    </motion.div>
+                    <div
+                      key={key}
+                      className={reduceMotion ? undefined : "matrix-card-in"}
+                      style={reduceMotion ? undefined : { animationDelay: `${index * CARD_STEP_MS}ms` }}
+                    >
+                      {renderItem(item, () => setSelectedKey(key), index)}
+                    </div>
                   );
                 }
 

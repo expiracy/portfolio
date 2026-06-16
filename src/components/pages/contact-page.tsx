@@ -6,7 +6,6 @@ import { FiMail, FiGithub, FiLinkedin, FiCopy, FiCheck, FiExternalLink, FiSend }
 import { CONTACT_FIELDS, ProfileField } from "@/data/content";
 import { TerminalPage } from "@/components/terminal-page";
 import { ExternalLink } from "@/components/external-link";
-import { staggerContainer, fadeIn } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -17,11 +16,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const EMAIL = CONTACT_FIELDS.find((f) => f.key === "EMAIL")?.value ?? "";
 const DEFAULT_SUBJECT = "Hello from your portfolio";
-
-const colVariants = staggerContainer();
-// Opacity-only fade: a vertical translate would briefly push the full-height
-// grid past the scroll area on mount, flashing a scrollbar before it settles.
-const itemVariants = fadeIn();
 
 function useCopy(value: string) {
   const [copied, setCopied] = useState(false);
@@ -220,6 +214,12 @@ function Composer() {
 
 export const ContactPage: React.FC = () => {
   const reduce = useReducedMotion();
+  // Gentle top-to-bottom stagger: short items rise + fade; the full-height
+  // composer fades only (a transform on it would nudge a scrollbar on mount).
+  const rise = reduce ? "" : "fade-rise";
+  const fade = reduce ? "" : "fade-soft";
+  const at = (i: number): React.CSSProperties | undefined =>
+    reduce ? undefined : { animationDelay: `${i * 80}ms` };
 
   return (
     <TerminalPage
@@ -228,32 +228,31 @@ export const ContactPage: React.FC = () => {
       footer="I read every message"
     >
       {() => (
-        <motion.div
-          className="grid gap-4 lg:h-full lg:grid-cols-2 lg:gap-6"
-          variants={colVariants}
-          initial={reduce ? false : "hidden"}
-          animate="visible"
-        >
-          {/* Left — identity, status & connections */}
-          <motion.div className="flex flex-col gap-4 lg:min-h-0" variants={itemVariants}>
-            <p className="t-body text-terminal-dim leading-relaxed">
+        <div className="grid gap-4 lg:h-full lg:grid-cols-2 lg:gap-6">
+          {/* Left — identity, status & connections fade in top-to-bottom */}
+          <div className="flex flex-col gap-4 lg:min-h-0">
+            <p className={cn("t-body text-terminal-dim leading-relaxed", rise)} style={at(0)}>
               Let&apos;s build something. Reach me on any channel — or send a message right here.
             </p>
 
-            <StatusLine />
+            <div className={rise} style={at(1)}>
+              <StatusLine />
+            </div>
 
             <div className="flex flex-col gap-2">
-              {CONTACT_FIELDS.map((field) => (
-                <ConnectionRow key={field.key} field={field} />
+              {CONTACT_FIELDS.map((field, i) => (
+                <div key={field.key} className={rise} style={at(2 + i)}>
+                  <ConnectionRow field={field} />
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Right — message composer */}
-          <motion.div className="flex flex-col lg:min-h-0" variants={itemVariants}>
+          <div className={cn("flex flex-col lg:min-h-0", fade)} style={at(2)}>
             <Composer />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
     </TerminalPage>
   );
