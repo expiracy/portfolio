@@ -4,8 +4,11 @@ import React from "react";
 import { projects, filterProject } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
 import { RowChevron } from "@/components/timeline-entry";
+import { MatrixText } from "@/components/matrix-text";
 import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
 import { cn, pluralCount } from "@/lib/utils";
+
+const CARD_STEP_MS = 70; // keep in step with TimelineList's per-row reveal delay
 
 export const ProjectsPage: React.FC = () => {
   const publicCount = projects.filter(p => p.url).length;
@@ -16,7 +19,7 @@ export const ProjectsPage: React.FC = () => {
       items={projects}
       getKey={(p) => p.dir}
       filterFn={filterProject}
-      renderItem={(p, onClick) => (
+      renderItem={(p, onClick, index) => (
         <button
           onClick={onClick}
           className="relative block w-full text-left pl-7 pr-4 py-3 rounded-sm transition-all hover:bg-terminal-green/5 group border border-terminal-border hover:border-terminal-green/60 hover:shadow-marker bg-terminal-bg"
@@ -26,7 +29,7 @@ export const ProjectsPage: React.FC = () => {
           </span>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
-              {p.dir}/
+              <MatrixText text={`${p.dir}/`} delay={index * CARD_STEP_MS + 60} />
               <RowChevron />
             </span>
             <span className={cn("ml-auto shrink-0 t-micro px-1.5 py-0.5 rounded-sm border border-terminal-border", p.url ? "text-terminal-green" : "text-terminal-red")}>
@@ -36,7 +39,10 @@ export const ProjectsPage: React.FC = () => {
           <div className="text-terminal-dim t-body mb-2">
             {p.description}
           </div>
-          <BadgeList items={p.tags} />
+          {/* tags resolve last */}
+          <span className="matrix-card-in block" style={{ animationDelay: `${index * CARD_STEP_MS + 380}ms` }}>
+            <BadgeList items={p.tags} />
+          </span>
         </button>
       )}
       renderEntry={() => null}

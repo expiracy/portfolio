@@ -19,7 +19,7 @@
 
 [data-theme="pink"] {
   --t-green: #ff66b2;
-  --t-dim: #cc44aa;
+  --t-dim: #d65cbb;
   --t-cyan: #d580ff;
   --t-amber: #ff44aa;
   --t-red: #ff3366;
@@ -33,7 +33,7 @@
 
 [data-theme="blue"] {
   --t-green: #00aaff;
-  --t-dim: #0077cc;
+  --t-dim: #2e93dd;
   --t-cyan: #66ddff;
   --t-amber: #ff8800;
   --t-red: #ff3333;
@@ -46,17 +46,61 @@
 }
 
 [data-theme="light"] {
-  --t-green: #1a7a35;
-  --t-dim: #4a8a5a;
+  /* "Darken the ink": warm paper background kept; text/accents deepened and
+     borders firmed so secondary text clears the WCAG AA 4.5:1 bar. */
+  --t-green: #136b2c;
+  --t-dim: #3d7a4d;
   --t-cyan: #0055aa;
-  --t-amber: #8a5500;
-  --t-red: #bb2222;
+  --t-amber: #7a4a00;
+  --t-red: #b01f1f;
   --t-bg: #f5f5f0;
   --t-bg-light: #eaeae5;
-  --t-border: #1a7a3540;
-  --t-glow: #1a7a35;
+  --t-border: #176b2f59;
+  --t-glow: #136b2c;
   --t-scanline: transparent;
-  --t-selection-bg: #1a7a3530;
+  --t-selection-bg: #136b2c33;
+}
+
+[data-theme="synthwave"] {
+  --t-green: #ff5cc0;
+  --t-dim: #a07ace;
+  --t-cyan: #3ce0ff;
+  --t-amber: #ff9f45;
+  --t-red: #ff4d6d;
+  --t-bg: #1a0b2e;
+  --t-bg-light: #241141;
+  --t-border: #ff5cc030;
+  --t-glow: #ff5cc0;
+  --t-scanline: #ff5cc006;
+  --t-selection-bg: #ff5cc040;
+}
+
+[data-theme="cyberpunk"] {
+  --t-green: #36e8f5;
+  --t-dim: #5fa9b5;
+  --t-cyan: #7df9ff;
+  --t-amber: #fcee0a;
+  --t-red: #ff2e97;
+  --t-bg: #0a0f12;
+  --t-bg-light: #0f161a;
+  --t-border: #36e8f530;
+  --t-glow: #36e8f5;
+  --t-scanline: #36e8f506;
+  --t-selection-bg: #36e8f540;
+}
+
+[data-theme="vaporwave"] {
+  --t-green: #ff9fda;
+  --t-dim: #ab84c6;
+  --t-cyan: #8af0ff;
+  --t-amber: #ffc488;
+  --t-red: #ff7a9e;
+  --t-bg: #1c1140;
+  --t-bg-light: #271a52;
+  --t-border: #ff9fda30;
+  --t-glow: #ff9fda;
+  --t-scanline: #ff9fda06;
+  --t-selection-bg: #ff9fda40;
 }
 
 @layer base {
@@ -155,6 +199,19 @@ body::before {
   color: var(--t-green);
 }
 
+/* ── Contact: gentle staggered fade-in. Short items rise + fade; the full-height
+   composer fades only (a transform would nudge a scrollbar on mount). Pure CSS +
+   per-element animation-delay, so the typewriter re-render can't restart it. */
+@keyframes fade-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.fade-rise { opacity: 0; animation: fade-rise 0.5s ease-out forwards; }
+
+@keyframes fade-soft { from { opacity: 0; } to { opacity: 1; } }
+.fade-soft { opacity: 0; animation: fade-soft 0.5s ease-out forwards; }
+
+/* ── Projects: "matrix rain" — each card fades up as its name decodes (see MatrixText). */
+@keyframes matrix-card-in { from { opacity: 0; } to { opacity: 1; } }
+.matrix-card-in { opacity: 0; animation: matrix-card-in 0.32s ease-out forwards; }
+
 @media (prefers-reduced-motion: reduce) {
   body {
     animation: none;
@@ -167,4 +224,7 @@ body::before {
   .text-glow-bright {
     text-shadow: none;
   }
+
+  .fade-rise, .fade-soft { animation: none; opacity: 1; transform: none; }
+  .matrix-card-in { animation: none; opacity: 1; }
 }
