@@ -81,6 +81,12 @@ export const AboutMePage: React.FC = () => {
 
             {PROFILE_FIELDS.map((field, i) => (
               <motion.div key={i} className="flex gap-1" variants={profileItemVariants}>
+                {field.child && (
+                  // Tree glyph ties the field to the one it hangs off (company→job, degree/grade→university).
+                  <span className="text-terminal-dim select-none" aria-hidden="true">
+                    {PROFILE_FIELDS[i + 1]?.child ? "├─" : "└─"}
+                  </span>
+                )}
                 <span className="text-terminal-amber font-bold">{field.key}:</span>
                 {field.url ? (
                   <ExternalLink

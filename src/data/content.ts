@@ -2,6 +2,8 @@ export interface ProfileField {
   key: string;
   value: string;
   url?: string;
+  /** Renders indented under the field above it, so the pair reads as one entry. */
+  child?: boolean;
 }
 
 export interface Tag {
@@ -85,11 +87,11 @@ export const DEGREE_GRADE = "First Class (81.1%)";
 const DEGREE_URL = "https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/";
 
 export const PROFILE_FIELDS: ProfileField[] = [
-  { key: "JOB", value: "Quant Tech", url: "https://www.qube-rt.com/" },
-  { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
+  { key: "JOB", value: "Incoming Quant Tech", url: "https://www.qube-rt.com/" },
+  { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/", child: true },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", url: DEGREE_URL },
-  { key: "GRADE", value: DEGREE_GRADE },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", url: DEGREE_URL, child: true },
+  { key: "GRADE", value: DEGREE_GRADE, child: true },
 ];
 
 export const CONTACT_FIELDS: ProfileField[] = [
