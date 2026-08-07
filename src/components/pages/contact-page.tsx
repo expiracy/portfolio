@@ -143,7 +143,7 @@ function Composer() {
       className="flex flex-col overflow-hidden rounded-sm border border-terminal-border bg-terminal-bg-light/40 lg:flex-1 lg:min-h-0"
     >
       <div className="flex items-center gap-2 border-b border-terminal-border bg-terminal-bg-light/60 px-3 py-2 t-micro text-terminal-dim">
-        <FiSend className="w-3 h-3" /> compose — mail james
+        <FiSend className="w-3 h-3" /> compose — mail james_gray
       </div>
 
       <div className="flex flex-col gap-3 p-3 lg:flex-1 lg:min-h-0">
@@ -180,7 +180,7 @@ function Composer() {
             className="t-micro space-y-0.5 border-l-2 border-terminal-green/50 pl-2"
           >
             <div className="text-terminal-dim break-all">
-              $ mail -s &quot;{subject.trim() || DEFAULT_SUBJECT}&quot; james
+              $ mail -s &quot;{subject.trim() || DEFAULT_SUBJECT}&quot; james_gray
             </div>
             <div className="text-terminal-green">✓ message composed — opening your mail client…</div>
           </motion.div>

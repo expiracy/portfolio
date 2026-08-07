@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-terminal-border bg-terminal-bg backdrop-blur-sm">
       <div className="flex items-center justify-between px-4 py-2 text-sm">
         <div className="flex items-center gap-4">
-          <span className="text-terminal-dim">james_gray</span>
+          <span className="text-terminal-dim">james_gray@portfolio</span>
         </div>
         <div className="flex items-center gap-3 text-terminal-dim">
           <Link href="mailto:jameslaigray@gmail.com" className="hover:text-terminal-green transition-colors" aria-label="Email">

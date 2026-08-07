@@ -79,11 +79,17 @@ export function filterContact(f: ProfileField, q: string): boolean {
   );
 }
 
+/** Single source for the grade — shown on the profile and the education timeline. */
+export const DEGREE_GRADE = "First Class (81.1%)";
+
+const DEGREE_URL = "https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/";
+
 export const PROFILE_FIELDS: ProfileField[] = [
-  { key: "JOB", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
+  { key: "JOB", value: "Quant Tech", url: "https://www.qube-rt.com/" },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)" },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", url: DEGREE_URL },
+  { key: "GRADE", value: DEGREE_GRADE },
 ];
 
 export const CONTACT_FIELDS: ProfileField[] = [
@@ -386,7 +392,7 @@ export const education: Education[] = [
     institution: "University of Warwick",
     qualification: "BEng Computer Systems Engineering (Year in Industry)",
     period: "2022 — 2026",
-    grade: "First Class (83.3%)",
+    grade: DEGREE_GRADE,
     tags: [
       { label: "Artificial Intelligence" },
       { label: "AI", visible: false },

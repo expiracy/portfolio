@@ -73,7 +73,7 @@ export const AboutMePage: React.FC = () => {
             animate={done ? "visible" : "hidden"}
           >
             <motion.div className="mb-2" variants={profileItemVariants}>
-              <span className="text-terminal-cyan font-bold">james</span>
+              <span className="text-terminal-cyan font-bold">james_gray</span>
               <span className="text-terminal-dim">@</span>
               <span className="text-terminal-cyan font-bold">portfolio</span>
             </motion.div>

@@ -3,7 +3,7 @@
 
 export const THEMES = ["green", "pink", "blue", "light", "synthwave", "cyberpunk", "vaporwave"] as const;
 export type Theme = (typeof THEMES)[number];
-export const DEFAULT_THEME: Theme = THEMES[0];
+export const DEFAULT_THEME: Theme = "synthwave";
 
 /** Runtime guard: is an unknown string one of our themes? */
 export function isTheme(value: string | null): value is Theme {

@@ -13,7 +13,7 @@ const firaCode = Fira_Code({ subsets: ["latin"], weight: ["300", "400", "500", "
 const themeInitScript = `(function(){try{var t=localStorage.getItem("theme");document.documentElement.setAttribute("data-theme",${JSON.stringify(THEMES)}.indexOf(t)>-1?t:${JSON.stringify(DEFAULT_THEME)})}catch(e){document.documentElement.setAttribute("data-theme",${JSON.stringify(DEFAULT_THEME)})}})()`;
 
 export const metadata: Metadata = {
-  title: "james@portfolio:~$",
+  title: "james_gray@portfolio:~$",
   description: "James Gray — Portfolio",
 };
 
