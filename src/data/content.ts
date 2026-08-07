@@ -80,7 +80,7 @@ export function filterContact(f: ProfileField, q: string): boolean {
 }
 
 export const PROFILE_FIELDS: ProfileField[] = [
-  { key: "JOB", value: "Quantitative Technology Intern", url: "https://www.qube-rt.com/" },
+  { key: "JOB", value: "Quant Tech", url: "https://www.qube-rt.com/" },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
   { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)" },
@@ -386,7 +386,7 @@ export const education: Education[] = [
     institution: "University of Warwick",
     qualification: "BEng Computer Systems Engineering (Year in Industry)",
     period: "2022 — 2026",
-    grade: "First Class (83.3%)",
+    grade: "First Class (81.1%)",
     tags: [
       { label: "Artificial Intelligence" },
       { label: "AI", visible: false },

@@ -21,7 +21,7 @@ export const EducationPage: React.FC = () => {
           period={e.period}
           title={e.institution}
           subtitle={e.qualification}
-          detailLine={e.details.join(" · ")}
+          detailLine={[e.grade, ...e.details].filter(Boolean).join(" · ")}
           tags={e.tags}
         />
       )}
