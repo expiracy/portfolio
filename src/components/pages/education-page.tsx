@@ -20,7 +20,7 @@ export const EducationPage: React.FC = () => {
           hash={e.hash}
           period={e.period}
           title={e.institution}
-          subtitle={e.grade ? `${e.qualification} — ${e.grade}` : e.qualification}
+          subtitle={e.grade ? `${e.qualification}: ${e.grade}` : e.qualification}
           detailLine={e.details.join(" · ")}
           tags={e.tags}
         />
@@ -31,7 +31,7 @@ export const EducationPage: React.FC = () => {
           onClose={onClose}
           command={edu ? `git show ${edu.hash}` : ""}
           title={edu?.institution ?? ""}
-          subtitle={edu?.grade ? `${edu.qualification} — ${edu.grade}` : edu?.qualification}
+          subtitle={edu?.grade ? `${edu.qualification}: ${edu.grade}` : edu?.qualification}
           meta={edu?.period}
           sections={edu ? [
             ...(edu.details.length > 0 ? [{
