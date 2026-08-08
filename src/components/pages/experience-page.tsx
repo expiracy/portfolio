@@ -10,7 +10,7 @@ import { pluralCount } from "@/lib/utils";
 export const ExperiencePage: React.FC = () => {
   return (
     <TimelineList
-      command="git log ~/experience"
+      command="experience log"
       items={experiences}
       getKey={(e) => e.id}
       filterFn={filterExperience}

@@ -10,7 +10,7 @@ import { pluralCount } from "@/lib/utils";
 export const EducationPage: React.FC = () => {
   return (
     <TimelineList
-      command="git log ~/education"
+      command="education log"
       items={education}
       getKey={(e) => e.id}
       filterFn={filterEducation}

@@ -29,7 +29,7 @@ export const AboutMePage: React.FC = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <TerminalPage command="neofetch" showSearch={false}>
+    <TerminalPage command="about james_gray" showSearch={false}>
       {() => (
         <div className="flex flex-col lg:flex-row gap-6 w-full h-full items-center justify-center">
           <div className="shrink-0 overflow-x-auto">
