@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import { ExternalLink } from "@/components/external-link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Tag } from "@/data/content";
 
@@ -139,16 +138,5 @@ export function BadgeList({ items }: { items: Tag[] }) {
         </span>
       ))}
     </div>
-  );
-}
-
-export function SourceLink({ url }: { url: string }) {
-  return (
-    <ExternalLink
-      href={url}
-      className="text-terminal-cyan hover:underline t-body"
-    >
-      {url.replace("https://", "")}
-    </ExternalLink>
   );
 }
