@@ -3,6 +3,7 @@
 import React from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { BadgeList } from "@/components/detail-modal";
+import { KwText } from "@/lib/kw";
 import { Tag } from "@/data/content";
 
 /** The hover-affordance chevron shared by timeline rows and project cards. */
@@ -33,8 +34,8 @@ export function TimelineEntry({ period, title, subtitle, detailLine, tags }: Tim
         </span>
         <RowChevron />
       </div>
-      <div className="text-terminal-cyan t-body mb-1">{subtitle}</div>
-      <div className="text-terminal-dim t-body mb-2 leading-relaxed">{detailLine}</div>
+      <div className="text-terminal-cyan t-body mb-1"><KwText text={subtitle} /></div>
+      <div className="text-terminal-dim t-body mb-2 leading-relaxed"><KwText text={detailLine} /></div>
       <BadgeList items={tags} />
     </>
   );

@@ -18,7 +18,7 @@ export const EducationPage: React.FC = () => {
         <TimelineEntry
           period={e.period}
           title={e.institution}
-          subtitle={e.grade ? `${e.qualification}: ${e.grade}` : e.qualification}
+          subtitle={e.grade ? `${e.qualification}: **${e.grade}**` : e.qualification}
           detailLine={e.details.join(" · ")}
           tags={e.tags}
         />
@@ -28,7 +28,7 @@ export const EducationPage: React.FC = () => {
           open={edu !== null}
           onClose={onClose}
           title={edu?.institution ?? ""}
-          subtitle={edu?.grade ? `${edu.qualification}: ${edu.grade}` : edu?.qualification}
+          subtitle={edu?.grade ? `${edu.qualification}: **${edu.grade}**` : edu?.qualification}
           meta={edu?.period}
           sections={edu ? [
             ...(edu.details.length > 0 ? [{
