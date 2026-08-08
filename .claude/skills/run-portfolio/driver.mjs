@@ -27,8 +27,8 @@ const opt = (name, fallback) => {
 
 const BASE_URL = opt("url", process.env.BASE_URL || "http://localhost:8000");
 const OUT_DIR = opt("out", process.env.SHOT_DIR || "/tmp/portfolio-shots");
-const THEME = opt("theme", "vaporwave"); // green | pink | blue | light | synthwave | cyberpunk | vaporwave
-const TABS = ["about", "education", "experience", "projects", "contact"];
+const THEME = opt("theme", "cyberpunk"); // green | pink | blue | light | synthwave | cyberpunk
+const TABS = ["about", "education", "experience", "projects", "socials"];
 
 mkdirSync(OUT_DIR, { recursive: true });
 

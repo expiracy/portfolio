@@ -91,12 +91,12 @@ export const AboutMePage: React.FC = () => {
                 {field.url ? (
                   <ExternalLink
                     href={field.url}
-                    className="text-terminal-cyan hover:underline"
+                    className={cn("hover:underline", field.highlight ? "text-terminal-amber" : "text-terminal-cyan")}
                   >
                     {field.value}
                   </ExternalLink>
                 ) : (
-                  <span className="text-terminal-dim">{field.value}</span>
+                  <span className={field.highlight ? "text-terminal-amber" : "text-terminal-dim"}>{field.value}</span>
                 )}
               </motion.div>
             ))}

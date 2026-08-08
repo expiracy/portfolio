@@ -89,20 +89,6 @@
   --t-selection-bg: #36e8f540;
 }
 
-[data-theme="vaporwave"] {
-  --t-green: #ff9fda;
-  --t-dim: #ab84c6;
-  --t-cyan: #8af0ff;
-  --t-amber: #ffc488;
-  --t-red: #ff7a9e;
-  --t-bg: #1c1140;
-  --t-bg-light: #271a52;
-  --t-border: #ff9fda30;
-  --t-glow: #ff9fda;
-  --t-scanline: #ff9fda06;
-  --t-selection-bg: #ff9fda40;
-}
-
 @layer base {
   * {
     margin: 0;

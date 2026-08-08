@@ -12,12 +12,10 @@ export const ExperiencePage: React.FC = () => {
     <TimelineList
       command="git log ~/experience"
       items={experiences}
-      getKey={(e) => e.hash}
+      getKey={(e) => e.id}
       filterFn={filterExperience}
-      renderEntry={(e, index) => (
+      renderEntry={(e) => (
         <TimelineEntry
-          index={index}
-          hash={e.hash}
           period={e.period}
           title={e.role}
           subtitle={e.company}
@@ -29,7 +27,7 @@ export const ExperiencePage: React.FC = () => {
         <DetailModal
           open={exp !== null}
           onClose={onClose}
-          command={exp ? `git show ${exp.hash}` : ""}
+          command={exp ? `git show "${exp.role}"` : ""}
           title={exp?.role ?? ""}
           subtitle={exp?.company}
           meta={exp?.period}
