@@ -27,7 +27,7 @@ export const ProjectsPage: React.FC = () => {
           </span>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
-              <MatrixText text={`${p.dir}/`} delay={index * CARD_STEP_MS + 60} />
+              <MatrixText text={p.dir} delay={index * CARD_STEP_MS + 60} />
               <RowChevron />
             </span>
           </div>
