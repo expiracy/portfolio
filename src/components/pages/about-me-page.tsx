@@ -5,7 +5,7 @@ import { ExternalLink } from "@/components/external-link";
 import { cn } from "@/lib/utils";
 import { staggerContainer, fadeIn } from "@/lib/motion";
 import { useRevealCount } from "@/lib/use-reveal-count";
-import { terminalColors as T } from "@/lib/tokens";
+import { terminalCssColors as T } from "@/lib/tokens";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";
@@ -29,7 +29,7 @@ export const AboutMePage: React.FC = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <TerminalPage command="neofetch" showSearch={false}>
+    <TerminalPage command="about james_gray" showSearch={false}>
       {() => (
         <div className="flex flex-col lg:flex-row gap-6 w-full h-full items-center justify-center">
           <div className="shrink-0 overflow-x-auto">
@@ -81,16 +81,22 @@ export const AboutMePage: React.FC = () => {
 
             {PROFILE_FIELDS.map((field, i) => (
               <motion.div key={i} className="flex gap-1" variants={profileItemVariants}>
+                {field.child && (
+                  // Tree glyph ties the field to the one it hangs off (company→job, degree/grade→university).
+                  <span className="text-terminal-dim select-none" aria-hidden="true">
+                    {PROFILE_FIELDS[i + 1]?.child ? "├─" : "└─"}
+                  </span>
+                )}
                 <span className="text-terminal-amber font-bold">{field.key}:</span>
                 {field.url ? (
                   <ExternalLink
                     href={field.url}
-                    className="text-terminal-cyan hover:underline"
+                    className={cn("hover:underline", field.highlight ? "text-terminal-amber" : "text-terminal-cyan")}
                   >
                     {field.value}
                   </ExternalLink>
                 ) : (
-                  <span className="text-terminal-dim">{field.value}</span>
+                  <span className={field.highlight ? "text-terminal-amber" : "text-terminal-dim"}>{field.value}</span>
                 )}
               </motion.div>
             ))}

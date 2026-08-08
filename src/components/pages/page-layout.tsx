@@ -1,14 +1,14 @@
 "use client"
 
 import React, { useState } from "react";
-import { FiUser, FiBookOpen, FiBriefcase, FiFolder, FiMail } from "react-icons/fi";
+import { FiUser, FiBookOpen, FiBriefcase, FiFolder, FiLink } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
 import { ErrorBoundary } from "@/components/error-boundary";
 import { AboutMePage } from "@/components/pages/about-me-page";
 import { ExperiencePage } from "@/components/pages/experience-page";
 import { ProjectsPage } from "@/components/pages/projects-page";
-import { ContactPage } from "@/components/pages/contact-page";
+import { SocialsPage } from "@/components/pages/socials-page";
 import { EducationPage } from "@/components/pages/education-page";
 
 interface PageDefinition {
@@ -22,7 +22,7 @@ const PAGES: PageDefinition[] = [
   { label: "education", icon: FiBookOpen, component: EducationPage },
   { label: "experience", icon: FiBriefcase, component: ExperiencePage },
   { label: "projects", icon: FiFolder, component: ProjectsPage },
-  { label: "contact", icon: FiMail, component: ContactPage },
+  { label: "socials", icon: FiLink, component: SocialsPage },
 ];
 
 export const PageLayout: React.FC = () => {

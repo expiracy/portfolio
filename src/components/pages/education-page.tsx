@@ -10,14 +10,12 @@ import { pluralCount } from "@/lib/utils";
 export const EducationPage: React.FC = () => {
   return (
     <TimelineList
-      command="git log ~/education"
+      command="education log"
       items={education}
-      getKey={(e) => e.hash}
+      getKey={(e) => e.id}
       filterFn={filterEducation}
-      renderEntry={(e, index) => (
+      renderEntry={(e) => (
         <TimelineEntry
-          index={index}
-          hash={e.hash}
           period={e.period}
           title={e.institution}
           subtitle={e.grade ? `${e.qualification}: ${e.grade}` : e.qualification}
@@ -29,7 +27,7 @@ export const EducationPage: React.FC = () => {
         <DetailModal
           open={edu !== null}
           onClose={onClose}
-          command={edu ? `git show ${edu.hash}` : ""}
+          command={edu ? `git show "${edu.institution}"` : ""}
           title={edu?.institution ?? ""}
           subtitle={edu?.grade ? `${edu.qualification}: ${edu.grade}` : edu?.qualification}
           meta={edu?.period}

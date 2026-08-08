@@ -5,7 +5,7 @@ description: Run, build, preview, screenshot, or smoke-test the terminal-themed 
 
 # Run the portfolio
 
-A terminal/CRT-themed personal site: **Next.js 14 App Router, `output: "export"`** (fully static, no server runtime), one route, a tabbed SPA (about / education / experience / projects / contact) with seven switchable colour themes. Managed with **Bun**.
+A terminal/CRT-themed personal site: **Next.js 14 App Router, `output: "export"`** (fully static, no server runtime), one route, a tabbed SPA (about / education / experience / projects / socials) with six switchable colour themes. Managed with **Bun**.
 
 There is no API and no test suite. You verify it by **rendering the real page in a headless browser** and looking. The driver for that is committed next to this file:
 
@@ -54,20 +54,20 @@ PASS  app hydrated  — header + data-theme present
 PASS  tab bar has 5 tabs  — found 5
 PASS  tab: about  — /tmp/portfolio-shots/tab-0-about.png
 ...
-PASS  theme → vaporwave  — button reads "[vaporwave]"
+PASS  theme → cyberpunk  — button reads "[cyberpunk]"
 PASS  no page/console errors
 
 11/11 checks passed — screenshots in /tmp/portfolio-shots
 ```
 
-Then **look at the screenshots** (e.g. `/tmp/portfolio-shots/theme-vaporwave.png`) — a green/0 check count is necessary but not sufficient; a blank-but-200 page still "passes" the HTTP check.
+Then **look at the screenshots** (e.g. `/tmp/portfolio-shots/theme-cyberpunk.png`) — a green/0 check count is necessary but not sufficient; a blank-but-200 page still "passes" the HTTP check.
 
 Driver flags:
 
 | Flag | Default | Notes |
 |------|---------|-------|
 | `--url <url>` | `http://localhost:8000` | server to drive (also `BASE_URL` env) |
-| `--theme <name>` | `vaporwave` | `green` `pink` `blue` `light` `synthwave` `cyberpunk` `vaporwave` |
+| `--theme <name>` | `cyberpunk` | `green` `pink` `blue` `light` `synthwave` `cyberpunk` |
 | `--out <dir>` | `/tmp/portfolio-shots` | screenshot directory (also `SHOT_DIR` env) |
 
 ## Run (dev server — fast iteration loop)

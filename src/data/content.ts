@@ -2,6 +2,10 @@ export interface ProfileField {
   key: string;
   value: string;
   url?: string;
+  /** Renders indented under the field above it, so the pair reads as one entry. */
+  child?: boolean;
+  /** Picks the theme's gold accent instead of the usual link/plain treatment. */
+  highlight?: boolean;
 }
 
 export interface Tag {
@@ -10,7 +14,7 @@ export interface Tag {
 }
 
 export interface Experience {
-  hash: string;
+  id: string;
   role: string;
   company: string;
   period: string;
@@ -29,7 +33,7 @@ export interface Project {
 }
 
 export interface Education {
-  hash: string;
+  id: string;
   institution: string;
   qualification: string;
   period: string;
@@ -82,20 +86,21 @@ export function filterContact(f: ProfileField, q: string): boolean {
 /** Single source for the grade — shown on the profile and the education timeline. */
 export const DEGREE_GRADE = "First Class (81.1%)";
 
-const DEGREE_URL = "https://warwick.ac.uk/study/undergraduate/courses/beng-computer-systems-engineering/";
-
+// The role, the degree and the grade carry no link — the company and university
+// rows beneath them already lead somewhere, and highlighting reads better than
+// three links stacked together.
 export const PROFILE_FIELDS: ProfileField[] = [
-  { key: "JOB", value: "Quant Tech", url: "https://www.qube-rt.com/" },
-  { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/" },
+  { key: "JOB", value: "Incoming Quant Tech", highlight: true },
+  { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/", child: true },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", url: DEGREE_URL },
-  { key: "GRADE", value: DEGREE_GRADE },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", child: true, highlight: true },
+  { key: "GRADE", value: DEGREE_GRADE, child: true, highlight: true },
 ];
 
 export const CONTACT_FIELDS: ProfileField[] = [
   { key: "EMAIL", value: "jameslaigray@gmail.com", url: "mailto:jameslaigray@gmail.com" },
-  { key: "LINKEDIN", value: "jameslaigray", url: "https://www.linkedin.com/in/jameslaigray/" },
-  { key: "GITHUB", value: "expiracy", url: "https://github.com/expiracy" },
+  { key: "LINKEDIN", value: "in/jameslaigray", url: "https://www.linkedin.com/in/jameslaigray/" },
+  { key: "GITHUB", value: "@expiracy", url: "https://github.com/expiracy" },
 ];
 
 export const BIO_TEXT = "Computer Systems Engineering student with industry experience in quantitative technology. Skilled in C, C++, Python, Java, TypeScript, React, and systems programming.";
@@ -116,7 +121,7 @@ export const ASCII_GRAY = ` ██████╗ ██████╗  ██�
 
 export const experiences: Experience[] = [
   {
-    hash: "a1b2c3d",
+    id: "a1b2c3d",
     role: "Quantitative Technology Intern",
     company: "Qube Research & Technologies",
     period: "Jun 2024 — Present",
@@ -141,7 +146,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    hash: "e4f5a6b",
+    id: "e4f5a6b",
     role: "Tutor",
     company: "MyTutor",
     period: "Jan 2023 — Present",
@@ -159,7 +164,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    hash: "b7c8d9e",
+    id: "b7c8d9e",
     role: "Spring Insight",
     company: "Expedia",
     period: "Apr 2022",
@@ -174,7 +179,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    hash: "f0a1b2c",
+    id: "f0a1b2c",
     role: "Software Engineering Course",
     company: "Cisco",
     period: "Jun 2019",
@@ -189,7 +194,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    hash: "d3e4f5a",
+    id: "d3e4f5a",
     role: "Work Experience",
     company: "Oracle",
     period: "May 2019",
@@ -388,7 +393,7 @@ export const projects: Project[] = [
 
 export const education: Education[] = [
   {
-    hash: "c4d5e6f",
+    id: "c4d5e6f",
     institution: "University of Warwick",
     qualification: "BEng Computer Systems Engineering (Year in Industry)",
     period: "2022 — 2026",
@@ -417,7 +422,7 @@ export const education: Education[] = [
     ],
   },
   {
-    hash: "a7b8c9d",
+    id: "a7b8c9d",
     institution: "Reading School",
     qualification: "A-Levels: Physics (A*), Maths (A*), Computer Science (A*)",
     period: "2019 — 2022",
@@ -433,7 +438,7 @@ export const education: Education[] = [
     ],
   },
   {
-    hash: "b3c4d5e",
+    id: "b3c4d5e",
     institution: "Herschel Grammar School",
     qualification: "GCSEs: 9, 9, 9, 8, 8, 8, 7, 7, 7, 7",
     period: "2016 — 2019",
