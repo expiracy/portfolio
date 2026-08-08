@@ -518,7 +518,7 @@ export const education: Education[] = [
   {
     id: "c4d5e6f",
     institution: "University of Warwick",
-    qualification: "BEng Computer Systems Engineering (Year in Industry)",
+    qualification: "BEng Computer Systems Engineering (Year in Industry at QRT)",
     period: "2022 — 2026",
     grade: DEGREE_GRADE,
     tags: [
@@ -547,8 +547,7 @@ export const education: Education[] = [
       { label: "Data Analytics", visible: false },
     ],
     details: [
-      "Year in Industry at Qube Research & Technologies",
-      "Exceptional Achievement in Second Year",
+      "Award: Exceptional Achievement in Second Year",
     ],
   },
   {
@@ -564,7 +563,7 @@ export const education: Education[] = [
     ],
     details: [
       "100% achieved in Computer Science Coursework",
-      "Received Computer Science Award",
+      "Award: Computer Science Award",
     ],
   },
   {
