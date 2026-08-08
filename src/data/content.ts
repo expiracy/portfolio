@@ -1,3 +1,5 @@
+import { stripKw } from "@/lib/kw";
+
 export interface ProfileField {
   key: string;
   value: string;
@@ -45,32 +47,38 @@ function matchesTags(tags: Tag[], q: string): boolean {
   return tags.some((t) => t.label.toLowerCase().includes(q));
 }
 
+// Content strings may carry `**…**` keyword markers (rendered bold by KwText),
+// so search must match against the stripped text.
+function matchesText(s: string, q: string): boolean {
+  return stripKw(s).toLowerCase().includes(q);
+}
+
 export function filterEducation(e: Education, q: string): boolean {
   return (
-    e.institution.toLowerCase().includes(q) ||
-    e.qualification.toLowerCase().includes(q) ||
-    e.period.toLowerCase().includes(q) ||
-    (e.grade?.toLowerCase().includes(q) ?? false) ||
-    e.details.some((d) => d.toLowerCase().includes(q)) ||
+    matchesText(e.institution, q) ||
+    matchesText(e.qualification, q) ||
+    matchesText(e.period, q) ||
+    (e.grade ? matchesText(e.grade, q) : false) ||
+    e.details.some((d) => matchesText(d, q)) ||
     matchesTags(e.tags, q)
   );
 }
 
 export function filterExperience(e: Experience, q: string): boolean {
   return (
-    e.role.toLowerCase().includes(q) ||
-    e.company.toLowerCase().includes(q) ||
-    e.period.toLowerCase().includes(q) ||
-    e.summary.some((d) => d.toLowerCase().includes(q)) ||
+    matchesText(e.role, q) ||
+    matchesText(e.company, q) ||
+    matchesText(e.period, q) ||
+    e.summary.some((d) => matchesText(d, q)) ||
     matchesTags(e.tags, q)
   );
 }
 
 export function filterProject(p: Project, q: string): boolean {
   return (
-    p.title.toLowerCase().includes(q) ||
-    p.dir.toLowerCase().includes(q) ||
-    p.description.toLowerCase().includes(q) ||
+    matchesText(p.title, q) ||
+    matchesText(p.dir, q) ||
+    matchesText(p.description, q) ||
     matchesTags(p.tags, q)
   );
 }
@@ -83,7 +91,7 @@ export function filterContact(f: ProfileField, q: string): boolean {
 }
 
 /** Single source for the grade — shown on the profile and the education timeline. */
-export const DEGREE_GRADE = "First Class (81.1%)";
+export const DEGREE_GRADE = "First (81.1%)";
 
 // The role, the degree and the grade carry no link — the company and university
 // rows beneath them already lead somewhere, and highlighting reads better than
@@ -124,7 +132,7 @@ export const experiences: Experience[] = [
     role: "Quantitative Technology Intern",
     company: "Qube Research & Technologies",
     period: "Jun 2024 — Jun 2025",
-    summary: ["Developed deployment tooling, process management services, and LLM-based support systems."],
+    summary: ["Developed deployment tooling, process-management services, and LLM-based support systems."],
     tags: [
       { label: "C++" },
       { label: "C#" },
@@ -139,11 +147,11 @@ export const experiences: Experience[] = [
       { label: "Infrastructure as Code", visible: false },
     ],
     details: [
-      "Designed and implemented a C++ process management service that enables support teams to control and monitor system processes through both a UI and code, eliminating the need for manual SSH interaction",
-      "Introduced an infrastructure-as-code initiative that auto-generates environment-specific configurations and wires them into the process management service, establishing a single source of truth",
-      "Reworked and upgraded system components and the CI/CD pipeline to support C# builds and tests on the Linux environment, increasing code coverage and unblocking Linux developers",
-      "Built an LLM support assistant with a React.js frontend, using RAG over company-specific knowledge in a reasoning-and-act loop with custom tools for multi-step reasoning, context access, and output verification, improving answer accuracy and quality",
-      "Developed automated tools to generate documentation and samples for multiple languages to a single reference point",
+      "Designed and built a **C++ process-management service** that lets support teams control and monitor system processes via a UI and code, **eliminating manual SSH interaction**",
+      "Introduced an **infrastructure-as-code** initiative that auto-generates environment-specific configurations and wires them into the process-management service, establishing a **single source of truth**",
+      "Reworked the **CI/CD pipeline** to support C# builds and tests on Linux, raising code coverage and **unblocking Linux developers**",
+      "Built an **LLM support assistant** with a React.js frontend, using **RAG** over company-specific knowledge in a **reasoning and act loop** for multi-step reasoning, context access, and output verification, improving answer accuracy and quality",
+      "Developed **automated tools** to generate documentation and samples for multiple languages to a single reference point",
     ],
   },
   {
@@ -151,7 +159,7 @@ export const experiences: Experience[] = [
     role: "A-Level and GCSE Tutor",
     company: "MyTutor",
     period: "Jan 2023 — Jun 2024",
-    summary: ["Communicated complex concepts in a simple way to help A-Level and GCSE students master subject material."],
+    summary: ["Communicated complex concepts in simple terms to help A-Level and GCSE students master subject material."],
     tags: [
       { label: "Teaching" },
       { label: "Maths" },
@@ -161,7 +169,7 @@ export const experiences: Experience[] = [
       { label: "Tutoring", visible: false },
     ],
     details: [
-      "Communicated complex concepts in a simple way to help A-Level and GCSE students master subject material",
+      "**Communicated complex concepts in simple terms** to help A-Level and GCSE students master subject material",
     ],
   },
   {
@@ -176,7 +184,7 @@ export const experiences: Experience[] = [
       { label: "Software Engineering", visible: false },
     ],
     details: [
-      "Gained practical insights into the processes and agile methodologies employed in software engineering and mobile app development projects",
+      "Gained practical insights into the processes and **agile methodologies** employed in software engineering and mobile app development projects",
     ],
   },
   {
@@ -191,7 +199,7 @@ export const experiences: Experience[] = [
       { label: "Software Engineering", visible: false },
     ],
     details: [
-      "Gained practical insight into the software development process by building and iterating on basic Python programs, and familiarised with Git for collaboration",
+      "Gained practical insight into the software development process by building and iterating on basic **Python** programs, and familiarised with **Git** for collaboration",
     ],
   },
   {
@@ -210,7 +218,7 @@ export const experiences: Experience[] = [
       { label: "JavaScript", visible: false },
     ],
     details: [
-      "Developed a basic web-based chatbot with a Java Spring backend and an HTML, CSS and JS frontend, gaining hands-on experience with RESTful APIs and using Gradle for dependency management and project build automation",
+      "Developed a basic web-based chatbot with a **Java Spring** backend and an HTML, CSS and JS frontend, gaining hands-on experience with **RESTful APIs** and using **Gradle** for dependency management and project build automation",
     ],
   },
 ];
@@ -234,15 +242,15 @@ export const projects: Project[] = [
       { label: "Dissertation", visible: false },
     ],
     details: [
-      "Pinpointed the architectural bottlenecks driving inference cost in state-of-the-art PPG sleep-staging models",
-      "Designed and implemented Mamba and efficient-attention architectures in PyTorch, holding accuracy (κ = 0.74) across three clinical datasets (MESA, CFS, HOMEPAP)",
-      "Raised inference throughput 3.8x while cutting VRAM 53% and model size 57%, making deployment far more scalable",
+      "Pinpointed the **architectural bottlenecks** driving inference cost in **state-of-the-art** PPG AI sleep-staging models",
+      "Designed and implemented **Mamba-based** and **efficient-attention-based** deep learning architectures in PyTorch, which held accuracy (**κ = 0.74**) across **3 clinical datasets** (MESA, CFS, HOMEPAP)",
+      "Raised inference throughput **3.8x** while cutting **VRAM 53%** and **model size 57%**, making deployment far more scalable",
     ],
   },
   {
     title: "Conjugate Gradient Optimisation",
     dir: "sim-optimisation",
-    description: "Optimised the conjugate gradient numerical method on a 3D mesh, achieving an 8.88x speedup.",
+    description: "Optimised the conjugate gradient numerical method on a 3D mesh, achieving an **8.88x speedup**.",
     tags: [
       { label: "C" },
       { label: "AVX" },
@@ -252,7 +260,7 @@ export const projects: Project[] = [
       { label: "Performance", visible: false },
     ],
     details: [
-      "Leveraged AVX-256 intrinsics, OpenMP directives, and code refactoring to optimise memory data locality",
+      "Optimised a 3D-mesh conjugate gradient solver with **AVX-256**, OpenMP, and locality refactoring for an **8.88x speedup**",
     ],
   },
   {
@@ -268,14 +276,14 @@ export const projects: Project[] = [
       { label: "Compiler Design", visible: false },
     ],
     details: [
-      "Built a top-down recursive-descent lexer and parser in C++, generating code via LLVM IR, for a subset of C",
-      "Produced colourised, informative error diagnostics more detailed than mainstream C compilers",
+      "Built a **top-down recursive-descent** lexer and parser in C++, generating code via **LLVM IR**, for a subset of C",
+      "Produced colourised, informative error diagnostics **more detailed than mainstream C compilers**",
     ],
   },
   {
     title: "Multithreaded Packet Sniffer",
     dir: "packet-sniffer",
-    description: "Developed a multithreaded packet sniffer to identify domain blacklist violations, SYN attacks, and ARP cache poisoning.",
+    description: "Developed a multithreaded packet sniffer to identify domain blacklist violations, SYN floods, and ARP cache poisoning.",
     tags: [
       { label: "C" },
       { label: "Networking" },
@@ -284,14 +292,14 @@ export const projects: Project[] = [
       { label: "Linux", visible: false },
     ],
     details: [
-      "Implemented a thread-safe packet queue with pthreads feeding a thread pool, processing 1,000,000s of packets without loss",
-      "Validated the program was free of memory leaks and race conditions with Valgrind, Helgrind and GDB",
+      "Implemented a thread-safe packet queue with pthreads feeding a thread pool to detect domain blacklist violations, **SYN floods**, and **ARP cache poisoning** across **1,000,000s of packets without loss**",
+      "Validated the program was **free of memory leaks and race conditions** with **Valgrind, Helgrind, and GDB**",
     ],
   },
   {
     title: "FPGA Pacman",
     dir: "fpga-pacman",
-    description: "Recreation of Pacman on a Nexys 4 FPGA using Verilog. Achieved the top score in the year.",
+    description: "Recreation of Pacman on a Nexys 4 FPGA using Verilog. Achieved the **top score in the year**.",
     tags: [
       { label: "Verilog" },
       { label: "FPGA" },
@@ -303,15 +311,15 @@ export const projects: Project[] = [
       { label: "High Performance Systems", visible: false },
     ],
     details: [
-      "Implemented Pacman's game logic — movement, collisions and scoring — as hardware state machines, taking the top score in the year",
-      "Rendered the game from sprites held in on-chip BRAM, with custom frame-drawing logic and a real-time VGA driver built in hardware",
-      "Debugged hardware signals using Verilog test benches in Vivado to verify signals and timings across different digital modules",
+      "Implemented Pacman's game logic (movement, collisions, and scoring) as **hardware state machines**, taking the **top score in the year**",
+      "Rendered the game from sprites in on-chip **BRAM**, with custom frame-drawing logic and a **real-time VGA driver built in hardware**",
+      "Debugged hardware signals using **Verilog test benches** in Vivado to verify signals and timings across different digital modules",
     ],
   },
   {
     title: "Magnetic Electron Trap Simulation",
     dir: "electron-trap-sim",
-    description: "Solved and visualised differential equations to model an electron within a magnetic field. Achieved 100%.",
+    description: "Solved and visualised differential equations to model an electron within a magnetic field. Achieved **100%**.",
     tags: [
       { label: "Python" },
       { label: "NumPy" },
@@ -321,7 +329,7 @@ export const projects: Project[] = [
       { label: "Physics", visible: false },
     ],
     details: [
-      "Implemented multiprocessing to parallelise simulation code and bypass the Global Interpreter Lock (GIL) to achieve a 20x performance improvement",
+      "Implemented **multiprocessing** to parallelise simulation code and bypass the Global Interpreter Lock (GIL) to achieve a **20x speedup**",
     ],
   },
   {
@@ -335,14 +343,14 @@ export const projects: Project[] = [
       { label: "Graphs", visible: false },
     ],
     details: [
-      "Implemented binary heap, hash map, linked list, array list, and graph from scratch; applied each appropriately to minimise lookup time based on context",
+      "Implemented binary heap, hash map, linked list, array list, and graph **from scratch**; applied each appropriately to **minimise lookup time** based on context",
       "Implemented an algorithm to find the distance via common movies between 2 distinct cast members",
     ],
   },
   {
     title: "Resistor Image Scanner",
     dir: "resistor-scanner",
-    description: "Web app using image processing techniques to identify resistor values from images. Achieved 100%.",
+    description: "Web app using image processing techniques to identify resistor values from images. Achieved **100%**.",
     tags: [
       { label: "Python" },
       { label: "OpenCV" },
@@ -352,8 +360,8 @@ export const projects: Project[] = [
       { label: "Machine Learning" },
     ],
     details: [
-      "Developed various image transformation pipelines using OpenCV for resistor localisation, image normalisation (denoising, deblurring, removing glare), and final colour extraction",
-      "Implemented the K-Means clustering algorithm to segment colour regions and accurately detect resistor band positions",
+      "Developed various image transformation pipelines using **OpenCV** for resistor localisation, image normalisation (denoising, deblurring, removing glare), and final colour extraction",
+      "Implemented the **K-Means clustering** algorithm to segment colour regions and accurately detect resistor band positions",
     ],
   },
   {
@@ -368,7 +376,7 @@ export const projects: Project[] = [
       { label: "Discord API", visible: false },
     ],
     details: [
-      "Designed and implemented a 3NF SQL database to optimise storage and retrieval of user file data, ensuring efficient and scalable performance",
+      "Designed and implemented a **3NF SQL database** to optimise storage and retrieval of user file data, ensuring efficient and scalable performance",
     ],
   },
   {
@@ -399,9 +407,9 @@ export const projects: Project[] = [
       { label: "Database Design", visible: false },
     ],
     details: [
-      "Designed a robust database schema with triggers and views, ensuring robust data validation and providing intuitive database access interfaces",
-      "Utilised unit testing to validate both the database design and the database mutators and accessors, ensuring system reliability",
-      "Demonstrated proficiency in crafting complex queries through aggregate queries and subqueries",
+      "Designed a robust database schema with **triggers and views**, ensuring robust data validation and providing intuitive database access interfaces",
+      "Utilised **unit testing** to validate both the database design and the database mutators and accessors, ensuring system reliability",
+      "Demonstrated proficiency in crafting complex queries through **aggregate queries and subqueries**",
     ],
   },
   {
@@ -427,7 +435,7 @@ export const projects: Project[] = [
       { label: "Async", visible: false },
     ],
     details: [
-      "Implemented asynchronous handling for user interactions to improve system responsiveness",
+      "Implemented **asynchronous handling** for user interactions to improve system responsiveness",
     ],
   },
   {
@@ -442,7 +450,7 @@ export const projects: Project[] = [
       { label: "Developer Tools", visible: false },
     ],
     details: [
-      "Unified filename, folder, ripgrep-backed text, language-server symbol and command search behind a single keyboard-driven modal",
+      "Unified filename, folder, **ripgrep**-backed text, **language-server symbol** and command search behind a single keyboard-driven modal",
     ],
   },
   {
@@ -458,8 +466,8 @@ export const projects: Project[] = [
       { label: "ML", visible: false },
     ],
     details: [
-      "Trained and compared ResNet-18/50/101 and GoogLeNet backbones, scoring each on accuracy, precision, recall, F1 and confusion matrices",
-      "Built the dataset pipeline around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
+      "Trained and compared **ResNet-18/50/101 and GoogLeNet** backbones, scoring each on accuracy, precision, recall, F1 and confusion matrices",
+      "Built the **dataset pipeline** around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
     ],
   },
   {
@@ -553,16 +561,16 @@ export const education: Education[] = [
   {
     id: "a7b8c9d",
     institution: "Reading School",
-    qualification: "A-Levels: Physics (A*), Maths (A*), Computer Science (A*)",
+    qualification: "A-Levels: Maths **(A*)**, Physics **(A*)**, Computer Science **(A*)**",
     period: "2019 — 2022",
     tags: [
-      { label: "Physics" },
       { label: "Maths" },
+      { label: "Physics" },
       { label: "Computer Science" },
       { label: "A-Level", visible: false },
     ],
     details: [
-      "100% achieved in Computer Science Coursework",
+      "**100%** achieved in Computer Science Coursework",
       "Award: Computer Science Award",
     ],
   },

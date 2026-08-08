@@ -5,6 +5,7 @@ import { experiences, filterExperience } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
 import { TimelineEntry } from "@/components/timeline-entry";
 import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
+import { KwText } from "@/lib/kw";
 import { pluralCount } from "@/lib/utils";
 
 export const ExperiencePage: React.FC = () => {
@@ -33,7 +34,7 @@ export const ExperiencePage: React.FC = () => {
           sections={exp ? [
             {
               heading: "Summary",
-              content: <p className="text-terminal-dim t-body leading-relaxed">{exp.summary.join(" · ")}</p>,
+              content: <p className="text-terminal-dim t-body leading-relaxed"><KwText text={exp.summary.join(" · ")} /></p>,
             },
             ...(exp.details.length > 0 ? [{
               heading: "Details",

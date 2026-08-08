@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TerminalWindowBar } from "@/components/terminal-window";
+import { KwText } from "@/lib/kw";
 import { Tag } from "@/data/content";
 
 export interface DetailSection {
@@ -82,7 +83,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, title, 
             <div className="p-4 md:p-6 space-y-4">
               {(subtitle || meta) && (
                 <div>
-                  {subtitle && <div className="text-terminal-cyan t-body">{subtitle}</div>}
+                  {subtitle && <div className="text-terminal-cyan t-body"><KwText text={subtitle} /></div>}
                   {meta && <div className="text-terminal-amber t-body mt-1">{meta}</div>}
                 </div>
               )}
@@ -108,7 +109,7 @@ export function BulletList({ items }: { items: string[] }) {
       {items.map((item, i) => (
         <li key={i} className="flex gap-2">
           <span className="text-terminal-green shrink-0 mt-0.5">-</span>
-          <span className="leading-relaxed">{item}</span>
+          <span className="leading-relaxed"><KwText text={item} /></span>
         </li>
       ))}
     </ul>

@@ -6,6 +6,7 @@ import { TimelineList } from "@/components/timeline-list";
 import { RowChevron } from "@/components/timeline-entry";
 import { MatrixText } from "@/components/matrix-text";
 import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
+import { KwText } from "@/lib/kw";
 import { pluralCount } from "@/lib/utils";
 
 const CARD_STEP_MS = 70; // keep in step with TimelineList's per-row reveal delay
@@ -33,7 +34,7 @@ export const ProjectsPage: React.FC = () => {
           </div>
           {/* Sits in the cyan subtitle slot, matching the log timelines' second line. */}
           <div className="text-terminal-cyan t-body mb-2">
-            {p.description}
+            <KwText text={p.description} />
           </div>
           {/* tags resolve last */}
           <span className="matrix-card-in block" style={{ animationDelay: `${index * CARD_STEP_MS + 380}ms` }}>
