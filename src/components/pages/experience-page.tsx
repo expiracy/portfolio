@@ -17,8 +17,8 @@ export const ExperiencePage: React.FC = () => {
       renderEntry={(e) => (
         <TimelineEntry
           period={e.period}
-          title={e.role}
-          subtitle={e.company}
+          title={e.company}
+          subtitle={e.role}
           detailLine={e.summary.join(" · ")}
           tags={e.tags}
         />
@@ -27,8 +27,8 @@ export const ExperiencePage: React.FC = () => {
         <DetailModal
           open={exp !== null}
           onClose={onClose}
-          title={exp?.role ?? ""}
-          subtitle={exp?.company}
+          title={exp?.company ?? ""}
+          subtitle={exp?.role}
           meta={exp?.period}
           sections={exp ? [
             {
