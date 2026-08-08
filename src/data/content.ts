@@ -92,7 +92,7 @@ export const PROFILE_FIELDS: ProfileField[] = [
   { key: "JOB", value: "Incoming Quant Tech", highlight: true },
   { key: "COMPANY", value: "Qube Research & Technologies", url: "https://www.qube-rt.com/", child: true },
   { key: "UNIVERSITY", value: "University of Warwick", url: "https://warwick.ac.uk/" },
-  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry)", child: true, highlight: true },
+  { key: "DEGREE", value: "BEng Computer Systems Engineering (Year in Industry at QRT)", child: true, highlight: true },
   { key: "GRADE", value: DEGREE_GRADE, child: true, highlight: true },
 ];
 
