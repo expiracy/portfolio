@@ -15,7 +15,7 @@ export const ProjectsPage: React.FC = () => {
 
   return (
     <TimelineList
-      command="projects log"
+      command="ls projects"
       items={projects}
       getKey={(p) => p.dir}
       filterFn={filterProject}
