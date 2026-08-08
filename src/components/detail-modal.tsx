@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import { ExternalLink } from "@/components/external-link";
 import { AnimatePresence, motion } from "framer-motion";
+import { TerminalWindowBar } from "@/components/terminal-window";
 import { Tag } from "@/data/content";
 
 export interface DetailSection {
@@ -13,14 +13,13 @@ export interface DetailSection {
 interface DetailModalProps {
   open: boolean;
   onClose: () => void;
-  command: string;
   title: string;
   subtitle?: string;
   meta?: string;
   sections: DetailSection[];
 }
 
-export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command, title, subtitle, meta, sections }) => {
+export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, title, subtitle, meta, sections }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -78,24 +77,15 @@ export const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, command
             exit={{ opacity: 0, scale: 0.9, y: "-50%", x: "-50%" }}
             transition={{ duration: 0.15 }}
           >
-            <div className="flex items-center justify-between px-4 py-2 border-b border-terminal-border bg-terminal-bg-light sticky top-0 z-10">
-              <span className="text-terminal-dim t-body">{command}</span>
-              <button
-                ref={closeRef}
-                onClick={onClose}
-                aria-label="Close"
-                className="text-terminal-dim hover:text-terminal-green transition-colors text-lg leading-none"
-              >
-                ✕
-              </button>
-            </div>
+            <TerminalWindowBar title={title} onClose={onClose} closeRef={closeRef} />
 
             <div className="p-4 md:p-6 space-y-4">
-              <div>
-                <h2 className="text-terminal-green font-bold text-sm md:text-base">{title}</h2>
-                {subtitle && <div className="text-terminal-cyan t-body mt-1">{subtitle}</div>}
-                {meta && <div className="text-terminal-amber t-body mt-1">{meta}</div>}
-              </div>
+              {(subtitle || meta) && (
+                <div>
+                  {subtitle && <div className="text-terminal-cyan t-body">{subtitle}</div>}
+                  {meta && <div className="text-terminal-amber t-body mt-1">{meta}</div>}
+                </div>
+              )}
 
               {sections.map((section) => (
                 <div key={section.heading}>
@@ -139,16 +129,5 @@ export function BadgeList({ items }: { items: Tag[] }) {
         </span>
       ))}
     </div>
-  );
-}
-
-export function SourceLink({ url }: { url: string }) {
-  return (
-    <ExternalLink
-      href={url}
-      className="text-terminal-cyan hover:underline t-body"
-    >
-      {url.replace("https://", "")}
-    </ExternalLink>
   );
 }

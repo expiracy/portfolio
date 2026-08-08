@@ -5,14 +5,12 @@ import { projects, filterProject } from "@/data/content";
 import { TimelineList } from "@/components/timeline-list";
 import { RowChevron } from "@/components/timeline-entry";
 import { MatrixText } from "@/components/matrix-text";
-import { DetailModal, BulletList, BadgeList, SourceLink } from "@/components/detail-modal";
-import { cn, pluralCount } from "@/lib/utils";
+import { DetailModal, BulletList, BadgeList } from "@/components/detail-modal";
+import { pluralCount } from "@/lib/utils";
 
 const CARD_STEP_MS = 70; // keep in step with TimelineList's per-row reveal delay
 
 export const ProjectsPage: React.FC = () => {
-  const publicCount = projects.filter(p => p.url).length;
-
   return (
     <TimelineList
       command="ls projects"
@@ -29,14 +27,12 @@ export const ProjectsPage: React.FC = () => {
           </span>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-terminal-green font-bold text-sm md:text-base flex items-center gap-1 group-hover:underline">
-              <MatrixText text={`${p.dir}/`} delay={index * CARD_STEP_MS + 60} />
+              <MatrixText text={p.title} delay={index * CARD_STEP_MS + 60} />
               <RowChevron />
             </span>
-            <span className={cn("ml-auto shrink-0 t-micro px-1.5 py-0.5 rounded-sm border border-terminal-border", p.url ? "text-terminal-green" : "text-terminal-red")}>
-              {p.url ? "public" : "private"}
-            </span>
           </div>
-          <div className="text-terminal-dim t-body mb-2">
+          {/* Sits in the cyan subtitle slot, matching the log timelines' second line. */}
+          <div className="text-terminal-cyan t-body mb-2">
             {p.description}
           </div>
           {/* tags resolve last */}
@@ -50,7 +46,6 @@ export const ProjectsPage: React.FC = () => {
         <DetailModal
           open={project !== null}
           onClose={onClose}
-          command={project ? `cat ~/${project.dir}/README.md` : ""}
           title={project?.title ?? ""}
           subtitle={project?.description}
           sections={project ? [
@@ -62,14 +57,10 @@ export const ProjectsPage: React.FC = () => {
               heading: "Tags",
               content: <BadgeList items={project.tags} />,
             },
-            ...(project.url ? [{
-              heading: "Source",
-              content: <SourceLink url={project.url} />,
-            }] : []),
           ] : []}
         />
       )}
-      renderFooter={(filtered, total) => `${pluralCount(filtered, total, "items")}, ${publicCount} public`}
+      renderFooter={(filtered, total) => pluralCount(filtered, total, "items")}
     />
   );
 };
