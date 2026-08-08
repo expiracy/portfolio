@@ -31,7 +31,8 @@ export const ProjectsPage: React.FC = () => {
               <RowChevron />
             </span>
           </div>
-          <div className="text-terminal-dim t-body mb-2">
+          {/* Sits in the cyan subtitle slot, matching the log timelines' second line. */}
+          <div className="text-terminal-cyan t-body mb-2">
             {p.description}
           </div>
           {/* tags resolve last */}
