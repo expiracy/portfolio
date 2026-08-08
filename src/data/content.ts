@@ -150,8 +150,8 @@ export const experiences: Experience[] = [
     id: "e4f5a6b",
     role: "A-Level and GCSE Tutor",
     company: "MyTutor",
-    period: "Jan 2023 — Present",
-    summary: ["Communicating complex concepts in a simple way to help A-Level and GCSE students master subject material."],
+    period: "Jan 2023 — Jun 2024",
+    summary: ["Communicated complex concepts in a simple way to help A-Level and GCSE students master subject material."],
     tags: [
       { label: "Teaching" },
       { label: "Maths" },
