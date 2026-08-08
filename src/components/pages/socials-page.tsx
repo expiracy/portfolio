@@ -1,8 +1,9 @@
 "use client"
 
 import React, { useCallback, useState } from "react";
-import { FiCheck, FiCopy, FiExternalLink, FiGithub, FiLinkedin, FiMail, FiX } from "react-icons/fi";
+import { FiCheck, FiCopy, FiExternalLink, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { TerminalPage } from "@/components/terminal-page";
+import { TerminalWindow } from "@/components/terminal-window";
 import { ExternalLink } from "@/components/external-link";
 import { CONTACT_FIELDS, type ProfileField } from "@/data/content";
 
@@ -127,16 +128,9 @@ export const SocialsPage: React.FC = () => (
       // Centred: three short lines would otherwise sit marooned at the top of a
       // full-height terminal.
       <div className="flex h-full items-center justify-center">
-        <div className="w-full max-w-2xl overflow-hidden rounded-sm border border-terminal-border fade-rise">
-          {/* Title bar. The ✕ is window dressing, not a control — it carries no
-              button semantics and is hidden from assistive tech, so nobody is
-              invited to click something that does nothing. */}
-          <div className="flex items-baseline gap-2 border-b border-terminal-border bg-terminal-bg-light px-4 py-2 sm:px-5 md:px-6">
-            <span className="text-sm font-bold text-terminal-green md:text-base">james_gray</span>
-            <span className="t-micro text-terminal-dim">— socials</span>
-            <FiX className="ml-auto h-4 w-4 shrink-0 self-center text-terminal-dim" aria-hidden="true" />
-          </div>
-
+        {/* Same chrome as the detail modal, minus the modality. Its ✕ has nothing
+            to dismiss, so it wiggles the frame instead of doing nothing. */}
+        <TerminalWindow title="james_gray" subtitle="socials" className="w-full max-w-2xl fade-rise">
           {/* Steps down to the site's body size on phones so a full email address
               still fits on one line inside the frame. Horizontal padding matches
               the title bar, so the row icons sit under the window title. */}
@@ -146,7 +140,7 @@ export const SocialsPage: React.FC = () => (
               <SocialRow key={field.key} field={field} index={i} />
             ))}
           </div>
-        </div>
+        </TerminalWindow>
       </div>
     )}
   </TerminalPage>

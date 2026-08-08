@@ -46,7 +46,6 @@ export const ProjectsPage: React.FC = () => {
         <DetailModal
           open={project !== null}
           onClose={onClose}
-          command={project ? `cat ~/${project.dir}/README.md` : ""}
           title={project?.title ?? ""}
           subtitle={project?.description}
           sections={project ? [

@@ -27,7 +27,6 @@ export const ExperiencePage: React.FC = () => {
         <DetailModal
           open={exp !== null}
           onClose={onClose}
-          command={exp ? `git show "${exp.role}"` : ""}
           title={exp?.role ?? ""}
           subtitle={exp?.company}
           meta={exp?.period}

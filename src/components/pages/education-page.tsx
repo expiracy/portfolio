@@ -27,7 +27,6 @@ export const EducationPage: React.FC = () => {
         <DetailModal
           open={edu !== null}
           onClose={onClose}
-          command={edu ? `git show "${edu.institution}"` : ""}
           title={edu?.institution ?? ""}
           subtitle={edu?.grade ? `${edu.qualification}: ${edu.grade}` : edu?.qualification}
           meta={edu?.period}
