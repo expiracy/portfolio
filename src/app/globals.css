@@ -2,45 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Themes ── */
+/* ── Themes ──
+   The palette tokens are raw `R G B` channel triples, not colours: Tailwind
+   wraps them as `rgb(var(--t-x) / <alpha-value>)` (see src/lib/tokens.ts) so
+   that `/opacity` modifiers resolve. Outside Tailwind they need an explicit
+   `rgb(...)` wrapper.
+
+   --t-border, --t-scanline and --t-selection-bg are the exception: they are
+   complete pre-alpha'd colours, so they take no opacity modifier. */
 [data-theme="green"] {
-  --t-green: #00ff41;
-  --t-dim: #00aa2a;
-  --t-cyan: #00d4ff;
-  --t-amber: #ffb000;
-  --t-red: #ff3333;
-  --t-bg: #0a0a0a;
-  --t-bg-light: #111111;
+  --t-green: 0 255 65;
+  --t-dim: 0 170 42;
+  --t-cyan: 0 212 255;
+  --t-amber: 255 176 0;
+  --t-red: 255 51 51;
+  --t-bg: 10 10 10;
+  --t-bg-light: 17 17 17;
   --t-border: #00ff4130;
-  --t-glow: #00ff41;
+  --t-glow: 0 255 65;
   --t-scanline: #00ff4103;
   --t-selection-bg: #00ff4140;
 }
 
 [data-theme="pink"] {
-  --t-green: #ff66b2;
-  --t-dim: #d65cbb;
-  --t-cyan: #d580ff;
-  --t-amber: #ff44aa;
-  --t-red: #ff3366;
-  --t-bg: #0a0008;
-  --t-bg-light: #110010;
+  --t-green: 255 102 178;
+  --t-dim: 214 92 187;
+  --t-cyan: 213 128 255;
+  --t-amber: 255 68 170;
+  --t-red: 255 51 102;
+  --t-bg: 10 0 8;
+  --t-bg-light: 17 0 16;
   --t-border: #ff66b230;
-  --t-glow: #ff66b2;
+  --t-glow: 255 102 178;
   --t-scanline: #ff66b203;
   --t-selection-bg: #ff66b240;
 }
 
 [data-theme="blue"] {
-  --t-green: #00aaff;
-  --t-dim: #2e93dd;
-  --t-cyan: #66ddff;
-  --t-amber: #ff8800;
-  --t-red: #ff3333;
-  --t-bg: #060a10;
-  --t-bg-light: #0a1018;
+  --t-green: 0 170 255;
+  --t-dim: 46 147 221;
+  --t-cyan: 102 221 255;
+  --t-amber: 255 136 0;
+  --t-red: 255 51 51;
+  --t-bg: 6 10 16;
+  --t-bg-light: 10 16 24;
   --t-border: #00aaff30;
-  --t-glow: #00aaff;
+  --t-glow: 0 170 255;
   --t-scanline: #00aaff03;
   --t-selection-bg: #00aaff40;
 }
@@ -48,43 +55,43 @@
 [data-theme="light"] {
   /* "Darken the ink": warm paper background kept; text/accents deepened and
      borders firmed so secondary text clears the WCAG AA 4.5:1 bar. */
-  --t-green: #136b2c;
-  --t-dim: #3d7a4d;
-  --t-cyan: #0055aa;
-  --t-amber: #7a4a00;
-  --t-red: #b01f1f;
-  --t-bg: #f5f5f0;
-  --t-bg-light: #eaeae5;
+  --t-green: 19 107 44;
+  --t-dim: 61 122 77;
+  --t-cyan: 0 85 170;
+  --t-amber: 122 74 0;
+  --t-red: 176 31 31;
+  --t-bg: 245 245 240;
+  --t-bg-light: 234 234 229;
   --t-border: #176b2f59;
-  --t-glow: #136b2c;
+  --t-glow: 19 107 44;
   --t-scanline: transparent;
   --t-selection-bg: #136b2c33;
 }
 
 [data-theme="synthwave"] {
-  --t-green: #ff5cc0;
-  --t-dim: #a07ace;
-  --t-cyan: #3ce0ff;
-  --t-amber: #ff9f45;
-  --t-red: #ff4d6d;
-  --t-bg: #1a0b2e;
-  --t-bg-light: #241141;
+  --t-green: 255 92 192;
+  --t-dim: 160 122 206;
+  --t-cyan: 60 224 255;
+  --t-amber: 255 159 69;
+  --t-red: 255 77 109;
+  --t-bg: 26 11 46;
+  --t-bg-light: 36 17 65;
   --t-border: #ff5cc030;
-  --t-glow: #ff5cc0;
+  --t-glow: 255 92 192;
   --t-scanline: #ff5cc006;
   --t-selection-bg: #ff5cc040;
 }
 
 [data-theme="cyberpunk"] {
-  --t-green: #36e8f5;
-  --t-dim: #5fa9b5;
-  --t-cyan: #7df9ff;
-  --t-amber: #fcee0a;
-  --t-red: #ff2e97;
-  --t-bg: #0a0f12;
-  --t-bg-light: #0f161a;
+  --t-green: 54 232 245;
+  --t-dim: 95 169 181;
+  --t-cyan: 125 249 255;
+  --t-amber: 252 238 10;
+  --t-red: 255 46 151;
+  --t-bg: 10 15 18;
+  --t-bg-light: 15 22 26;
   --t-border: #36e8f530;
-  --t-glow: #36e8f5;
+  --t-glow: 54 232 245;
   --t-scanline: #36e8f506;
   --t-selection-bg: #36e8f540;
 }
@@ -97,8 +104,8 @@
   }
 
   body {
-    background-color: var(--t-bg);
-    color: var(--t-green);
+    background-color: rgb(var(--t-bg));
+    color: rgb(var(--t-green));
     line-height: 1.75;
   }
 }
@@ -120,7 +127,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--t-bg);
+  background: rgb(var(--t-bg));
 }
 
 ::-webkit-scrollbar-thumb {
@@ -129,13 +136,13 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--t-green);
+  background: rgb(var(--t-green));
 }
 
 /* ASCII art glow */
 @keyframes glow {
-  0%, 100% { text-shadow: 0 0 4px color-mix(in srgb, var(--t-glow) 50%, transparent), 0 0 8px color-mix(in srgb, var(--t-glow) 25%, transparent); }
-  50% { text-shadow: 0 0 8px color-mix(in srgb, var(--t-glow) 70%, transparent), 0 0 16px color-mix(in srgb, var(--t-glow) 38%, transparent); }
+  0%, 100% { text-shadow: 0 0 4px rgb(var(--t-glow) / 0.5), 0 0 8px rgb(var(--t-glow) / 0.25); }
+  50% { text-shadow: 0 0 8px rgb(var(--t-glow) / 0.7), 0 0 16px rgb(var(--t-glow) / 0.38); }
 }
 
 .text-glow {
@@ -143,7 +150,7 @@
 }
 
 .text-glow-bright {
-  text-shadow: 0 0 12px color-mix(in srgb, var(--t-glow) 90%, transparent), 0 0 24px color-mix(in srgb, var(--t-glow) 50%, transparent);
+  text-shadow: 0 0 12px rgb(var(--t-glow) / 0.9), 0 0 24px rgb(var(--t-glow) / 0.5);
   transition: text-shadow 0.3s ease-out;
 }
 
@@ -182,7 +189,7 @@ body::before {
 
 ::selection {
   background: var(--t-selection-bg);
-  color: var(--t-green);
+  color: rgb(var(--t-green));
 }
 
 /* ── Contact: gentle staggered fade-in. Short items rise + fade; the full-height

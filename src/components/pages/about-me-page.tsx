@@ -5,7 +5,7 @@ import { ExternalLink } from "@/components/external-link";
 import { cn } from "@/lib/utils";
 import { staggerContainer, fadeIn } from "@/lib/motion";
 import { useRevealCount } from "@/lib/use-reveal-count";
-import { terminalColors as T } from "@/lib/tokens";
+import { terminalCssColors as T } from "@/lib/tokens";
 import { motion, useReducedMotion } from "framer-motion";
 import { TerminalPage } from "@/components/terminal-page";
 import { PROFILE_FIELDS, BIO_TEXT, ASCII_JAMES, ASCII_GRAY } from "@/data/content";

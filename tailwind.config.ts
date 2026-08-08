@@ -15,8 +15,8 @@ const config = {
         terminal: terminalColors,
       },
       boxShadow: {
-        glow: '0 0 8px var(--t-glow)',
-        marker: 'inset 2px 0 0 var(--t-green)',
+        glow: '0 0 8px rgb(var(--t-glow))',
+        marker: 'inset 2px 0 0 rgb(var(--t-green))',
       },
       keyframes: {
         blink: {
