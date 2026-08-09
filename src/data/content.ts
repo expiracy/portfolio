@@ -454,20 +454,23 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Sign Language Detector",
+    title: "Live Sign Language Detector",
     dir: "sign-language-detector",
-    description: "Webcam ASL fingerspelling detector in MATLAB, with the surrounding tooling to collect datasets, train networks and score them.",
+    description: "Real-time webcam ASL fingerspelling detector in MATLAB, built by transfer learning on GoogLeNet. Achieved **97% accuracy**.",
     tags: [
       { label: "MATLAB" },
       { label: "CNN" },
+      { label: "Transfer Learning" },
       { label: "Computer Vision" },
       { label: "Deep Learning" },
       { label: "Machine Learning", visible: false },
       { label: "ML", visible: false },
     ],
     details: [
-      "Trained and compared **ResNet-18/50/101 and GoogLeNet** backbones, scoring each on accuracy, precision, recall, F1 and confusion matrices",
-      "Built the **dataset pipeline** around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
+      "Applied **transfer learning** to build a **real-time** webcam sign language detector, training and comparing **GoogLeNet and ResNet-18/50/101** backbones on accuracy, precision, recall, F1 and confusion matrices",
+      "Created an **automated test harness** for both **photo and video data**, using held-out data spanning a **variety of conditions and people** to validate the final model at **97% accuracy**",
+      "Co-developed a **UX-friendly front end** using **rule-based methods** to ensure users can properly input what they intended **without touching the keyboard**",
+      "Co-developed the **dataset pipeline** around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
     ],
   },
   {
