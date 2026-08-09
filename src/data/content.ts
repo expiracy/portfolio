@@ -311,7 +311,7 @@ export const projects: Project[] = [
       { label: "High Performance Systems", visible: false },
     ],
     details: [
-      "Implemented Pacman's game logic (movement, collisions, and scoring) as **hardware state machines**, taking the **top score in the year**",
+      "Implemented Pacman's game logic (movement, collisions, and scoring) as **hardware state machines** on a **Nexys 4 FPGA**, taking the **top score in the year**",
       "Rendered the game from sprites in on-chip **BRAM**, with custom frame-drawing logic and a **real-time VGA driver built in hardware**",
       "Debugged hardware signals using **Verilog test benches** in Vivado to verify signals and timings across different digital modules",
     ],
@@ -329,6 +329,7 @@ export const projects: Project[] = [
       { label: "Physics", visible: false },
     ],
     details: [
+      "Solved and visualised the **differential equations** modelling an electron within a magnetic field, achieving **100%**",
       "Implemented **multiprocessing** to parallelise simulation code and bypass the Global Interpreter Lock (GIL) to achieve a **20x speedup**",
     ],
   },
@@ -360,6 +361,7 @@ export const projects: Project[] = [
       { label: "Machine Learning" },
     ],
     details: [
+      "Built a **Flask web app** that identifies **resistor values** from images, achieving **100%**",
       "Developed various image transformation pipelines using **OpenCV** for resistor localisation, image normalisation (denoising, deblurring, removing glare), and final colour extraction",
       "Implemented the **K-Means clustering** algorithm to segment colour regions and accurately detect resistor band positions",
     ],
@@ -376,6 +378,7 @@ export const projects: Project[] = [
       { label: "Discord API", visible: false },
     ],
     details: [
+      "Implemented a **proof-of-concept** full-stack web app letting users store files via **Discord as a storage backend** and **browse them in a browser**, building the file-system management around it: the SQL database, **chunking logic**, and **retrieval logic**",
       "Designed and implemented a **3NF SQL database** to optimise storage and retrieval of user file data, ensuring efficient and scalable performance",
     ],
   },
@@ -393,7 +396,12 @@ export const projects: Project[] = [
       { label: "Machine Learning" },
       { label: "Finance", visible: false },
     ],
-    details: [],
+    details: [
+      "Co-developed an app for viewing stock info, **discovering stocks**, **tracking portfolios** and performing **news sentiment analysis**",
+      "Created a stock information page with **candlestick chart** plots, using **caching** to cut external **API usage**",
+      "Helped lead **integration-testing** efforts to validate the system as a whole",
+      "Helped integrate the **NLP system** that converts news articles into **sentiment scores** into the main application",
+    ],
   },
   {
     title: "Gig Management Application",
@@ -407,6 +415,7 @@ export const projects: Project[] = [
       { label: "Database Design", visible: false },
     ],
     details: [
+      "Built a gig management system for venues to **create, manage, and query** information about gigs and acts",
       "Designed a robust database schema with **triggers and views**, ensuring robust data validation and providing intuitive database access interfaces",
       "Utilised **unit testing** to validate both the database design and the database mutators and accessors, ensuring system reliability",
       "Demonstrated proficiency in crafting complex queries through **aggregate queries and subqueries**",
@@ -422,7 +431,9 @@ export const projects: Project[] = [
       { label: "Algorithms", visible: false },
       { label: "Electronics", visible: false },
     ],
-    details: [],
+    details: [
+      "Iteratively reduced **series and parallel resistors** using **graph traversal** and manipulation techniques until the circuit could be solved simply with **Ohm's law**",
+    ],
   },
   {
     title: "Rhythm Game Score Bot",
@@ -435,6 +446,7 @@ export const projects: Project[] = [
       { label: "Async", visible: false },
     ],
     details: [
+      "Built a Discord bot letting users save and showcase scores across **multiple servers** through **custom-generated interactive embeds**",
       "Implemented **asynchronous handling** for user interactions to improve system responsiveness",
     ],
   },
@@ -454,20 +466,23 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Sign Language Detector",
+    title: "Live Sign Language Detector",
     dir: "sign-language-detector",
-    description: "Webcam ASL fingerspelling detector in MATLAB, with the surrounding tooling to collect datasets, train networks and score them.",
+    description: "Real-time webcam ASL fingerspelling detector in MATLAB, built by transfer learning on GoogLeNet. Achieved **97% accuracy**.",
     tags: [
       { label: "MATLAB" },
       { label: "CNN" },
+      { label: "Transfer Learning" },
       { label: "Computer Vision" },
       { label: "Deep Learning" },
       { label: "Machine Learning", visible: false },
       { label: "ML", visible: false },
     ],
     details: [
-      "Trained and compared **ResNet-18/50/101 and GoogLeNet** backbones, scoring each on accuracy, precision, recall, F1 and confusion matrices",
-      "Built the **dataset pipeline** around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
+      "Applied **transfer learning** to build a **real-time** webcam sign language detector, training and comparing **GoogLeNet and ResNet-18/50/101** backbones on accuracy, precision, recall, F1 and confusion matrices",
+      "Created an **automated test harness** for both **photo and video data**, using held-out data spanning a **variety of conditions and people** to validate the final model at **97% accuracy**",
+      "Co-developed a **UX-friendly front end** using **rule-based methods** to ensure users can properly input what they intended **without touching the keyboard**",
+      "Co-developed the **dataset pipeline** around the model: webcam image and video capture tools, per-letter timestamping, and a train/test split utility",
     ],
   },
   {
@@ -481,7 +496,9 @@ export const projects: Project[] = [
       { label: "AI", visible: false },
       { label: "Algorithms", visible: false },
     ],
-    details: [],
+    details: [
+      "Implemented the **minimax algorithm** with **alpha-beta pruning** for efficiency, creating an **optimally playing AI** for generalised Connect-N, benchmarked against a **random-move opponent**",
+    ],
   },
   {
     title: "Maze Solver",
@@ -493,7 +510,9 @@ export const projects: Project[] = [
       { label: "Graphs", visible: false },
       { label: "Pathfinding", visible: false },
     ],
-    details: [],
+    details: [
+      "Built an efficient **heuristic-based** solver that explores an **unknown maze** and routes a robot to the exit via a **near-optimal path** with **very little compute**",
+    ],
   },
   {
     title: "Line-Following Buggy",
@@ -506,7 +525,10 @@ export const projects: Project[] = [
       { label: "Sensors", visible: false },
       { label: "Control", visible: false },
     ],
-    details: [],
+    details: [
+      "Used **memory-mapped I/O** to interact with the buggy's hardware directly",
+      "Implemented a **line-scanning algorithm** over **reflectance-sensor** feedback, feeding a **movement controller** that let the buggy traverse various circuits successfully",
+    ],
   },
   {
     title: "Self-Balancing Robot",
@@ -516,9 +538,12 @@ export const projects: Project[] = [
       { label: "Simulink" },
       { label: "MATLAB" },
       { label: "Control Systems" },
+      { label: "PID" },
       { label: "Modelling", visible: false },
     ],
-    details: [],
+    details: [
+      "Modelled the control loop in **Simulink** and created a **PID controller** correcting the robot's pitch through a **real-time feedback loop**, keeping it upright and balancing for **multiple minutes**",
+    ],
   },
 ];
 
